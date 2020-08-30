@@ -11,5 +11,7 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  prueba(){
+    alert("Esta vivo okiukiu");
+  }
 }
