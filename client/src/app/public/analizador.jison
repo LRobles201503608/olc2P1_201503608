@@ -42,7 +42,7 @@
 "in"              return 'RIN';
 "Push"            return 'PUSH'
 "Pop"             return 'POP'
-"Length"          return 'LENGTH'
+"length"          return 'LENGTH'
 
 
 ":"					return 'DOSP';
@@ -152,8 +152,6 @@ asignacion_declaracion
   | constancia IDENTIFICADOR DOSP tipo IGUAL expresion final_linea {}
   | constancia IDENTIFICADOR DOSP tipo final_linea {}
   | constancia lista_asigna final_linea {}
-  | constancia lista_asigna DOSP TIPO final_linea {}
-  | constancia lista_asigna DOSP TIPO IGUAL expresion final_linea {}
   | constancia IDENTIFICADOR arreglo_mat final_linea {}
   | constancia IDENTIFICADOR arreglo_mat IGUAL arreglo_mat2 final_linea {}
   | acceso {}
@@ -170,8 +168,15 @@ arreglo_mat
 ;
 
 lista_asigna
-  : lista_asigna COMA IDENTIFICADOR {}
-  | IDENTIFICADOR {}
+  : lista_asigna COMA IDENTIFICADOR asigl{}
+  | IDENTIFICADOR asigl{}
+  | lista_asigna COMA IDENTIFICADOR DOSP tipo asigl{}
+  | IDENTIFICADOR DOSP tipo asigl{}
+;
+asigl
+  : IGUAL expresion {}
+  | {}
+  | error {}
 ;
 
 arreglo_params
@@ -225,14 +230,15 @@ metodo_funcion
 ;
 
 parametro
-  : parametro2 COMA parametro
-  | parametro2
+  : IDENTIFICADOR DOSP tipo parametro2{}
+  | IDENTIFICADOR parametro2 {}
   | error {}
 ;
 
 parametro2
-  :IDENTIFICADOR DOSP tipo {}
-  | IDENTIFICADOR {}
+  : COMA IDENTIFICADOR DOSP tipo parametro2{}
+  | COMA IDENTIFICADOR parametro2 {}
+  | {}
 ;
 
 structs
@@ -245,13 +251,24 @@ contenido_struct
 ;
 
 tipo
-  : RSTRING {}
-  | RINT {}
-  | boolean {}
-  | IDENTIFICADOR {}
+  : RSTRING dimensional{}
+  | RINT dimensional{}
+  | boolean dimensional{}
+  | IDENTIFICADOR dimensional{}
   | VOID {}
 ;
-
+dimensional
+  : dimensional CORCHETEA CORCHETEC {}
+  | CORCHETEA CORCHETEC {}
+  | {}
+  |error
+;
+dimensional2
+  : dimensional2 CORCHETEA expresion CORCHETEC {}
+  | CORCHETEA expresion CORCHETEC {}
+  | {}
+  |error
+;
 funciones_nativas
   : imprimir {}
   | graficar {}
@@ -275,7 +292,10 @@ sentencias
 ;
 
 sentenciafor
-    : FOR PARENTA asignacion_declaracion PYCOMA expresion PYCOMA asignacion PARENTC cuerposentencia {}
+    : FOR PARENTA RLET IDENTIFICADOR IGUAL expresion PYCOMA expresion PYCOMA asignacion PARENTC cuerposentencia {}
+    | FOR PARENTA RLET IDENTIFICADOR PYCOMA expresion PYCOMA asignacion PARENTC cuerposentencia {}
+    | FOR PARENTA RVAR IDENTIFICADOR IGUAL expresion PYCOMA expresion PYCOMA asignacion PARENTC cuerposentencia {}
+    | FOR PARENTA RVAR IDENTIFICADOR PYCOMA expresion PYCOMA asignacion PARENTC cuerposentencia {}
     | FOR PARENTA RLET IDENTIFICADOR ROF IDENTIFICADOR PARENTC cuerposentencia {}
     | FOR PARENTA RLET IDENTIFICADOR RIN IDENTIFICADOR PARENTC cuerposentencia {}
 ;
@@ -364,13 +384,13 @@ instru_f2
 ;
 
 llamado_funcion
-  : IDENTIFICADOR PARENTA parametraje PARENTC final_linea
-  | IDENTIFICADOR PARENTA PARENTC final_linea
+  : IDENTIFICADOR PARENTA parametraje PARENTC final_linea {}
+  | IDENTIFICADOR PARENTA PARENTC final_linea {}
 ;
 
 parametraje
   : parametraje COMA expresion {}
-  | expresion
+  | expresion {}
 ;
 
 expresion
@@ -382,7 +402,11 @@ expresion
     | CADENA {}
     | CADENAE {}
     | IDENTIFICADOR {}
+    | IDENTIFICADOR dimensional2{}
+    | IDENTIFICADOR dimensional2 PUNTO LENGTH {}
+    | IDENTIFICADOR PUNTO LENGTH {}
     | actualizar {$$=$1;}
+    | expresion COMA expresion {}
     | expresion MAS expresion {}
     | expresion MENOS expresion {}
     | expresion POR expresion {}
@@ -437,4 +461,10 @@ nativo_mat
 lista_push
   : lista_push COMA expresion {}
   | expresion {}
+;
+
+funciones_mat
+  : PUNTO nativo_mat {}
+  | {}
+  | error {}
 ;
