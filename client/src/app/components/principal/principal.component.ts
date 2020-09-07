@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-const parser=require('../../public/analizador.js');
+
+
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
