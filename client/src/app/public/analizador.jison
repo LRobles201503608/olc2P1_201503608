@@ -97,7 +97,7 @@
 
 /lex
 %{
-
+  // codigo para ir armando el ast
 %}
 
 %left OR
@@ -136,7 +136,20 @@ ins
   | structs {}
   | funciones_nativas {}
   | sentencias {}
-  | llamado_funcion {}
+  | RETURN retorno final_linea {}
+  | CONTINUE final_linea {}
+;
+l_ins2
+  : l_ins2 ins2 {}
+  | ins2 {}
+;
+//******************************INSTRUCCIONES dentro de funciones*****************************
+ins2
+  : asignacion_declaracion {}
+  | asignacion {}
+  | structs {}
+  | funciones_nativas {}
+  | sentencias {}
   | RETURN retorno final_linea {}
   | CONTINUE final_linea {}
 ;
@@ -154,6 +167,7 @@ asignacion_declaracion
   | constancia lista_asigna final_linea {}
   | constancia IDENTIFICADOR arreglo_mat final_linea {}
   | constancia IDENTIFICADOR arreglo_mat IGUAL arreglo_mat2 final_linea {}
+  | llamado_funcion {}
   | acceso {}
   | error {}
 ;
@@ -219,13 +233,13 @@ acceso
 ;
 
 metodo_funcion
-  : RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC LLA l_ins LLC {}
+  : RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC LLA l_ins2 LLC {}
   | RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC LLA LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA PARENTC LLA l_ins LLC {}
+  | RFUNCTION IDENTIFICADOR PARENTA PARENTC LLA l_ins2 LLC {}
   | RFUNCTION IDENTIFICADOR PARENTA PARENTC LLA LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC DOSP tipo LLA l_ins LLC {}
+  | RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC DOSP tipo LLA l_ins2 LLC {}
   | RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC DOSP tipo LLA LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA PARENTC DOSP tipo LLA l_ins LLC {}
+  | RFUNCTION IDENTIFICADOR PARENTA PARENTC DOSP tipo LLA l_ins2 LLC {}
   | RFUNCTION IDENTIFICADOR PARENTA PARENTC DOSP tipo LLA LLC {}
 ;
 
@@ -356,11 +370,11 @@ instrucciones_funciones
 
 instru_f
     : asignacion_declaracion final_linea {$$=$1;}
+    | asignacion {$$=$1}
     | sentencias {$$=$1;}
     | BREAK final_linea {}
     | CONTINUE final_linea {}
     | imprimir final_linea{$$=$1;}
-    | llamado_funcion {$$=$1;}
     | error {}
 ;
 
@@ -384,10 +398,14 @@ instru_f2
 ;
 
 llamado_funcion
-  : IDENTIFICADOR PARENTA parametraje PARENTC final_linea {}
+  : IDENTIFICADOR PARENTA parammm PARENTC final_linea {}
   | IDENTIFICADOR PARENTA PARENTC final_linea {}
 ;
 
+parammm
+  : parammm COMA expresion {}
+  | expresion {}
+;
 parametraje
   : parametraje COMA expresion {}
   | expresion {}
@@ -428,6 +446,7 @@ expresion
     | op_terna {}
     | RNULL {}
     | IDENTIFICADOR PUNTO nativo_mat {}
+    | acceso {}
     | error {}
 ;
 
