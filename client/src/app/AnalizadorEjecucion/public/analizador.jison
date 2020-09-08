@@ -93,7 +93,7 @@
 
 
 <<EOF>>				return 'EOF';
-.	                { }
+.	                { console.log('error :v') }
 
 /lex
 %{

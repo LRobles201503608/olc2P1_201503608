@@ -7,6 +7,7 @@ import { PrincipalComponent } from './components/principal/principal.component';
 import { Principal2Component } from './components/principal2/principal2.component';
 import {HttpClientModule} from '@angular/common/http';
 
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

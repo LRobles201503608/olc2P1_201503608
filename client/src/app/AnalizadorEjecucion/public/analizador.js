@@ -829,7 +829,7 @@ case 68:return 22;
 break;
 case 69:return 5;
 break;
-case 70: 
+case 70: console.log('error :v') 
 break;
 }
 },

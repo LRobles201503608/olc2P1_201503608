@@ -10,6 +10,11 @@
     "e2e": "ng e2e",
     "dev": "rimraf ./build && tsc -w && cpx \"./src/views/**\" ./build/views &&  cpx \"./src/public/**\" ./build/public"
   },
+  "browser": {
+      "fs": false,
+      "path": false,
+      "os": false
+    },
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.1.0",

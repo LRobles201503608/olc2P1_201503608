@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {parser} from '../../AnalizadorEjecucion/public/analizador.js';
 
 @Component({
   selector: 'app-principal',
@@ -9,13 +9,14 @@ import { Component, OnInit } from '@angular/core';
 
 export class PrincipalComponent implements OnInit {
 
+  captura:any='';
 
   constructor() { }
 
   ngOnInit() {
   }
   prueba(){
-    alert("Esta vivo okiukiu");
-
+    alert(this.captura);
+    parser.parse(this.captura);
   }
 }
