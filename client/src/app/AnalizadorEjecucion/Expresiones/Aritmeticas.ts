@@ -42,7 +42,27 @@ export class Aritmetica extends Node{
           tree.console.push(error.toString());
           return error;
         }
-      } else{
+      } else if(this.Operador=='--'){
+        if(this.izquierda.type.type== types.NUMERIC){
+          this.type=new Type(types.NUMERIC);
+          return izqresultado-1;
+        } else {
+          const error= new Error('Semantico', 'No se puede operar el operador unario', this.linea, this.columna);
+          tree.errores.push(error);
+          tree.console.push(error.toString());
+          return error;
+        }
+      }else if(this.Operador=='++'){
+        if(this.izquierda.type.type== types.NUMERIC){
+          this.type=new Type(types.NUMERIC);
+          return izqresultado+1;
+        } else {
+          const error= new Error('Semantico', 'No se puede operar el operador unario', this.linea, this.columna);
+          tree.errores.push(error);
+          tree.console.push(error.toString());
+          return error;
+        }
+      }else{
         const error= new Error('Semantico', 'No existe el operador unario', this.linea, this.columna);
           tree.errores.push(error);
           tree.console.push(error.toString());
