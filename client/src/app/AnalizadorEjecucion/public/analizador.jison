@@ -4,7 +4,7 @@
 %options case-sensitive
 
 %{
-
+  const {Primitivos}= require('../Expresiones/Primitivos');
 %}
 
 %%
@@ -110,23 +110,17 @@
 %right NOT
 %left UMENOS
 
-%start s
+%start inicio
 
 %% /* Definición de la gramática */
 
-s
-    : inicio EOF {
-        return $1;
-        }
-;
-
 inicio
-  : l_ins {}
+  : l_ins EOF {$$ = new Tree($1); return $$;}
 ;
 
 l_ins
-  : l_ins ins {}
-  | ins {}
+  : l_ins ins {$$ = $1; $$.push($2);}
+  | ins {$$ = [$1];}
 ;
 //******************************INSTRUCCIONES*****************************
 ins
@@ -134,7 +128,7 @@ ins
   | asignacion {}
   | metodo_funcion {}
   | structs {}
-  | funciones_nativas {}
+  | funciones_nativas {$$=$1;}
   | sentencias {}
   | RETURN retorno final_linea {}
   | CONTINUE final_linea {}
