@@ -3,7 +3,6 @@ import {Table} from '../Simbols/Table';
 import {Error} from '../util/Errors';
 import {Node} from '../Abstract/Node';
 import {Type,types} from '../util/Types';
-import { exception } from 'console';
 
 /**
  * Esta @clase creara un nodo de tipo @ARITMETICA
@@ -60,10 +59,10 @@ export class Aritmetica extends Node{
       }
 
       if(this.Operador=='+'){
-        if (this.izquierda.type.type === types.NUMERIC && this.derecha.type.type === types.NUMERIC) {
+        if (this.izquierda.type.type == types.NUMERIC && this.derecha.type.type == types.NUMERIC) {
           this.type = new Type(types.NUMERIC);
           return izqresultado + derresultado;
-        } else if (this.izquierda.type.type === types.STRING || this.derecha.type.type === types.STRING) {
+        } else if (this.izquierda.type.type == types.STRING || this.derecha.type.type == types.STRING) {
           this.type = new Type(types.STRING);
           return izqresultado + derresultado;
         } else{
@@ -74,7 +73,7 @@ export class Aritmetica extends Node{
         }
       }
       else if(this.Operador=='-'){
-        if (this.izquierda.type.type === types.NUMERIC && this.derecha.type.type === types.NUMERIC) {
+        if (this.izquierda.type.type == types.NUMERIC && this.derecha.type.type == types.NUMERIC) {
           this.type = new Type(types.NUMERIC);
           return izqresultado - derresultado;
         }else{
@@ -85,7 +84,7 @@ export class Aritmetica extends Node{
         }
       }
       else if(this.Operador=='*'){
-        if (this.izquierda.type.type === types.NUMERIC && this.derecha.type.type === types.NUMERIC) {
+        if (this.izquierda.type.type == types.NUMERIC && this.derecha.type.type == types.NUMERIC) {
           this.type = new Type(types.NUMERIC);
           return izqresultado * derresultado;
         }else{
@@ -96,7 +95,7 @@ export class Aritmetica extends Node{
         }
       }
       else if(this.Operador=='/'){
-        if (this.izquierda.type.type === types.NUMERIC && this.derecha.type.type === types.NUMERIC) {
+        if (this.izquierda.type.type == types.NUMERIC && this.derecha.type.type == types.NUMERIC) {
           if(derresultado==0){
             const error= new Error('Semantico', 'No se puede operar porque el operador derecho es 0', this.linea, this.columna);
             tree.errores.push(error);
@@ -114,7 +113,7 @@ export class Aritmetica extends Node{
         }
       }
       else if(this.Operador=='**'){
-        if (this.izquierda.type.type === types.NUMERIC && this.derecha.type.type === types.NUMERIC) {
+        if (this.izquierda.type.type == types.NUMERIC && this.derecha.type.type == types.NUMERIC) {
           if(izqresultado==0 && derresultado==0){
             const error= new Error('Semantico', 'No se puede operar porque el operador izquierdo y derecho es 0', this.linea, this.columna);
             tree.errores.push(error);
@@ -131,6 +130,23 @@ export class Aritmetica extends Node{
           tree.console.push(error.toString());
           return error;
         }
+      }else if(this.Operador=='%'){
+        if(derresultado==0){
+          const error= new Error('Semantico', 'No se puede operar porque el operador derecho es 0', this.linea, this.columna);
+          tree.errores.push(error);
+          tree.console.push(error.toString());
+          return error;
+        }else{
+          if(this.izquierda.type.type==types.NUMERIC&&this.derecha.type.type==types.NUMERIC){
+            this.type = new Type(types.NUMERIC);
+            return izqresultado % derresultado;
+          }else{
+            const error= new Error('Semantico', 'No se puede operar porque uno de los operadores no es un numero', this.linea, this.columna);
+            tree.errores.push(error);
+            tree.console.push(error.toString());
+            return error;
+          }
+        }
       }
       else{
         const error= new Error('Semantico', 'No existe el operador', this.linea, this.columna);
@@ -140,6 +156,4 @@ export class Aritmetica extends Node{
       }
     }
   }
-
-
 }
