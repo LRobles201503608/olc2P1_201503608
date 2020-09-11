@@ -13,7 +13,7 @@ export abstract class Node{
    *las expresiones devuelven un tipo y las instrucciones no
    **/
 
-   abstract execute(table:Table, tree:Tree);
+   abstract execute(table:Table, tree:Tree):any;
 
     /**
      * @constructor Base para cualquier instruccion o expresion, omitir tipo si fuera una instruccion

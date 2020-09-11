@@ -8,11 +8,12 @@
     const {Aritmetica} = require('../Expresiones/Aritmeticas');
     const {Relacional} = require('../Expresiones/Relacional');
     const {Logica} = require('../Expresiones/Logica');
-    const {Identificador} = require('../Expresiones/Identificador');
+    const {Identifier} = require('../Expresiones/Identifier');
     const {print} = require('../Instrucciones/Print');
     const {Excepcion} = require('../utils/Exception');
     const {Type, types} = require('../utils/Type');
     const {Tree} = require('../Simbols/Tree');
+    const {If} = require('../Instrucciones/If');
 %}
 
 %%
@@ -68,9 +69,9 @@
 
 "!="				return 'DIF';
 
-"++"                return 'INCREMENTO';
-"--"                return 'DECREMENTO';
-"**"         return 'POT';
+"++"        return 'INCREMENTO';
+"--"        return 'DECREMENTO';
+"**"        return 'POT';
 "+="        return 'AUTOSUM';
 
 "&&"				return 'AND'
@@ -267,11 +268,11 @@ contenido_struct
 ;
 
 tipo
-  : RSTRING dimensional{}
-  | RINT dimensional{}
-  | boolean dimensional{}
+  : RSTRING dimensional{ $$ = new Type(types.STRING);}
+  | RINT dimensional{ $$ = new Type(types.NUMERIC);}
+  | boolean dimensional{$$ = new Type(types.BOOLEAN);}
   | IDENTIFICADOR dimensional{}
-  | VOID {}
+  | VOID {$$ = new Type(types.VOID);}
 ;
 dimensional
   : dimensional CORCHETEA CORCHETEC {}
@@ -325,10 +326,9 @@ sentenciadowhile
 ;
 
 sentenciaif
-    : IF PARENTA expresion PARENTC cuerposentencia2 {}
-    | IF PARENTA expresion PARENTC cuerposentencia2 selse {}
-    | IF PARENTA expresion PARENTC cuerposentencia2 selseif {}
-    | IF PARENTA expresion PARENTC cuerposentencia2 selseif selse {}
+    : IF PARENTA expresion PARENTC cuerposentencia2 {$$ = new If($3, $5, [], _$.first_line, _$.first_column);}
+    | IF PARENTA expresion PARENTC cuerposentencia2 ELSE cuerposentencia2 {$$ = new If($3, $5, $7, _$.first_line, _$.first_column);}
+    | IF PARENTA expresion PARENTC cuerposentencia2 ELSE sentenciaif {$$ = new If($3, $5, [$7], _$.first_line, _$.first_column);}
 ;
 
 selse
@@ -414,14 +414,14 @@ parametraje
 ;
 
 expresion
-    : MENOS expresion %prec UMENOS {$$= new Aritmetica($1, null, '-',_$.first_line,_$.first_column);}
-    | ENTERO {}
-    | TRUE {}
-    | FALSE {}
-    | DECIMAL {}
-    | CADENA {}
-    | CADENAE {}
-    | IDENTIFICADOR {}
+    : MENOS expresion %prec UMENOS {$$= new Aritmetica($2, null, '-',_$.first_line,_$.first_column);}
+    | ENTERO {$$= new Primitivos(new Type(types.NUMERIC),Number($1),_$.first_line,_$first_column);}
+    | TRUE {$$= new Primitivos(new Type(types.BOOLEAN),true,_$.first_line,_$first_column);}
+    | FALSE {$$= new Primitivos(new Type(types.BOOLEAN),false,_$.first_line,_$first_column);}
+    | DECIMAL {$$= new Primitivos(new Type(types.NUMERIC),Number($1),_$.first_line,_$first_column);}
+    | CADENA {$$= new Primitivos(new Type(types.STRING),$1,_$.first_line,_$first_column);}
+    | CADENAE {$$= new Primitivos(new Type(types.STRING),$1,_$.first_line,_$first_column);}
+    | IDENTIFICADOR {$$ = new Identifier($1, _$.first_line, _$.first_column);}
     | IDENTIFICADOR dimensional2{}
     | IDENTIFICADOR dimensional2 PUNTO LENGTH {}
     | IDENTIFICADOR PUNTO LENGTH {}
@@ -434,15 +434,15 @@ expresion
     | expresion POT expresion {$$= new Aritmetica($1, $3, '**',_$.first_line,_$.first_column);}
     | expresion MOD expresion {$$= new Aritmetica($1, $3, '%',_$.first_line,_$.first_column);}
     | PARENTA expresion PARENTC {$$=$2;}
-    | expresion AND expresion {}
-    | expresion OR expresion {}
-    | NOT expresion {}
-    | expresion DIF expresion {}
-    | expresion MAYIGU expresion {}
-    | expresion MENIGU expresion {}
-    | expresion MAY expresion {}
-    | expresion MEN expresion {}
-    | expresion IG expresion {}
+    | expresion AND expresion {$$ = new Logica($1,$3,'&&',_$.first_line,_$.first_column);}
+    | expresion OR expresion {$$ = new Logica($1,$3,'||',_$.first_line,_$.first_column);}
+    | NOT expresion {$$ = new Logica($2,null,'!',_$.first_line,_$.first_column);}
+    | expresion DIF expresion {$$= new Relacional($1,$3,'!=',_$.first_line,_$.first_column);}
+    | expresion MAYIGU expresion {$$= new Relacional($1,$3,'>=',_$.first_line,_$.first_column);}
+    | expresion MENIGU expresion {$$= new Relacional($1,$3,'<=',_$.first_line,_$.first_column);}
+    | expresion MAY expresion {$$= new Relacional($1,$3,'>',_$.first_line,_$.first_column);}
+    | expresion MEN expresion {$$= new Relacional($1,$3,'<',_$.first_line,_$.first_column);}
+    | expresion IG expresion {$$= new Relacional($1,$3,'==',_$.first_line,_$.first_column);}
     | llamado_funcion {$$=$1;}
     | arreglo_mat2 {}
     | op_terna {}
