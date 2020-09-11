@@ -4,7 +4,15 @@
 %options case-sensitive
 
 %{
-  const {Primitivos}= require('../Expresiones/Primitivos');
+    const {Primitivos}= require('../Expresiones/Primitivos');
+    const {Aritmetica} = require('../Expresiones/Aritmeticas');
+    const {Relacional} = require('../Expresiones/Relacional');
+    const {Logica} = require('../Expresiones/Logica');
+    const {Identificador} = require('../Expresiones/Identificador');
+    const {print} = require('../Instrucciones/Print');
+    const {Excepcion} = require('../utils/Exception');
+    const {Type, types} = require('../utils/Type');
+    const {Tree} = require('../Simbols/Tree');
 %}
 
 %%
@@ -278,13 +286,13 @@ dimensional2
   |error
 ;
 funciones_nativas
-  : imprimir {}
+  : imprimir {$$=$1;}
   | graficar {}
 ;
 
 imprimir
-  : PRINT PARENTA PARENTC {}
-  | PRINT PARENTA expresion PARENTC {}
+  : PRINT PARENTA PARENTC {$$= new print('\n', _$.first_line,_$.first_column);}
+  | PRINT PARENTA expresion PARENTC {$$= new print($3, _$.first_line,_$.first_column);}
 ;
 
 graficar
@@ -406,7 +414,7 @@ parametraje
 ;
 
 expresion
-    : MENOS expresion %prec UMENOS {}
+    : MENOS expresion %prec UMENOS {$$= new Aritmetica($1, null, '-',_$.first_line,_$.first_column);}
     | ENTERO {}
     | TRUE {}
     | FALSE {}
@@ -419,13 +427,13 @@ expresion
     | IDENTIFICADOR PUNTO LENGTH {}
     | actualizar {$$=$1;}
     | expresion COMA expresion {}
-    | expresion MAS expresion {}
-    | expresion MENOS expresion {}
-    | expresion POR expresion {}
-    | expresion DIVIDIDO expresion {}
-    | expresion POT expresion {}
-    | expresion MOD expresion {}
-    | PARENTA expresion PARENTC {}
+    | expresion MAS expresion {$$= new Aritmetica($1, $3, '+',_$.first_line,_$.first_column);}
+    | expresion MENOS expresion {$$= new Aritmetica($1, $3, '-',_$.first_line,_$.first_column);}
+    | expresion POR expresion {$$= new Aritmetica($1, $3, '*',_$.first_line,_$.first_column);}
+    | expresion DIVIDIDO expresion {$$= new Aritmetica($1, $3, '/',_$.first_line,_$.first_column);}
+    | expresion POT expresion {$$= new Aritmetica($1, $3, '**',_$.first_line,_$.first_column);}
+    | expresion MOD expresion {$$= new Aritmetica($1, $3, '%',_$.first_line,_$.first_column);}
+    | PARENTA expresion PARENTC {$$=$2;}
     | expresion AND expresion {}
     | expresion OR expresion {}
     | NOT expresion {}
