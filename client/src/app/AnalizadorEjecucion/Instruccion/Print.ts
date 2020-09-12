@@ -15,7 +15,7 @@ expresion:Node;
     this.expresion=expresion;
   }
 // metodo de ejecucion que pertenece a la clase PRINT
-  execute(table: Table, tree: Tree) {
+  execute(table: Table, tree: Tree):any{
     const value=this.expresion.execute(table,tree);
     tree.console.push(value);
     return null;

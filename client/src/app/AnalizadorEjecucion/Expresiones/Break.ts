@@ -11,7 +11,7 @@ export class Break extends Node {
      * @param line Linea del break
      * @param column Columna del break
      */
-    constructor(line: Number, column: Number) {
+    constructor(line: number, column: number) {
         super(null, line, column);
     }
 
