@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.While = void 0;
+exports.DoWhile = void 0;
 const Node_1 = require("../Abstract/Node");
 const Table_1 = require("../Simbols/Table");
 const Errors_1 = require("../util/Errors");
@@ -10,7 +10,7 @@ const Break_1 = require("../Expresiones/Break");
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
  */
-class While extends Node_1.Node {
+class DoWhile extends Node_1.Node {
     /**
      * @constructor Crea el nodo instruccion para la sentencia IF
      * @param condition Condicion que debe ser tipo boolean
@@ -54,4 +54,4 @@ class While extends Node_1.Node {
         return null;
     }
 }
-exports.While = While;
+exports.DoWhile = DoWhile;
