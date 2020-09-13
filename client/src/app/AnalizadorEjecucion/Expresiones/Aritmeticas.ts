@@ -75,7 +75,7 @@ export class Aritmetica extends Node{
         return izqresultado;
       }
       if(derresultado instanceof Error){
-        return izqresultado;
+        return derresultado;
       }
 
       if(this.Operador=='+'){

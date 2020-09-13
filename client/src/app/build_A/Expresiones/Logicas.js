@@ -58,7 +58,7 @@ class Logica extends Node_1.Node {
                 return izqresultado;
             }
             if (derresultado instanceof Errors_1.Error) {
-                return izqresultado;
+                return derresultado;
             }
             if (this.Operador == '||') {
                 if (this.izquierda.type.type == Types_1.types.BOOLEAN && this.derecha.type.type == Types_1.types.BOOLEAN) {

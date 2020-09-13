@@ -41,7 +41,7 @@ export class Relacional extends Node{
           return izqresultado;
         }
         if(derresultado instanceof Error){
-          return izqresultado;
+          return derresultado;
         }
         if(this.Operador=='<'){
           if(this.izquierda.type.type==types.NUMERIC && this.derecha.type.type==types.NUMERIC){

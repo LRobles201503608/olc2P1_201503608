@@ -35,7 +35,7 @@ class Relacional extends Node_1.Node {
                 return izqresultado;
             }
             if (derresultado instanceof Errors_1.Error) {
-                return izqresultado;
+                return derresultado;
             }
             if (this.Operador == '<') {
                 if (this.izquierda.type.type == Types_1.types.NUMERIC && this.derecha.type.type == Types_1.types.NUMERIC) {

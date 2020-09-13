@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {parser} from '../../AnalizadorEjecucion/public/analizador.js';
+import {parser} from '../../build_A/public/analizador.js';
 
 @Component({
   selector: 'app-principal',
@@ -17,6 +17,7 @@ export class PrincipalComponent implements OnInit {
   }
   prueba(){
     alert(this.captura);
-    parser.parse(this.captura);
+    const tree= parser.parse(this.captura);
+    console.log(tree);
   }
 }

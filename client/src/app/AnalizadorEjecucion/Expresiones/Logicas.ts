@@ -62,7 +62,7 @@ export class Logica extends Node{
         return izqresultado;
       }
       if(derresultado instanceof Error){
-        return izqresultado;
+        return derresultado;
       }
       if(this.Operador=='||'){
         if(this.izquierda.type.type==types.BOOLEAN && this.derecha.type.type==types.BOOLEAN){

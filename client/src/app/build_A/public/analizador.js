@@ -108,19 +108,19 @@ case 83:
 this.$ = new Type(types.VOID);
 break;
 case 94:
-this.$= new print('\n', _$.first_line,_$.first_column);
+this.$= new print('\n', _$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 95:
-this.$= new print($$[$0-1], _$.first_line,_$.first_column);
+this.$= new print($$[$0-1], _$[$0-3].first_line,_$[$0-3].first_column);
 break;
 case 110:
-this.$ = new If($$[$0-2], $$[$0], [], _$.first_line, _$.first_column);
+this.$ = new If($$[$0-2], $$[$0], [], _$[$0-4].first_line, _$[$0-4].first_column);
 break;
 case 111:
-this.$ = new If($$[$0-4], $$[$0-2], $$[$0], _$.first_line, _$.first_column);
+this.$ = new If($$[$0-4], $$[$0-2], $$[$0], _$[$0-6].first_line, _$[$0-6].first_column);
 break;
 case 112:
-this.$ = new If($$[$0-4], $$[$0-2], [$$[$0]], _$.first_line, _$.first_column);
+this.$ = new If($$[$0-4], $$[$0-2], [$$[$0]], _$[$0-6].first_line, _$[$0-6].first_column);
 break;
 case 124: case 128: case 133: case 135: case 139: case 142: case 170:
 this.$=$$[$0-1];
@@ -135,67 +135,67 @@ case 129:
 this.$=$$[$0]
 break;
 case 151:
-this.$= new Aritmetica($$[$0], null, '-',_$.first_line,_$.first_column);
+this.$= new Aritmetica($$[$0], null, '-',_$[$0-1].first_line,_$[$0-1].first_column);
 break;
 case 152: case 155:
-this.$= new Primitivos(new Type(types.NUMERIC),Number($$[$0]),_$.first_line,_$first_column);
+this.$= new Primitivos(new Type(types.NUMERIC),Number($$[$0]),_$[$0].first_line,_$[$0].first_column);
 break;
 case 153:
-this.$= new Primitivos(new Type(types.BOOLEAN),true,_$.first_line,_$first_column);
+this.$= new Primitivos(new Type(types.BOOLEAN),true,_$[$0].first_line,_$[$0].first_column);
 break;
 case 154:
-this.$= new Primitivos(new Type(types.BOOLEAN),false,_$.first_line,_$first_column);
+this.$= new Primitivos(new Type(types.BOOLEAN),false,_$[$0].first_line,_$[$0].first_column);
 break;
 case 156: case 157:
-this.$= new Primitivos(new Type(types.STRING),$$[$0],_$.first_line,_$first_column);
+this.$= new Primitivos(new Type(types.STRING),$$[$0],_$[$0].first_line,_$[$0].first_column);
 break;
 case 158:
-this.$ = new Identifier($$[$0], _$.first_line, _$.first_column);
+this.$ = new Identifier($$[$0], _$[$0].first_line, _$[$0].first_column);
 break;
 case 164:
-this.$= new Aritmetica($$[$0-2], $$[$0], '+',_$.first_line,_$.first_column);
+this.$= new Aritmetica($$[$0-2], $$[$0], '+',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 165:
-this.$= new Aritmetica($$[$0-2], $$[$0], '-',_$.first_line,_$.first_column);
+this.$= new Aritmetica($$[$0-2], $$[$0], '-',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 166:
-this.$= new Aritmetica($$[$0-2], $$[$0], '*',_$.first_line,_$.first_column);
+this.$= new Aritmetica($$[$0-2], $$[$0], '*',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 167:
-this.$= new Aritmetica($$[$0-2], $$[$0], '/',_$.first_line,_$.first_column);
+this.$= new Aritmetica($$[$0-2], $$[$0], '/',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 168:
-this.$= new Aritmetica($$[$0-2], $$[$0], '**',_$.first_line,_$.first_column);
+this.$= new Aritmetica($$[$0-2], $$[$0], '**',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 169:
-this.$= new Aritmetica($$[$0-2], $$[$0], '%',_$.first_line,_$.first_column);
+this.$= new Aritmetica($$[$0-2], $$[$0], '%',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 171:
-this.$ = new Logica($$[$0-2],$$[$0],'&&',_$.first_line,_$.first_column);
+this.$ = new Logica($$[$0-2],$$[$0],'&&',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 172:
-this.$ = new Logica($$[$0-2],$$[$0],'||',_$.first_line,_$.first_column);
+this.$ = new Logica($$[$0-2],$$[$0],'||',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 173:
-this.$ = new Logica($$[$0],null,'!',_$.first_line,_$.first_column);
+this.$ = new Logica($$[$0],null,'!',_$[$0-1].first_line,_$[$0-1].first_column);
 break;
 case 174:
-this.$= new Relacional($$[$0-2],$$[$0],'!=',_$.first_line,_$.first_column);
+this.$= new Relacional($$[$0-2],$$[$0],'!=',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 175:
-this.$= new Relacional($$[$0-2],$$[$0],'>=',_$.first_line,_$.first_column);
+this.$= new Relacional($$[$0-2],$$[$0],'>=',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 176:
-this.$= new Relacional($$[$0-2],$$[$0],'<=',_$.first_line,_$.first_column);
+this.$= new Relacional($$[$0-2],$$[$0],'<=',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 177:
-this.$= new Relacional($$[$0-2],$$[$0],'>',_$.first_line,_$.first_column);
+this.$= new Relacional($$[$0-2],$$[$0],'>',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 178:
-this.$= new Relacional($$[$0-2],$$[$0],'<',_$.first_line,_$.first_column);
+this.$= new Relacional($$[$0-2],$$[$0],'<',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 case 179:
-this.$= new Relacional($$[$0-2],$$[$0],'==',_$.first_line,_$.first_column);
+this.$= new Relacional($$[$0-2],$$[$0],'==',_$[$0-2].first_line,_$[$0-2].first_column);
 break;
 }
 },
@@ -456,7 +456,7 @@ _handle_error:
     const {Logica} = require('../Expresiones/Logicas');
     const {Identifier} = require('../Expresiones/Identifier');
     const {print} = require('../Instruccion/Print');
-    const {Error} = require('../util/Error');
+    const {Error} = require('../util/Errors');
     const {Type, types} = require('../util/Types');
     const {Tree} = require('../Simbols/Tree');
     const {If} = require('../Instruccion/If');
