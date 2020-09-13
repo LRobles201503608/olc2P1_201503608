@@ -9,7 +9,7 @@ import { Break } from "../Expresiones/Break";
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
  */
-export class While extends Node {
+export class DoWhile extends Node {
     condition: Node;
     List: Array<Node>;
     line:number;
