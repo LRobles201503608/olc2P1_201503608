@@ -4,16 +4,7 @@
 %options case-sensitive
 
 %{
-    const {Primitivos}= require('../Expresiones/Primitivos');
-    const {Aritmetica} = require('../Expresiones/Aritmeticas');
-    const {Relacional} = require('../Expresiones/Relacional');
-    const {Logica} = require('../Expresiones/Logica');
-    const {Identifier} = require('../Expresiones/Identifier');
-    const {print} = require('../Instrucciones/Print');
-    const {Excepcion} = require('../utils/Exception');
-    const {Type, types} = require('../utils/Type');
-    const {Tree} = require('../Simbols/Tree');
-    const {If} = require('../Instrucciones/If');
+
 %}
 
 %%
@@ -107,6 +98,18 @@
 /lex
 %{
   // codigo para ir armando el ast
+    const {Primitivos}= require('../Expresiones/Primitivos');
+    const {Aritmetica} = require('../Expresiones/Aritmeticas');
+    const {Relacional} = require('../Expresiones/Relacional');
+    const {Logica} = require('../Expresiones/Logicas');
+    const {Identifier} = require('../Expresiones/Identifier');
+    const {print} = require('../Instruccion/Print');
+    const {Error} = require('../util/Error');
+    const {Type, types} = require('../util/Types');
+    const {Tree} = require('../Simbols/Tree');
+    const {If} = require('../Instruccion/If');
+    const {DoWhile} = require('../Instruccion/DoWhile');
+    const {While} = require('../Instruccion/While');
 %}
 
 %left OR
