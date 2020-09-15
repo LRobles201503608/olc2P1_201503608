@@ -17,7 +17,7 @@ class Aritmetica extends Node_1.Node {
      * @columna columna donde se encuentra
     */
     constructor(izquierda, derecha, operador, linea, columna) {
-        super(null, linea, columna);
+        super(null, linea, columna, true);
         this.izquierda = izquierda;
         this.derecha = derecha;
         this.Operador = operador;

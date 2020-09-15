@@ -24,7 +24,7 @@ export class If extends Node {
      * @param column Columna de la sentencia if
      */
     constructor(condition: Node, IfList: Array<Node>, ElseList: Array<Node>, line: number, column: number) {
-        super(null, line, column);
+        super(null, line, column,true);
         this.condition = condition;
         this.IfList = IfList;
         this.ElseList = ElseList;

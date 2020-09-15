@@ -14,7 +14,7 @@ class Primitivos extends Node_1.Node {
      * @param columna columna donde se encuentra
      */
     constructor(type, val, linea, columna) {
-        super(type, linea, columna);
+        super(type, linea, columna, true);
         this.val = val;
     }
     /**

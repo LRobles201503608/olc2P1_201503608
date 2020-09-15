@@ -4,8 +4,8 @@ exports.Identifier = void 0;
 const Errors_1 = require("../util/Errors");
 const Node_1 = require("../Abstract/Node");
 class Identifier extends Node_1.Node {
-    constructor(iden, linea, columna) {
-        super(null, linea, columna); // no se le agrega un tipo porque aun no lo tiene
+    constructor(iden, linea, columna, editable) {
+        super(null, linea, columna, editable); // no se le agrega un tipo porque aun no lo tiene
         this.iden = iden;
     }
     execute(table, tree) {

@@ -19,7 +19,7 @@ class DoWhile extends Node_1.Node {
      * @param column Columna de la sentencia while
      */
     constructor(condition, List, line, column) {
-        super(null, line, column);
+        super(null, line, column, true);
         this.condition = condition;
         this.List = List;
         this.column = column;

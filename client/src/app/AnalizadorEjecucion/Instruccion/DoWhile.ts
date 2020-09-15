@@ -22,7 +22,7 @@ export class DoWhile extends Node {
      * @param column Columna de la sentencia while
      */
     constructor(condition: Node, List: Array<Node>, line: number, column: number) {
-        super(null, line, column);
+        super(null, line, column,true);
         this.condition = condition;
         this.List = List;
         this.column=column;

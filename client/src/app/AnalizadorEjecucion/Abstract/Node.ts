@@ -7,7 +7,7 @@ export abstract class Node{
   linea:number;
   columna:number;
   type:Type;
-
+  editable:Boolean;
   /**
    *El metodo @execute servira para ejecutar instrucciones y reconocer expresiones en el caso de
    *las expresiones devuelven un tipo y las instrucciones no
@@ -21,9 +21,10 @@ export abstract class Node{
      * @param line Linea de la instruccion o expresion
      * @param column Columna de la instruccion o expresion
     */
-   constructor(type:Type, line: number, column: number){
+   constructor(type:Type, line: number, column: number,editable:Boolean){
       this.type=type;
       this.linea=line;
       this.columna= column;
+      this.editable=editable;
    }
 }

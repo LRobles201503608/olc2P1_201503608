@@ -16,7 +16,7 @@ class Relacional extends Node_1.Node {
      * @param columna columna de la operacion
      */
     constructor(izquierda, derecha, operador, linea, columna) {
-        super(null, linea, columna);
+        super(null, linea, columna, true);
         this.izquierda = izquierda;
         this.derecha = derecha;
         this.Operador = operador;

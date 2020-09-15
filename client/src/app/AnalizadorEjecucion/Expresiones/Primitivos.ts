@@ -19,7 +19,7 @@ export class Primitivos extends Node{
    * @param columna columna donde se encuentra
    */
   constructor(type:Type, val:Object, linea:number, columna:number){
-    super(type,linea,columna);
+    super(type,linea,columna,true);
     this.val=val;
   }
 

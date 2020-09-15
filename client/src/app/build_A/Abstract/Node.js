@@ -8,10 +8,11 @@ class Node {
      * @param line Linea de la instruccion o expresion
      * @param column Columna de la instruccion o expresion
     */
-    constructor(type, line, column) {
+    constructor(type, line, column, editable) {
         this.type = type;
         this.linea = line;
         this.columna = column;
+        this.editable = editable;
     }
 }
 exports.Node = Node;

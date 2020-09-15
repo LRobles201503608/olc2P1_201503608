@@ -22,7 +22,7 @@ export class Logica extends Node{
    */
 
     constructor(izquierda:Node,derecha:Node,operador:String,linea:number,columna:number){
-      super(null,linea,columna);
+      super(null,linea,columna,true);
       this.izquierda=izquierda;
       this.derecha=derecha;
       this.Operador=operador;

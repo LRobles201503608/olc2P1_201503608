@@ -11,7 +11,7 @@ export class print extends Node{
 expresion:Node;
 
   constructor(expresion:Node,linea:number,col:number){
-    super(new Type(types.VOID),linea,col);
+    super(new Type(types.VOID),linea,col,true);
     this.expresion=expresion;
   }
 // metodo de ejecucion que pertenece a la clase PRINT

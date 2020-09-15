@@ -8,7 +8,7 @@ const Types_1 = require("../util/Types");
 */
 class print extends Node_1.Node {
     constructor(expresion, linea, col) {
-        super(new Types_1.Type(Types_1.types.VOID), linea, col);
+        super(new Types_1.Type(Types_1.types.VOID), linea, col, true);
         this.expresion = expresion;
     }
     // metodo de ejecucion que pertenece a la clase PRINT

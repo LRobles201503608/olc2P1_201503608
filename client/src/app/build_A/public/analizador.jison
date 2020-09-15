@@ -404,16 +404,17 @@ instru_f2
 
 llamado_funcion
   : IDENTIFICADOR PARENTA parammm PARENTC final_linea {}
-  | IDENTIFICADOR PARENTA PARENTC final_linea {}
-;
+ ;
 
 parammm
   : parammm COMA expresion {}
   | expresion {}
+  | {}
 ;
 parametraje
   : parametraje COMA expresion {}
   | expresion {}
+    | {}
 ;
 
 expresion

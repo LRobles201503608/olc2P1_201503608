@@ -12,7 +12,7 @@ export class Continue extends Node {
      * @param column Columna del continue
      */
     constructor(line: number, column: number) {
-        super(null, line, column);
+        super(null, line, column,true);
     }
 
     execute(table: Table, tree: Tree){

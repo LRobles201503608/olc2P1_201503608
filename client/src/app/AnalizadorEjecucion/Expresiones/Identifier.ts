@@ -9,8 +9,8 @@ export class Identifier extends Node{
 
   iden:String;
 
-  constructor(iden: String, linea: number, columna: number) {
-    super(null, linea, columna); // no se le agrega un tipo porque aun no lo tiene
+  constructor(iden: String, linea: number, columna: number, editable:Boolean) {
+    super(null, linea, columna,editable); // no se le agrega un tipo porque aun no lo tiene
     this.iden = iden;
 }
 

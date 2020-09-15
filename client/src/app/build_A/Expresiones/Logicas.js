@@ -17,7 +17,7 @@ class Logica extends Node_1.Node {
      * @param columna columna donde se encuentra la operacion
      */
     constructor(izquierda, derecha, operador, linea, columna) {
-        super(null, linea, columna);
+        super(null, linea, columna, true);
         this.izquierda = izquierda;
         this.derecha = derecha;
         this.Operador = operador;

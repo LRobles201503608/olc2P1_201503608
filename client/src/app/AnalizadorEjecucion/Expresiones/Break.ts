@@ -12,7 +12,7 @@ export class Break extends Node {
      * @param column Columna del break
      */
     constructor(line: number, column: number) {
-        super(null, line, column);
+        super(null, line, column,true);
     }
 
     execute(table: Table, tree: Tree){

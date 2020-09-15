@@ -20,7 +20,7 @@ class If extends Node_1.Node {
      * @param column Columna de la sentencia if
      */
     constructor(condition, IfList, ElseList, line, column) {
-        super(null, line, column);
+        super(null, line, column, true);
         this.condition = condition;
         this.IfList = IfList;
         this.ElseList = ElseList;

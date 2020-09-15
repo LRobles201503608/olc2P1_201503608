@@ -12,7 +12,7 @@ class Continue extends Node_1.Node {
      * @param column Columna del continue
      */
     constructor(line, column) {
-        super(null, line, column);
+        super(null, line, column, true);
     }
     execute(table, tree) {
         return this;
