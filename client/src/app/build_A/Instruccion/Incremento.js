@@ -37,6 +37,12 @@ class Incremento extends Node_1.Node {
             tree.console.push(error.toString());
             return error;
         }
+        if (variable.editable == false) {
+            const error = new Errors_1.Error('Semantico', `No se puede asignar a la variable porque es una constante.`, this.linea, this.columna);
+            tree.errores.push(error);
+            tree.console.push(error.toString());
+            return error;
+        }
         variable.value = Number(variable.value) + 1;
         return null;
     }

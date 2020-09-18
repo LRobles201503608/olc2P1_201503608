@@ -29,6 +29,7 @@ export class PrincipalComponent implements OnInit {
   captura:any='';
   arbol:Tree;
   instrucciones:Array<Node>;
+  console2:string='';
   constructor() { }
 
   ngOnInit() {
@@ -42,11 +43,26 @@ export class PrincipalComponent implements OnInit {
   }
   execute(tree:any){
     const tabla = new Table(null);
+    //console.log(tree);
     tree.instructions.map((m: any) => {
       const res = m.execute(tabla, tree);
       //console.log(res);
     });
     console.log(tree);
+    this.llenarConsola(tree.console);
+  }
+  llenarConsola(consola){
+    console.log(consola);
+    const regex = /\\n/gi;
+    const regex2 = /\\t/gi;
+    const regex3 =/\\r/gi;
+    let conss;
+    this.console2='';
+    for(let a=0; a<consola.length;a++){
+      conss=String(consola[a]).replace(regex,'\n').replace(regex2,'\t').replace(regex3,'\r');
+      this.console2+=conss+'\n';
+    }
+    console.log(this.console2);
   }
   reporteast(linstrucciones:any){
     if (document.getElementById("grafo")) {
@@ -54,6 +70,7 @@ export class PrincipalComponent implements OnInit {
     }
     this.instrucciones=new Array<Node>();
     this.arbol=new Tree(this.instrucciones);
+
     linstrucciones.forEach(element => {
         console.log(element);
       if(element instanceof print){

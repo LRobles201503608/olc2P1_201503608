@@ -4,7 +4,7 @@ import { Tree } from "../Simbols/Tree";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 import { Error } from "../util/Errors";
-import { types } from "../util/Types";
+import { types, Type } from "../util/Types";
 
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
@@ -39,7 +39,7 @@ export class If extends Node {
         if (result instanceof Error) {
             return result;
         }
-
+        this.condition.type=new Type(types.BOOLEAN);
         if (this.condition.type.type !== types.BOOLEAN) {
             const error = new Error('Semantico','Se esperaba una expresion de tipo booleana no encontrada',this.linea, this.columna);
             tree.errores.push(error);
@@ -49,6 +49,9 @@ export class If extends Node {
 
         if (result) {
             for (let i = 0; i < this.IfList.length; i++) {
+              if(String(this.IfList[i])==";"){
+                return;
+              }
                 const res = this.IfList[i].execute(newtable, tree);
                 if(res instanceof Continue || res instanceof Break){
                     return res;

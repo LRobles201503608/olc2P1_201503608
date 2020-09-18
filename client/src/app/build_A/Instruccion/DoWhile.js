@@ -27,20 +27,18 @@ class DoWhile extends Node_1.Node {
     }
     execute(table, tree) {
         const newtable = new Table_1.Table(table);
-        let result;
         do {
-            result = this.condition.execute(newtable, tree);
-            if (result instanceof Errors_1.Error) {
-                return result;
-            }
+            this.condition.type = new Types_1.Type(Types_1.types.BOOLEAN);
             if (this.condition.type.type !== Types_1.types.BOOLEAN) {
                 const error = new Errors_1.Error('Semantico', 'Se esperaba una expresion booleana para la condicion', this.line, this.column);
                 tree.errores.push(error);
                 tree.console.push(error.toString());
                 return error;
             }
-            if (result) {
-                for (let i = 0; i < this.List.length; i++) {
+            for (let i = 0; i < this.List.length; i++) {
+                if (String(this.List[i]) == ";") {
+                }
+                else {
                     const res = this.List[i].execute(newtable, tree);
                     if (res instanceof Continue_1.Continue) {
                         break;
@@ -50,7 +48,7 @@ class DoWhile extends Node_1.Node {
                     }
                 }
             }
-        } while (result);
+        } while (this.condition.execute(newtable, tree));
         return null;
     }
 }

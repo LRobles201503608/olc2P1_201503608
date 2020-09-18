@@ -2,7 +2,7 @@ import { Node } from "../Abstract/Node"
 import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 import { Error } from "../util/Errors";
-import { types } from "../util/Types";
+import { types,Type } from "../util/Types";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 
@@ -31,30 +31,28 @@ export class DoWhile extends Node {
 
     execute(table: Table, tree: Tree):any {
         const newtable = new Table(table);
-        let result: Node;
         do {
-            result = this.condition.execute(newtable, tree);
-            if (result instanceof Error) {
-                return result;
-            }
-
+            this.condition.type=new Type(types.BOOLEAN);
             if (this.condition.type.type !== types.BOOLEAN) {
                 const error = new Error('Semantico','Se esperaba una expresion booleana para la condicion',this.line, this.column);
                 tree.errores.push(error);
                 tree.console.push(error.toString());
                 return error;
             }
-            if (result) {
-                for (let i = 0; i < this.List.length; i++) {
-                    const res = this.List[i].execute(newtable, tree);
-                    if (res instanceof Continue) {
-                        break;
-                    } else if (res instanceof Break) {
-                        return;
-                    }
+              for (let i = 0; i < this.List.length; i++) {
+                if (String(this.List[i]) == ";") {
+
+                }else{
+                  const res = this.List[i].execute(newtable, tree);
+                  if (res instanceof Continue) {
+                      break;
+                  }
+                  else if (res instanceof Break) {
+                      return;
+                  }
                 }
             }
-        } while (result);
+        } while (this.condition.execute(newtable, tree));
         return null;
     }
 }

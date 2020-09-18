@@ -34,6 +34,7 @@ class If extends Node_1.Node {
         if (result instanceof Errors_1.Error) {
             return result;
         }
+        this.condition.type = new Types_1.Type(Types_1.types.BOOLEAN);
         if (this.condition.type.type !== Types_1.types.BOOLEAN) {
             const error = new Errors_1.Error('Semantico', 'Se esperaba una expresion de tipo booleana no encontrada', this.linea, this.columna);
             tree.errores.push(error);
@@ -42,6 +43,9 @@ class If extends Node_1.Node {
         }
         if (result) {
             for (let i = 0; i < this.IfList.length; i++) {
+                if (String(this.IfList[i]) == ";") {
+                    return;
+                }
                 const res = this.IfList[i].execute(newtable, tree);
                 if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
                     return res;

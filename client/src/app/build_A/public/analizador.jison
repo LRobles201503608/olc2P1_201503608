@@ -167,7 +167,7 @@ ins2
   | funciones_nativas {}
   | sentencias {}
   | RETURN retorno final_linea {}
-  | CONTINUE final_linea {}
+  | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
 ;
 
 retorno
@@ -188,8 +188,8 @@ asignacion_declaracion
   | error PYCOMA {}
 ;
 final_linea
-  : PYCOMA {$$="";}
-  | {$$="";}
+  : PYCOMA {}
+  | {}
 ;
 
 arreglo_mat
@@ -344,19 +344,6 @@ sentenciaif
     | IF PARENTA expresion PARENTC cuerposentencia2 ELSE sentenciaif {$$ = new If($3, $5, [$7], @1.first_line, @1.first_column);}
 ;
 
-selse
-    : ELSE cuerposentencia2 {}
-;
-
-selseif
-    : selseif sinosi {}
-    | sinosi {}
-;
-
-sinosi
-    : ELSE IF PARENTA expresion PARENTC cuerposentencia2 {}
-;
-
 sentenciaswitch
     : SWITCH PARENTA expresion PARENTC LLA listacase LLC {}
 ;
@@ -395,18 +382,22 @@ instru_f
 
 cuerposentencia2
     : LLA instrucciones_funciones LLC {$$=$2;}
-    | LLA LLC {$$="VACIO"}
+    | LLA LLC {}
 ;
 
 instrucciones_funciones2
-    : instrucciones_funciones instru_f {$1.push($2);  $$ = $1;}
+    : instrucciones_funciones instru_f {$$ = $1;
+                 if($2+""===";"){ }
+                 else  if($2+""==="}"){}
+                 else  if ($2+""==="};"){}
+                 else { $$=$1.push($2);}}
     | instru_f {$$ = [$1];}
 ;
 
 instru_f2
     : asignacion_declaracion final_linea {$$=$1;}
     | sentencias {$$=$1;}
-    | CONTINUE final_linea {}
+    | CONTINUE final_linea { $$ = new Continue(@1.first_line, @1.first_column);}
     | imprimir final_linea{$$=$1;}
     | llamado_funcion {}
     | error {}
