@@ -10,28 +10,22 @@ import { Simbol } from "../Simbols/Simbol";
 /**
  * @class Reasigna el valor de una variable existente
  */
-export class Asignacion extends Node {
+export class Incremento extends Node {
     identifier: String;
-    value: Node;
 
     /**
-     * @constructor Crea el nodo instruccion para la sentencia Asignacion
+     * @constructor Crea el nodo instruccion para la sentencia Incremento
      * @param identifier nombre de la variable
-     * @param value valor de la variable
      * @param line Linea de la sentencia if
      * @param column Columna de la sentencia if
      */
-    constructor(identifier: String, value: Node, line: number, column: number, editable:Boolean) {
+    constructor(identifier: String, line: number, column: number, editable:Boolean) {
         super(null, line, column,editable);
         this.identifier = identifier;
-        this.value = value;
     }
 
     execute(table: Table, tree: Tree) {
-        const result = this.value.execute(table, tree);
-        if (result instanceof Error) {
-            return result;
-        }
+
         let variable: Simbol;
         variable = table.getVariable(this.identifier);
         if (variable == null) {
@@ -40,24 +34,19 @@ export class Asignacion extends Node {
             tree.console.push(error.toString());
             return error;
         }
-        if (variable.type==null){
-          variable.type = new Type(this.value.type.type);
-          variable.value = result;
+        if (variable.type.type==null){
+          variable.type.type=types.NUMERIC;
           return null;
         }
-        if (this.value.type.type != variable.type.type) {
+
+        if (variable.type.type!= types.NUMERIC) {
             const error = new Error('Semantico', `No se puede asignar la variable porque los tipos no coinciden.`, this.linea, this.columna);
             tree.errores.push(error);
             tree.console.push(error.toString());
             return error;
         }
-        if(variable.editable==false){
-          const error = new Error('Semantico', `No se puede asignar a la variable porque es una constante.`, this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
-        }
-        variable.value = result;
+
+        variable.value = Number(variable.value) + 1;
         return null;
     }
 }

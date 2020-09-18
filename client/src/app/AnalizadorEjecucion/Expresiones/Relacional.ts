@@ -113,5 +113,4 @@ export class Relacional extends Node{
         }
       }
   }
-
 }

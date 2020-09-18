@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Declaracion = void 0;
 const Node_1 = require("../Abstract/Node");
 const Errors_1 = require("../util/Errors");
+const Types_1 = require("../util/Types");
 const Simbol_1 = require("../Simbols/Simbol");
 /**
  * @class Inserta una nueva variable en la tabla de simbolos
@@ -23,15 +24,26 @@ class Declaracion extends Node_1.Node {
         this.edit = editable;
     }
     execute(table, tree) {
-        const result = this.value.execute(table, tree);
+        let result;
+        if (this.value != null) {
+            result = this.value.execute(table, tree);
+        }
+        else {
+            result = null;
+        }
         if (result instanceof Errors_1.Error) {
             return result;
         }
-        if (this.type.type != this.value.type.type) {
-            const error = new Errors_1.Error('Semantico', 'Los tipos de datos no coinciden', this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
+        if (result != null) {
+            if (this.type == null) {
+                this.type = new Types_1.Type(this.value.type.type);
+            }
+            if (this.type.type != this.value.type.type) {
+                const error = new Errors_1.Error('Semantico', 'Los tipos de datos no coinciden', this.linea, this.columna);
+                tree.errores.push(error);
+                tree.console.push(error.toString());
+                return error;
+            }
         }
         let simbol;
         simbol = new Simbol_1.Simbol(this.type, this.identifier, result, this.edit);

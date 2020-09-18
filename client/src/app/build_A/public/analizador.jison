@@ -110,6 +110,11 @@
     const {If} = require('../Instruccion/If');
     const {DoWhile} = require('../Instruccion/DoWhile');
     const {While} = require('../Instruccion/While');
+    const {Declaracion} = require('../Instruccion/Declaracion');
+    const {Asignacion} = require('../Instruccion/Asignacion');
+    const {Incremento} = require('../Instruccion/Incremento');
+    const {Decremento} = require('../Instruccion/Decremento');
+
 %}
 
 %left OR
@@ -131,19 +136,24 @@ inicio
 ;
 
 l_ins
-  : l_ins ins {$$ = $1; $$.push($2);}
+  : l_ins ins {
+    $$ = $1;
+                 if($2+""===";"){ }
+                 else  if($2+""==="}"){}
+                 else  if ($2+""==="};"){}
+                 else { $$.push($2);}}
   | ins {$$ = [$1];}
 ;
 //******************************INSTRUCCIONES*****************************
 ins
-  : asignacion_declaracion {}
-  | asignacion {}
-  | metodo_funcion {}
-  | structs {}
+  : asignacion_declaracion {$$=$1;}
+  | asignacion {$$=$1;}
+  | metodo_funcion {$$=$1;}
+  | structs {$$=$1;}
   | funciones_nativas {$$=$1;}
-  | sentencias {}
+  | sentencias {$$=$1;}
   | RETURN retorno final_linea {}
-  | CONTINUE final_linea {}
+  | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column)}
 ;
 l_ins2
   : l_ins2 ins2 {}
@@ -166,20 +176,20 @@ retorno
 ;
 
 asignacion_declaracion
-  : constancia IDENTIFICADOR IGUAL expresion final_linea {}
-  | constancia IDENTIFICADOR final_linea {}
-  | constancia IDENTIFICADOR DOSP tipo IGUAL expresion final_linea {}
-  | constancia IDENTIFICADOR DOSP tipo final_linea {}
+  : constancia IDENTIFICADOR IGUAL expresion final_linea {$$ = new Declaracion(null, $2, $4, @1.first_line, @1.first_column,$1);}
+  | constancia IDENTIFICADOR final_linea {$$ = new Declaracion(null, $2, null, @1.first_line, @1.first_column,$1);}
+  | constancia IDENTIFICADOR DOSP tipo IGUAL expresion final_linea {$$ = new Declaracion($4, $2, $6, @1.first_line, @1.first_column,$1);}
+  | constancia IDENTIFICADOR DOSP tipo final_linea {$$ = new Declaracion($4, $2, null, @1.first_line, @1.first_column,$1);}
   | constancia lista_asigna final_linea {}
   | constancia IDENTIFICADOR arreglo_mat final_linea {}
   | constancia IDENTIFICADOR arreglo_mat IGUAL arreglo_mat2 final_linea {}
   | llamado_funcion {}
   | acceso {}
-  | error {}
+  | error PYCOMA {}
 ;
 final_linea
-  : PYCOMA {}
-  | {}
+  : PYCOMA {$$="";}
+  | {$$="";}
 ;
 
 arreglo_mat
@@ -206,15 +216,15 @@ arreglo_params
 ;
 
 constancia
-  : RLET {}
-  | RCONST {}
-  | RVAR {}
+  : RLET {$$=true;}
+  | RCONST {$$=false;}
+  | RVAR {$$=true;}
 ;
 
 asignacion
-  : IDENTIFICADOR IGUAL expresion final_linea {}
+  : IDENTIFICADOR IGUAL expresion final_linea {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);}
   | IDENTIFICADOR arreglo_params IGUAL expresion final_linea {}
-  | actualizar {}
+  | actualizar {$$=$1;}
   | asignacion_types {}
 ;
 
@@ -228,8 +238,8 @@ contenido_types
 ;
 
 actualizar
-  : IDENTIFICADOR INCREMENTO {}
-  | IDENTIFICADOR DECREMENTO {}
+  : IDENTIFICADOR INCREMENTO {$$= new Incremento($1,@1.first_line, @1.first_column,true);}
+  | IDENTIFICADOR DECREMENTO {$$= new Decremento($1,@1.first_line, @1.first_column,true);}
 ;
 
 acceso
@@ -291,7 +301,7 @@ dimensional2
 ;
 funciones_nativas
   : imprimir {$$=$1;}
-  | graficar {}
+  | graficar {$$=$1;}
 ;
 
 imprimir
@@ -321,11 +331,11 @@ sentenciafor
 ;
 
 sentenciawhile
-    :   WHILE PARENTA expresion PARENTC cuerposentencia {}
+    :   WHILE PARENTA expresion PARENTC cuerposentencia {$$ = new While($3, $5, @1.first_line, @1.first_column);}
 ;
 
 sentenciadowhile
-    :   DO cuerposentencia WHILE PARENTA expresion PARENTC final_linea {}
+    :   DO cuerposentencia WHILE PARENTA expresion PARENTC final_linea {$$ = new DoWhile($5, $2, @1.first_line, @1.first_column);}
 ;
 
 sentenciaif
@@ -375,11 +385,11 @@ instrucciones_funciones
 
 instru_f
     : asignacion_declaracion final_linea {$$=$1;}
-    | asignacion {$$=$1}
+    | asignacion {$$=$1;}
     | sentencias {$$=$1;}
-    | BREAK final_linea {}
-    | CONTINUE final_linea {}
-    | imprimir final_linea{$$=$1;}
+    | BREAK final_linea {$$ = new Break(_$.first_line, _$.first_column);}
+    | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
+    | funciones_nativas {$$=$1;}
     | error {}
 ;
 

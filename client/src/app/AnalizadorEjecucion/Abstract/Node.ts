@@ -20,6 +20,7 @@ export abstract class Node{
      * @param type Tipo de la expresion, si fuera una expresion poner valor de nulo
      * @param line Linea de la instruccion o expresion
      * @param column Columna de la instruccion o expresion
+     * @param editable este determina si una variable puede ser editada o no
     */
    constructor(type:Type, line: number, column: number,editable:Boolean){
       this.type=type;

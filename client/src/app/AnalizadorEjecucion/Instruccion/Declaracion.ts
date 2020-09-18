@@ -29,26 +29,34 @@ export class Declaracion extends Node {
     }
 
     execute(table: Table, tree: Tree) {
-        const result = this.value.execute(table, tree);
+      let result;
+      if(this.value!=null){
+        result = this.value.execute(table, tree);
+      } else{
+        result =null;
+      }
         if (result instanceof Error) {
             return result;
         }
-
-        if (this.type.type != this.value.type.type) {
-            const error = new Error('Semantico','Los tipos de datos no coinciden', this.linea, this.columna);
+        if(result!=null){
+          if (this.type == null) {
+            this.type = new Type(this.value.type.type);
+          }
+          if (this.type.type != this.value.type.type) {
+            const error = new Error('Semantico', 'Los tipos de datos no coinciden', this.linea, this.columna);
             tree.errores.push(error);
             tree.console.push(error.toString());
             return error;
+          }
         }
-
-        let simbol: Simbol;
-        simbol = new Simbol(this.type, this.identifier, result,this.edit);
-        const res = table.setVariable(simbol);
-        if (res != null) {
-            const error = new Error('Semantico',res,this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-        }
-        return null;
+        let simbol;
+          simbol = new Simbol(this.type, this.identifier, result, this.edit);
+          const res = table.setVariable(simbol);
+          if (res != null) {
+              const error = new Error('Semantico', res, this.linea, this.columna);
+              tree.errores.push(error);
+              tree.console.push(error.toString());
+          }
+          return null;
     }
 }
