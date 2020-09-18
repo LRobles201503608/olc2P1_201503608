@@ -30,7 +30,43 @@ export class PrincipalComponent implements OnInit {
   arbol:Tree;
   instrucciones:Array<Node>;
   console2:string='';
+  translate:any='';
   constructor() { }
+  codeMirrorOptions: any = {
+    theme: 'yonce',
+    mode: 'application/typescript',
+    lineNumbers: true,
+    lineWrapping: true,
+    foldGutter: false,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: true
+  };
+  /*codeMirrorOptions2: any = {
+    theme: 'lint',
+    mode: 'application/text',
+    readOnly:true,
+    lineNumbers: true,
+    lineWrapping: true,
+    foldGutter: false,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: true
+  };
+  codeMirrorOptions3: any = {
+    theme: 'zenburn',
+    mode: 'application/typescript',
+    lineNumbers: true,
+    lineWrapping: true,
+    foldGutter: false,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: true
+  };
+*/
 
   ngOnInit() {
   }
@@ -52,7 +88,7 @@ export class PrincipalComponent implements OnInit {
     this.llenarConsola(tree.console);
   }
   llenarConsola(consola){
-    console.log(consola);
+    //console.log(consola);
     const regex = /\\n/gi;
     const regex2 = /\\t/gi;
     const regex3 =/\\r/gi;
@@ -62,7 +98,7 @@ export class PrincipalComponent implements OnInit {
       conss=String(consola[a]).replace(regex,'\n').replace(regex2,'\t').replace(regex3,'\r');
       this.console2+=conss+'\n';
     }
-    console.log(this.console2);
+    //console.log(this.console2);
   }
   reporteast(linstrucciones:any){
     if (document.getElementById("grafo")) {
