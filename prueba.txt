@@ -1,0 +1,13 @@
+let a=1;
+if(a>0){
+if(2<3){
+console.log(2);
+}
+console.log("hola\tmundo");
+}else{
+    console.log("adios");
+}
+do{
+    console.log(a);
+    a++;
+}while(a<5);
