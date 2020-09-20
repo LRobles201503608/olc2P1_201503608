@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {parser} from '../../build_A/public/analizador.js';
 import {generateTree} from '../../TreeDraw/chart.js';
-import {Node} from '../../build_A/Abstract/Node'
+import {Node} from '../../build_A/Abstract/Node';
+import {Nodo_AST} from '../../build_A/Abstract/Nodo_AST';
 import {Primitivos}from '../../build_A/Expresiones/Primitivos';
 import {Aritmetica} from '../../build_A/Expresiones/Aritmeticas';
 import {Relacional} from '../../build_A/Expresiones/Relacional';
@@ -34,7 +35,7 @@ export class PrincipalComponent implements OnInit {
   constructor() { }
   codeMirrorOptions: any = {
     theme: 'yonce',
-    mode: 'application/typescript',
+    mode: 'application/javascript',
     lineNumbers: true,
     lineWrapping: true,
     foldGutter: false,
@@ -43,7 +44,7 @@ export class PrincipalComponent implements OnInit {
     matchBrackets: true,
     lint: true
   };
-  /*codeMirrorOptions2: any = {
+  codeMirrorOptions2: any = {
     theme: 'lint',
     mode: 'application/text',
     readOnly:true,
@@ -57,7 +58,7 @@ export class PrincipalComponent implements OnInit {
   };
   codeMirrorOptions3: any = {
     theme: 'zenburn',
-    mode: 'application/typescript',
+    mode: 'application/javascript',
     lineNumbers: true,
     lineWrapping: true,
     foldGutter: false,
@@ -66,7 +67,7 @@ export class PrincipalComponent implements OnInit {
     matchBrackets: true,
     lint: true
   };
-*/
+
 
   ngOnInit() {
   }
@@ -75,7 +76,7 @@ export class PrincipalComponent implements OnInit {
     const tree= parser.parse(this.captura);
     //console.log(tree);
     this.execute(tree);
-    //this.reporteast(tree.instructions);
+    this.reporteast(tree.instructions);
   }
   execute(tree:any){
     const tabla = new Table(null);
@@ -84,7 +85,6 @@ export class PrincipalComponent implements OnInit {
       const res = m.execute(tabla, tree);
       //console.log(res);
     });
-    console.log(tree);
     this.llenarConsola(tree.console);
   }
   llenarConsola(consola){
@@ -104,16 +104,14 @@ export class PrincipalComponent implements OnInit {
     if (document.getElementById("grafo")) {
       document.getElementById("grafo").remove();
     }
-    this.instrucciones=new Array<Node>();
-    this.arbol=new Tree(this.instrucciones);
-
-    linstrucciones.forEach(element => {
+    let results= new Nodo_AST("Instrucciones",null,[]);
+    /*linstrucciones.forEach(element => {
         console.log(element);
       if(element instanceof print){
           this.instrucciones.push(new print(element.type,element.linea,element.columna,element.editable,element.expresion));
         }
-    });
-    console.log(this.arbol);
-    generateTree(this.instrucciones);
+    });*/
+    results.children.push(new Nodo_AST("EOF",null,[]));
+    generateTree([results]);
   }
 }
