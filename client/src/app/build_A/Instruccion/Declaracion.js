@@ -36,13 +36,20 @@ class Declaracion extends Node_1.Node {
         }
         if (result != null) {
             if (this.type == null) {
-                this.type = new Types_1.Type(this.value.type.type);
+                if (this.value.type != null) {
+                    this.type = new Types_1.Type(this.value.type.type);
+                }
+                else {
+                    this.type = new Types_1.Type(Types_1.types.NUMERIC);
+                }
             }
-            if (this.type.type != this.value.type.type) {
-                const error = new Errors_1.Error('Semantico', 'Los tipos de datos no coinciden', this.linea, this.columna);
-                tree.errores.push(error);
-                tree.console.push(error.toString());
-                return error;
+            if (this.value.type != null) {
+                if (this.type.type != this.value.type.type) {
+                    const error = new Errors_1.Error('Semantico', 'Los tipos de datos no coinciden', this.linea, this.columna);
+                    tree.errores.push(error);
+                    tree.console.push(error.toString());
+                    return error;
+                }
             }
         }
         let simbol;

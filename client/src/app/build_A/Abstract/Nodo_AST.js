@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Nodo_AST = void 0;
 class Nodo_AST {
-    constructor(etiqueta, parent, children) {
-        this.etiqueta = etiqueta;
+    constructor(name, parent, children) {
+        this.name = name;
         this.parent = parent;
         this.children = children;
     }

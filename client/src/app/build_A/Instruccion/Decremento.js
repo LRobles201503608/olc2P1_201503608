@@ -44,7 +44,7 @@ class Decremento extends Node_1.Node {
             return error;
         }
         variable.value = Number(variable.value) - 1;
-        return null;
+        return variable.value;
     }
 }
 exports.Decremento = Decremento;

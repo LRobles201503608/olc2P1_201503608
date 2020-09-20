@@ -34,21 +34,28 @@ class Asignacion extends Node_1.Node {
             return error;
         }
         if (variable.type == null) {
-            variable.type = new Types_1.Type(this.value.type.type);
+            if (this.value.type != null) {
+                this.type = new Types_1.Type(this.value.type.type);
+            }
+            else {
+                this.type = new Types_1.Type(Types_1.types.NUMERIC);
+            }
             variable.value = result;
             return null;
         }
-        if (this.value.type.type != variable.type.type) {
-            const error = new Errors_1.Error('Semantico', `No se puede asignar la variable porque los tipos no coinciden.`, this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
-        }
-        if (variable.editable == false) {
-            const error = new Errors_1.Error('Semantico', `No se puede asignar a la variable porque es una constante.`, this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
+        if (this.value.type != null) {
+            if (this.value.type.type != variable.type.type) {
+                const error = new Errors_1.Error('Semantico', `No se puede asignar la variable porque los tipos no coinciden.`, this.linea, this.columna);
+                tree.errores.push(error);
+                tree.console.push(error.toString());
+                return error;
+            }
+            if (variable.editable == false) {
+                const error = new Errors_1.Error('Semantico', `No se puede asignar a la variable porque es una constante.`, this.linea, this.columna);
+                tree.errores.push(error);
+                tree.console.push(error.toString());
+                return error;
+            }
         }
         variable.value = result;
         return null;

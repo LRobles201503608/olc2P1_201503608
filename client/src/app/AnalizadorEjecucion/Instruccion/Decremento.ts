@@ -53,6 +53,6 @@ export class Decremento extends Node {
         }
 
         variable.value = Number(variable.value) - 1;
-        return null;
+        return variable.value;
     }
 }

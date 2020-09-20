@@ -5,12 +5,12 @@ import { TypeofExpr } from '@angular/compiler';
 
 export abstract class Nodo_AST{
 
-  etiqueta:string;
+  name:string;
   children:Nodo_AST[];
   parent:Nodo_AST;
 
-   constructor(etiqueta:string,parent:Nodo_AST,children:Nodo_AST[]){
-    this.etiqueta=etiqueta;
+   constructor(name:string,parent:Nodo_AST,children:Nodo_AST[]){
+    this.name=name;
     this.parent=parent;
     this.children=children;
    }

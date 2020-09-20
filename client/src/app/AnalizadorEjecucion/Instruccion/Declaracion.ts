@@ -29,6 +29,7 @@ export class Declaracion extends Node {
     }
 
     execute(table: Table, tree: Tree) {
+
       let result;
       if(this.value!=null){
         result = this.value.execute(table, tree);
@@ -40,13 +41,19 @@ export class Declaracion extends Node {
         }
         if(result!=null){
           if (this.type == null) {
-            this.type = new Type(this.value.type.type);
+            if(this.value.type!=null){
+              this.type = new Type(this.value.type.type);
+            }else{
+              this.type = new Type(types.NUMERIC);
+            }
           }
-          if (this.type.type != this.value.type.type) {
-            const error = new Error('Semantico', 'Los tipos de datos no coinciden', this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
+          if(this.value.type!=null){
+            if (this.type.type != this.value.type.type) {
+              const error = new Error('Semantico', 'Los tipos de datos no coinciden', this.linea, this.columna);
+              tree.errores.push(error);
+              tree.console.push(error.toString());
+              return error;
+            }
           }
         }
         let simbol;

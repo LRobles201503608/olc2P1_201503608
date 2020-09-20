@@ -44,19 +44,24 @@ class If extends Node_1.Node {
         if (result) {
             for (let i = 0; i < this.IfList.length; i++) {
                 if (String(this.IfList[i]) == ";") {
-                    return;
                 }
-                const res = this.IfList[i].execute(newtable, tree);
-                if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
-                    return res;
+                else {
+                    const res = this.IfList[i].execute(newtable, tree);
+                    if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
+                        return res;
+                    }
                 }
             }
         }
         else {
             for (let i = 0; i < this.ElseList.length; i++) {
-                const res = this.ElseList[i].execute(newtable, tree);
-                if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
-                    return res;
+                if (String(this.IfList[i]) == ";") {
+                }
+                else {
+                    const res = this.ElseList[i].execute(newtable, tree);
+                    if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
+                        return res;
+                    }
                 }
             }
         }
