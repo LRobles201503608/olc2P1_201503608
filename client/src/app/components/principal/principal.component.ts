@@ -177,6 +177,16 @@ export class PrincipalComponent implements OnInit {
           });
           raiz.children.push(elses);
         }
+        if(actual instanceof Incremento){
+          let identifier = new Nodo_AST("INCREMENTO",raiz,[]);
+          identifier.children.push(new Nodo_AST(actual.identifier,null,[]));
+          raiz.children.push(identifier);
+        }
+        if(actual instanceof Decremento){
+          let identifier = new Nodo_AST("DECREMENTO",raiz,[]);
+          identifier.children.push(new Nodo_AST(actual.identifier,null,[]));
+          raiz.children.push(identifier);
+        }
         console.log(raiz);
         return raiz;
       }
