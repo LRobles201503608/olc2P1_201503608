@@ -149,4 +149,3 @@ function getTreeLength(tree) {
   }
   return 0;
 }
-export {generateTree}
