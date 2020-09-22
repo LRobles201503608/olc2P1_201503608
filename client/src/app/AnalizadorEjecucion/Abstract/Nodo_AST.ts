@@ -1,8 +1,3 @@
-import {Type} from '../util/Types';
-import { Tree } from '../Simbols/Tree';
-import { Table } from '../Simbols/Table';
-import { TypeofExpr } from '@angular/compiler';
-
 export abstract class Nodo_AST{
 
   name:string;

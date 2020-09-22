@@ -24,7 +24,7 @@
                           <button type="button" class="btn btn-primary" >TRADUCIR</button>
                           <button class="btn btn-primary disabled" (click)="prueba()">ANALIZAR</button>
                           <button type="button" class="btn btn-warning disabled" >TABLA DE SIMBOLOS</button>
-                          <button type="button" class="btn btn-danger disabled" >ERRORES</button>
+                          <button type="button" class="btn btn-danger disabled" (click)="RepErrores()">ERRORES</button>
                         </div>
                         <ul class="nav nav-tabs">
                           <li class="nav-item">
@@ -132,8 +132,8 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Token</th>
                             <th scope="col">Tipo de Error</th>
+                            <th scope="col">Descripcion</th>
                             <th scope="col">Fila</th>
                             <th scope="col">Columna</th>
                         </tr>

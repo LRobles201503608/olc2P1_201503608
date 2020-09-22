@@ -9,10 +9,10 @@ import { types, Type } from "../util/Types";
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
  */
-export class If extends Node {
+export class Ternario extends Node {
     condition: Node;
-    IfList: Array<Node>;
-    ElseList: Array<Node>;
+    IfList: Node;
+    ElseList: Node;
     linea:number;
     columna:number;
     /**
@@ -23,7 +23,7 @@ export class If extends Node {
      * @param line Linea de la sentencia if
      * @param column Columna de la sentencia if
      */
-    constructor(condition: Node, IfList: Array<Node>, ElseList: Array<Node>, line: number, column: number) {
+    constructor(condition: Node, IfList: Node, ElseList: Node, line: number, column: number) {
         super(null, line, column,true);
         this.condition = condition;
         this.IfList = IfList;
@@ -48,29 +48,27 @@ export class If extends Node {
         }
 
         if (result) {
-            for (let i = 0; i < this.IfList.length; i++) {
-              if(String(this.IfList[i])==";"){
+              if(String(this.IfList)==";"){
 
               }else{
-                const res = this.IfList[i].execute(newtable, tree);
+                const res = this.IfList.execute(newtable, tree);
                 if(res instanceof Continue || res instanceof Break){
                     return res;
                 }
+                return res;
               }
 
-            }
+
         } else {
-            for (let i = 0; i < this.ElseList.length; i++) {
-              if(String(this.IfList[i])==";"){
+              if(String(this.IfList)==";"){
 
               }else{
-                const res = this.ElseList[i].execute(newtable, tree);
+                const res = this.ElseList.execute(newtable, tree);
                 if(res instanceof Continue || res instanceof Break){
                     return res;
                 }
+                return res;
               }
-
-            }
         }
 
         return null;

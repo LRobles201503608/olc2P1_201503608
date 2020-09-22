@@ -13,6 +13,10 @@ class print extends Node_1.Node {
     }
     // metodo de ejecucion que pertenece a la clase PRINT
     execute(table, tree) {
+        if (String(this.expresion) == "\\n") {
+            tree.console.push("\\n");
+            return null;
+        }
         const value = this.expresion.execute(table, tree);
         tree.console.push(value);
         return null;

@@ -30,7 +30,7 @@ declare var generateTree;
 })
 
 export class PrincipalComponent implements OnInit {
-
+  tree:any;
   captura:any='';
   arbol:Tree;
   instrucciones:Array<Node>;
@@ -75,12 +75,22 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit() {
   }
+  RepErrores(){
+    let tbl2 = document.getElementById("errores");
+    let filas_e = "";
+    let con_errores = 0;
+    for (let i = 0; i < this.tree.errores.length; i++) {
+        con_errores++;
+        filas_e += "<tr ><td>" + con_errores + "</td>" +"<td>" + this.tree.errores[i].tipo+ "</td>" + "<td>" + this.tree.errores[i].descripcion + "<td>" + this.tree.errores[i].linea + "</td>" + "<td>" + this.tree.errores[i].columna  + "</tr>";
+    }
+    tbl2.innerHTML = filas_e;
+  }
   prueba(){
     alert(this.captura);
-    const tree= parser.parse(this.captura);
-    //console.log(tree);
-    this.execute(tree);
-    this.reporteast(tree.instructions);
+    this.tree= parser.parse(this.captura);
+    console.log(this.tree);
+    this.execute(this.tree);
+    this.reporteast(this.tree.instructions);
   }
   execute(tree:any){
     const tabla = new Table(null);
@@ -120,7 +130,7 @@ export class PrincipalComponent implements OnInit {
 
   instructionsUnion(actual){
       if(actual != ";"||actual instanceof Number){
-        console.log(actual);
+        //console.log(actual);
         let raiz= new Nodo_AST("",null,[]);
         let hijo:Nodo_AST;
         if(actual instanceof print){
