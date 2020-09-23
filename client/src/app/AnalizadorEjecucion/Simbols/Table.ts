@@ -21,17 +21,16 @@ export class Table{
      * @param simbol Simbolo que contiene la informacion de la variable a almacenar
      */
     setVariable(simbol: Simbol){
-        let env: Table;
-        for(env = this; env != null; env = env.Previous){
-            for(let key of Array.from( env.Variables.keys()) ) {
-                if(key === simbol.identifier){
-                    return `La variable ${key} ya ha sido declarada.`;
-                }
-            }
-        }
-        this.Variables.set(simbol.identifier, simbol);
-        return null;
-    }
+      let env: Table;
+        env=this;
+          for(let key of Array.from( env.Variables.keys()) ) {
+              if(key === simbol.identifier){
+                  return `La variable ${key} ya ha sido declarada.`;
+              }
+          }
+      this.Variables.set(simbol.identifier, simbol);
+      return null;
+  }
 
 
     /**

@@ -33,9 +33,9 @@ export class If extends Node {
     }
 
     execute(table: Table, tree: Tree) {
-        const newtable = new Table(table);
+        let newtable = new Table(table);
         let result: Node;
-        result = this.condition.execute(newtable, tree);
+        result = this.condition.execute(table, tree);
         if (result instanceof Error) {
             return result;
         }
@@ -48,6 +48,7 @@ export class If extends Node {
         }
 
         if (result) {
+          let newtable = new Table(table);
             for (let i = 0; i < this.IfList.length; i++) {
               if(String(this.IfList[i])==";"){
 

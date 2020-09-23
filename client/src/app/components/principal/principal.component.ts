@@ -21,6 +21,7 @@ import {Incremento} from '../../build_A/Instruccion/Incremento'
 import {Decremento} from '../../build_A/Instruccion/Decremento'
 import { ParsedEvent } from '@angular/compiler';
 import { element } from 'protractor';
+import {GraficarTS} from '../../build_A/Instruccion/GraficarTs';
 
 declare var generateTree;
 @Component({
@@ -97,7 +98,15 @@ export class PrincipalComponent implements OnInit {
     //console.log(tree);
     tree.instructions.map((m: any) => {
       const res = m.execute(tabla, tree);
-      //console.log(res);
+      if(m instanceof Declaracion){
+        console.log("se viene se viene");
+      }
+      if(m instanceof GraficarTS){
+        this.reporteGraficarTs(tabla);
+      }
+
+      //console.log(m);
+
     });
     this.llenarConsola(tree.console);
   }
@@ -265,5 +274,15 @@ export class PrincipalComponent implements OnInit {
       expresion.children.push(identifier);
     }
     return expresion;
+  }
+
+  reporteGraficarTs(tabla:any){
+    let entorno=tabla.getVariable("global201503608");
+    if(entorno==null){
+      alert("Está intentando graficar entornos sin un entorno creado");
+    }
+    else{
+
+    }
   }
 }

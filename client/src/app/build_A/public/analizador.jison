@@ -119,6 +119,7 @@
     const {Asignacion} = require('../Instruccion/Asignacion');
     const {Incremento} = require('../Instruccion/Incremento');
     const {Decremento} = require('../Instruccion/Decremento');
+    const {GraficarTS} = require('../Instruccion/GraficarTs');
 
 %}
 
@@ -161,7 +162,7 @@ ins
   | asignacion {$$=$1;}
   | metodo_funcion {$$=$1;}
   | structs {$$=$1;}
-  | funciones_nativas {$$=$1;}
+  | funciones_nativas PYCOMA {$$=$1;}
   | sentencias {$$=$1;}
   | RETURN retorno final_linea {}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column)}
@@ -179,7 +180,7 @@ ins2
   : asignacion_declaracion final_linea{$$=$1;}
   | asignacion {$$=$1;}
   | structs {}
-  | funciones_nativas {$$=$1;}
+  | funciones_nativas PYCOMA {$$=$1;}
   | sentencias {$$=$1;}
   | RETURN retorno final_linea {}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
@@ -328,7 +329,7 @@ imprimir
 ;
 
 graficar
-  : RGRAFICA PARENTA PARENTC {}
+  : RGRAFICA{$$= new GraficarTS(@1.first_line,@1.first_column);}
 ;
 
 sentencias
@@ -397,7 +398,7 @@ instru_f
     | sentencias {$$=$1;}
     | BREAK final_linea {$$ = new Break(_$.first_line, _$.first_column);}
     | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
-    | funciones_nativas {$$=$1;}
+    | funciones_nativas PYCOMA{$$=$1;}
     | ERROR {$$=$1;}
 ;
 

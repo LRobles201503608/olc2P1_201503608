@@ -27,7 +27,12 @@ class DoWhile extends Node_1.Node {
     }
     execute(table, tree) {
         const newtable = new Table_1.Table(table);
+        let result;
         do {
+            result = this.condition.execute(table, tree);
+            if (result instanceof Errors_1.Error) {
+                return result;
+            }
             this.condition.type = new Types_1.Type(Types_1.types.BOOLEAN);
             if (this.condition.type.type !== Types_1.types.BOOLEAN) {
                 const error = new Errors_1.Error('Semantico', 'Se esperaba una expresion booleana para la condicion', this.line, this.column);
@@ -35,6 +40,7 @@ class DoWhile extends Node_1.Node {
                 tree.console.push(error.toString());
                 return error;
             }
+            debugger;
             for (let i = 0; i < this.List.length; i++) {
                 if (String(this.List[i]) == ";") {
                 }
@@ -48,7 +54,7 @@ class DoWhile extends Node_1.Node {
                     }
                 }
             }
-        } while (this.condition.execute(newtable, tree));
+        } while (result);
         return null;
     }
 }

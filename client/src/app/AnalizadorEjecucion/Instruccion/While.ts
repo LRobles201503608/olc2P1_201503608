@@ -30,20 +30,8 @@ export class While extends Node {
     }
 
     execute(table: Table, tree: Tree):any {
-        const newtable = new Table(table);
-        let result: Node;
-        result = this.condition.execute(newtable, tree);
-        if (result instanceof Error) {
-          return result;
-        }
-        this.condition.type=new Type(types.BOOLEAN);
-        if (this.condition.type.type !== types.BOOLEAN) {
-            const error = new Error('Semantico','Se esperaba una expresion booleana para la condicion',this.line, this.column);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
-        }
-        while(this.condition.execute(newtable, tree)){
+
+        /*while(this.condition.execute(table, tree)){
           if (result instanceof Error) {
             return result;
          }
@@ -69,13 +57,14 @@ export class While extends Node {
                 }
             }
         }
-      }
-        /*
-        if(result){
+      }*/
+
+      let result: Node;
           do {
-            result = this.condition.execute(newtable, tree);
+            const newtable = new Table(table);
+            result = this.condition.execute(table, tree);
             if (result instanceof Error) {
-                return result;
+              return result;
             }
             this.condition.type=new Type(types.BOOLEAN);
             if (this.condition.type.type !== types.BOOLEAN) {
@@ -98,7 +87,6 @@ export class While extends Node {
                 }
             }
         } while (result);
-        }*/
         return null;
     }
 }

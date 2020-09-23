@@ -26,20 +26,37 @@ class While extends Node_1.Node {
         this.line = line;
     }
     execute(table, tree) {
-        const newtable = new Table_1.Table(table);
-        let result;
-        result = this.condition.execute(newtable, tree);
-        if (result instanceof Errors_1.Error) {
+        /*while(this.condition.execute(table, tree)){
+          if (result instanceof Error) {
             return result;
-        }
-        this.condition.type = new Types_1.Type(Types_1.types.BOOLEAN);
-        if (this.condition.type.type !== Types_1.types.BOOLEAN) {
-            const error = new Errors_1.Error('Semantico', 'Se esperaba una expresion booleana para la condicion', this.line, this.column);
+         }
+        this.condition.type = new Type(types.BOOLEAN);
+        if (this.condition.type.type !== types.BOOLEAN) {
+            const error = new Error('Semantico', 'Se esperaba una expresion booleana para la condicion', this.line, this.column);
             tree.errores.push(error);
             tree.console.push(error.toString());
             return error;
         }
-        while (this.condition.execute(newtable, tree)) {
+        if (result) {
+            for (let i = 0; i < this.List.length; i++) {
+                if (String(this.List[i]) == ";") {
+
+                }else{
+                  const res = this.List[i].execute(newtable, tree);
+                  if (res instanceof Continue) {
+                      break;
+                  }
+                  else if (res instanceof Break) {
+                      return;
+                  }
+                }
+            }
+        }
+      }*/
+        let result;
+        do {
+            const newtable = new Table_1.Table(table);
+            result = this.condition.execute(table, tree);
             if (result instanceof Errors_1.Error) {
                 return result;
             }
@@ -53,48 +70,18 @@ class While extends Node_1.Node {
             if (result) {
                 for (let i = 0; i < this.List.length; i++) {
                     if (String(this.List[i]) == ";") {
+                        return;
                     }
-                    else {
-                        const res = this.List[i].execute(newtable, tree);
-                        if (res instanceof Continue_1.Continue) {
-                            break;
-                        }
-                        else if (res instanceof Break_1.Break) {
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-        /*
-        if(result){
-          do {
-            result = this.condition.execute(newtable, tree);
-            if (result instanceof Error) {
-                return result;
-            }
-            this.condition.type=new Type(types.BOOLEAN);
-            if (this.condition.type.type !== types.BOOLEAN) {
-                const error = new Error('Semantico','Se esperaba una expresion booleana para la condicion',this.line, this.column);
-                tree.errores.push(error);
-                tree.console.push(error.toString());
-                return error;
-            }
-            if (result) {
-                for (let i = 0; i < this.List.length; i++) {
-                  if(String(this.List[i])==";"){
-                    return;
-                  }
                     const res = this.List[i].execute(newtable, tree);
-                    if (res instanceof Continue) {
+                    if (res instanceof Continue_1.Continue) {
                         break;
-                    } else if (res instanceof Break) {
+                    }
+                    else if (res instanceof Break_1.Break) {
                         return;
                     }
                 }
             }
         } while (result);
-        }*/
         return null;
     }
 }

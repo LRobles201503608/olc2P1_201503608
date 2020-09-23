@@ -28,9 +28,9 @@ class If extends Node_1.Node {
         this.columna = column;
     }
     execute(table, tree) {
-        const newtable = new Table_1.Table(table);
+        let newtable = new Table_1.Table(table);
         let result;
-        result = this.condition.execute(newtable, tree);
+        result = this.condition.execute(table, tree);
         if (result instanceof Errors_1.Error) {
             return result;
         }
@@ -42,6 +42,7 @@ class If extends Node_1.Node {
             return error;
         }
         if (result) {
+            let newtable = new Table_1.Table(table);
             for (let i = 0; i < this.IfList.length; i++) {
                 if (String(this.IfList[i]) == ";") {
                 }

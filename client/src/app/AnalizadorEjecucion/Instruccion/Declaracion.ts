@@ -29,7 +29,6 @@ export class Declaracion extends Node {
     }
 
     execute(table: Table, tree: Tree) {
-
       let result;
       if(this.value!=null){
         result = this.value.execute(table, tree);
