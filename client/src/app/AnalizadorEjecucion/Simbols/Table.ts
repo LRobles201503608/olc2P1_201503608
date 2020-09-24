@@ -22,7 +22,12 @@ export class Table{
      */
     setVariable(simbol: Simbol){
       let env: Table;
+      if(simbol.value instanceof Table){
+        env=simbol.value;
+      }else{
         env=this;
+      }
+
           for(let key of Array.from( env.Variables.keys()) ) {
               if(key === simbol.identifier){
                   return `La variable ${key} ya ha sido declarada.`;

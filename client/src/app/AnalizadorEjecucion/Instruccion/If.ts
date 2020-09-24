@@ -46,7 +46,7 @@ export class If extends Node {
             tree.console.push(error.toString());
             return error;
         }
-
+        //debugger;
         if (result) {
           let newtable = new Table(table);
             for (let i = 0; i < this.IfList.length; i++) {

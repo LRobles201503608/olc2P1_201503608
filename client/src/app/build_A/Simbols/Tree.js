@@ -7,6 +7,7 @@ class Tree {
         this.instructions = instructions;
         this.console = new Array();
         this.errores = new Array();
+        this.repent = new Array();
     }
 }
 exports.Tree = Tree;

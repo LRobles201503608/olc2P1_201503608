@@ -41,6 +41,7 @@ class If extends Node_1.Node {
             tree.console.push(error.toString());
             return error;
         }
+        //debugger;
         if (result) {
             let newtable = new Table_1.Table(table);
             for (let i = 0; i < this.IfList.length; i++) {

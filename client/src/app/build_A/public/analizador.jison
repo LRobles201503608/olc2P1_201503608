@@ -150,10 +150,10 @@ inicio
 l_ins
   : l_ins ins {
     $$ = $1;
-                 if($2+""===";"){ }
-                 else  if($2+""==="}"){}
-                 else  if ($2+""==="};"){}
-                 else { $$.push($2);}}
+    if($2+""===";"){ }
+    else  if($2+""==="}"){}
+    else  if ($2+""==="};"){}
+    else { $$.push($2);}}
   | ins {$$ = [$1];}
 ;
 //******************************INSTRUCCIONES*****************************
@@ -163,9 +163,11 @@ ins
   | metodo_funcion {$$=$1;}
   | structs {$$=$1;}
   | funciones_nativas PYCOMA {$$=$1;}
+  | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
   | sentencias {$$=$1;}
   | RETURN retorno final_linea {}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column)}
+  | llamado_funcion {$$=$1;}
 ;
 l_ins2
   : l_ins2 ins2 { $$ = $1;
@@ -181,9 +183,11 @@ ins2
   | asignacion {$$=$1;}
   | structs {}
   | funciones_nativas PYCOMA {$$=$1;}
+  | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
   | sentencias {$$=$1;}
   | RETURN retorno final_linea {}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
+  | llamado_funcion {$$=$1;}
 ;
 
 retorno
@@ -301,7 +305,7 @@ contenido_struct
 tipo
   : RSTRING dimensional{ $$ = new Type(types.STRING);}
   | RINT dimensional{ $$ = new Type(types.NUMERIC);}
-  | boolean dimensional{$$ = new Type(types.BOOLEAN);}
+  | RBOOLEAN dimensional{$$ = new Type(types.BOOLEAN);}
   | IDENTIFICADOR dimensional{}
   | VOID {$$ = new Type(types.VOID);}
 ;
@@ -319,7 +323,6 @@ dimensional2
 ;
 funciones_nativas
   : imprimir {$$=$1;}
-  | graficar {$$=$1;}
   | ERROR {$$=$1;}
 ;
 
@@ -398,6 +401,7 @@ instru_f
     | sentencias {$$=$1;}
     | BREAK final_linea {$$ = new Break(_$.first_line, _$.first_column);}
     | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
+    | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
     | funciones_nativas PYCOMA{$$=$1;}
     | ERROR {$$=$1;}
 ;
@@ -421,6 +425,7 @@ instru_f2
     | sentencias {$$=$1;}
     | CONTINUE final_linea { $$ = new Continue(@1.first_line, @1.first_column);}
     | imprimir final_linea{$$=$1;}
+    | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
     | llamado_funcion {}
     | ERROR {$$=$1;}
 ;

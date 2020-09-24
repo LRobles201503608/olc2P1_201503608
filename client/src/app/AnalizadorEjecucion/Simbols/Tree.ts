@@ -7,10 +7,11 @@ export class Tree{
     instructions: Array<Node>;
     console: Array<String>;
     errores: Array<Error>;
-
+    repent:Array<String>;
     constructor(instructions:Array<Node>){
       this.instructions=instructions;
       this.console=new Array<String>();
       this.errores=new Array<Error>();
+      this.repent=new Array<String>();
     }
 }

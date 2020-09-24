@@ -98,17 +98,10 @@ export class PrincipalComponent implements OnInit {
     //console.log(tree);
     tree.instructions.map((m: any) => {
       const res = m.execute(tabla, tree);
-      if(m instanceof Declaracion){
-        console.log("se viene se viene");
-      }
-      if(m instanceof GraficarTS){
-        this.reporteGraficarTs(tabla);
-      }
-
-      //console.log(m);
 
     });
     this.llenarConsola(tree.console);
+    this.reporteGraficarTs(tabla,tree);
   }
   llenarConsola(consola){
     //console.log(consola);
@@ -206,13 +199,13 @@ export class PrincipalComponent implements OnInit {
           identifier.children.push(new Nodo_AST(actual.identifier,null,[]));
           raiz.children.push(identifier);
         }
-        console.log(raiz);
+        //console.log(raiz);
         return raiz;
       }
       return;
   }
   expresionesUnion(actual){
-    console.log(actual);
+    //console.log(actual);
     let expresion = new Nodo_AST("EXPRESION",null,[]);
     if(actual instanceof Aritmetica){
       if(actual.izquierda!=null){
@@ -276,13 +269,16 @@ export class PrincipalComponent implements OnInit {
     return expresion;
   }
 
-  reporteGraficarTs(tabla:any){
-    let entorno=tabla.getVariable("global201503608");
-    if(entorno==null){
-      alert("Está intentando graficar entornos sin un entorno creado");
-    }
-    else{
+  reporteGraficarTs(tabla:any,tree:any){
 
-    }
+      let tbl2 = document.getElementById("variables");
+      let filas_e="";
+      console.log(tree);
+      for(let i=0;i<tree.repent.length;i++){
+        filas_e+=tree.repent[i];
+      }
+      tbl2.innerHTML = filas_e;
+
+
   }
 }

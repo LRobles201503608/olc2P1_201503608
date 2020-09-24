@@ -18,7 +18,12 @@ class Table {
      */
     setVariable(simbol) {
         let env;
-        env = this;
+        if (simbol.value instanceof Table) {
+            env = simbol.value;
+        }
+        else {
+            env = this;
+        }
         for (let key of Array.from(env.Variables.keys())) {
             if (key === simbol.identifier) {
                 return `La variable ${key} ya ha sido declarada.`;
