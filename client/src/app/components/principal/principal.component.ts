@@ -14,11 +14,13 @@ import {Tree} from '../../build_A/Simbols/Tree';
 import {If} from '../../build_A/Instruccion/If';
 import {DoWhile} from '../../build_A/Instruccion/DoWhile';
 import {While} from '../../build_A/Instruccion/While';
+import {For} from '../../build_A/Instruccion/For';
 import {Declaracion} from '../../build_A/Instruccion/Declaracion';
 import {Asignacion} from '../../build_A/Instruccion/Asignacion';
 import {Table} from '../../build_A/Simbols/Table';
-import {Incremento} from '../../build_A/Instruccion/Incremento'
-import {Decremento} from '../../build_A/Instruccion/Decremento'
+import {Incremento} from '../../build_A/Instruccion/Incremento';
+import {Decremento} from '../../build_A/Instruccion/Decremento';
+import {Ternario} from '../../build_A/Instruccion/Ternario';
 import { ParsedEvent } from '@angular/compiler';
 import { element } from 'protractor';
 import {GraficarTS} from '../../build_A/Instruccion/GraficarTs';
@@ -89,7 +91,7 @@ export class PrincipalComponent implements OnInit {
   prueba(){
     alert(this.captura);
     this.tree= parser.parse(this.captura);
-    console.log(this.tree);
+    //console.log(this.tree);
     this.execute(this.tree);
     this.reporteast(this.tree.instructions);
   }
@@ -135,6 +137,9 @@ export class PrincipalComponent implements OnInit {
         //console.log(actual);
         let raiz= new Nodo_AST("",null,[]);
         let hijo:Nodo_AST;
+        if(actual instanceof GraficarTS){
+          raiz.name="GRAFICAR_TS";
+        }
         if(actual instanceof print){
           raiz.name="PRINT";
           hijo=this.expresionesUnion(actual.expresion);
@@ -164,6 +169,66 @@ export class PrincipalComponent implements OnInit {
             hijo2.parent=raiz;
             raiz.children.push(hijo2);
           }
+        }
+        if(actual instanceof For){
+          raiz.name="FOR";
+          let declaracion=new Nodo_AST("DECLARACION",raiz,[]);
+          let identificador=new Nodo_AST("IDENTIFICADOR",declaracion,[]);
+          let variable=new Nodo_AST(actual.declaracion,identificador,[]);
+          identificador.children.push(variable);
+          if(actual.expresiondecla!=null){
+            let hijo2= this.expresionesUnion(actual.expresiondecla);
+            hijo2.parent=declaracion;
+            declaracion.children.push(hijo2);
+          }
+          raiz.children.push(declaracion);
+          let condition=new Nodo_AST("CONDICION",raiz,[]);
+          condition.children.push(this.expresionesUnion(actual.condition));
+          raiz.children.push(condition);
+          let asignacion=new Nodo_AST("ASIGNACION",raiz,[]);
+          let asigna=this.instructionsUnion(actual.asignacion);
+          asigna.parent=asignacion;
+          asignacion.children.push(asigna);
+          raiz.children.push(asignacion);
+          let ifs=new Nodo_AST("LISTA_INSTRUCCIONES",null,[]);
+          actual.List.forEach(element => {
+            if(element != ";"){
+              hijo=this.instructionsUnion(element);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+            }
+          });
+          raiz.children.push(ifs);
+        }
+        if(actual instanceof DoWhile){
+          raiz.name="DOWHILE";
+          let ifs=new Nodo_AST("LISTA_INSTRUCCIONES",null,[]);
+          actual.List.forEach(element => {
+            if(element != ";"){
+              hijo=this.instructionsUnion(element);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+            }
+          });
+          raiz.children.push(ifs);
+          let condition=new Nodo_AST("CONDICION",raiz,[]);
+          condition.children.push(this.expresionesUnion(actual.condition));
+          raiz.children.push(condition);
+        }
+        if(actual instanceof While){
+          raiz.name="WHILE";
+          let condition=new Nodo_AST("CONDICION",raiz,[]);
+          condition.children.push(this.expresionesUnion(actual.condition));
+          raiz.children.push(condition);
+          let ifs=new Nodo_AST("LISTA_INSTRUCCIONES",null,[]);
+          actual.List.forEach(element => {
+            if(element != ";"){
+              hijo=this.instructionsUnion(element);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+            }
+          });
+          raiz.children.push(ifs);
         }
         if(actual instanceof If){
           raiz.name="IF";
@@ -199,7 +264,7 @@ export class PrincipalComponent implements OnInit {
           identifier.children.push(new Nodo_AST(actual.identifier,null,[]));
           raiz.children.push(identifier);
         }
-        //console.log(raiz);
+
         return raiz;
       }
       return;
@@ -245,6 +310,29 @@ export class PrincipalComponent implements OnInit {
         derecha.parent=expresion;
         expresion.children.push(derecha);
       }
+    }
+    if(actual instanceof Ternario){
+      let ternario=new Nodo_AST("TERNARIO",expresion,[]);
+      let condition=new Nodo_AST("CONDICION",ternario,[]);
+      condition.children.push(this.expresionesUnion(actual.condition));
+      ternario.children.push(condition);
+      console.log(actual);
+      let ifs=new Nodo_AST("EXPRESION1",null,[]);
+      let hijo;
+            if(actual.IfList != ";"){
+              hijo=this.expresionesUnion(actual.IfList);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+            }
+          ternario.children.push(ifs);
+          let elses=new Nodo_AST("EXPRESION2",null,[]);
+          if(actual.IfList != ";"){
+              hijo=this.expresionesUnion(actual.ElseList);
+              hijo.parent=elses;
+              elses.children.push(hijo);
+            }
+          ternario.children.push(elses);
+          expresion.children.push(ternario);
     }
     if(actual instanceof Primitivos){
       let primitivo=new Nodo_AST("PRIMITIVO",expresion,[]);

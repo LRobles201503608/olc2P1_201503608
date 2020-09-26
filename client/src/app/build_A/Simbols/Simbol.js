@@ -11,11 +11,13 @@ class Simbol {
      * @param identifier Nombre de la variable o funcion
      * @param value Valor de la variable u objeto completo de la función
      */
-    constructor(type, identifier, value, editable) {
+    constructor(type, identifier, value, editable, instrucFunc, parameters) {
         this.type = type;
         this.identifier = identifier;
         this.value = value;
         this.editable = editable;
+        this.insfunc = instrucFunc;
+        this.parameters = parameters;
     }
 }
 exports.Simbol = Simbol;

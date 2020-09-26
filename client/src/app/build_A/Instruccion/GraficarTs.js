@@ -18,7 +18,7 @@ class GraficarTS extends Node_1.Node {
             global = global.Previous;
         }
         //debugger;
-        global.setVariable(new Simbol_1.Simbol(null, "global201503608", table, true));
+        global.setVariable(new Simbol_1.Simbol(null, "global201503608", table, true, null, null));
         let entorno = table.getVariable("global201503608");
         if (entorno == null) {
         }

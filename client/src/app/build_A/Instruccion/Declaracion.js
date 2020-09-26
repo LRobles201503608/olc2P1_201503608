@@ -53,7 +53,7 @@ class Declaracion extends Node_1.Node {
             }
         }
         let simbol;
-        simbol = new Simbol_1.Simbol(this.type, this.identifier, result, this.edit);
+        simbol = new Simbol_1.Simbol(this.type, this.identifier, result, this.edit, null, null);
         const res = table.setVariable(simbol);
         if (res != null) {
             const error = new Errors_1.Error('Semantico', res, this.linea, this.columna);

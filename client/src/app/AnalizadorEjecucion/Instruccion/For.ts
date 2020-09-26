@@ -55,7 +55,9 @@ export class For extends Node {
             tree.console.push(error.toString());
             return error;
         }
+        let newtable2;
         while(this.condition.execute(newtable, tree)){
+          newtable2= new Table(newtable);
           if (result instanceof Error) {
             return result;
          }
@@ -71,7 +73,7 @@ export class For extends Node {
                 if (String(this.List[i]) == ";") {
 
                 }else{
-                  const res = this.List[i].execute(newtable, tree);
+                  const res = this.List[i].execute(newtable2, tree);
                   if (res instanceof Continue) {
                       break;
                   }

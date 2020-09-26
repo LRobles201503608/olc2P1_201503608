@@ -30,9 +30,10 @@ export class DoWhile extends Node {
     }
 
     execute(table: Table, tree: Tree):any {
-        const newtable = new Table(table);
+        let newtable;
         let result:Node;
         do {
+            newtable = new Table(table);
             result = this.condition.execute(table, tree);
             if (result instanceof Error) {
               return result;
@@ -44,7 +45,6 @@ export class DoWhile extends Node {
                 tree.console.push(error.toString());
                 return error;
             }
-            debugger;
               for (let i = 0; i < this.List.length; i++) {
                 if (String(this.List[i]) == ";") {
 

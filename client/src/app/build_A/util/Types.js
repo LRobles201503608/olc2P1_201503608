@@ -7,6 +7,7 @@ var types;
     types[types["STRING"] = 1] = "STRING";
     types[types["BOOLEAN"] = 2] = "BOOLEAN";
     types[types["VOID"] = 3] = "VOID";
+    types[types["ANY"] = 4] = "ANY";
 })(types = exports.types || (exports.types = {}));
 ;
 // AQUI SE VAN A LLEVAR EL CONTROL DE LOS TIPOS QUE POSEE EL LENGUAJE
@@ -27,6 +28,12 @@ class Type {
         }
         else if (this.type == types.BOOLEAN) {
             return 'boolean';
+        }
+        else if (this.type == types.VOID) {
+            return 'void';
+        }
+        else if (this.type == types.ANY) {
+            return 'any';
         }
     }
 }

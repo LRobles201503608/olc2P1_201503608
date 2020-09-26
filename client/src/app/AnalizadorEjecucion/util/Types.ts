@@ -2,7 +2,8 @@ export enum types {
   NUMERIC,
   STRING,
   BOOLEAN,
-  VOID
+  VOID,
+  ANY
 };
 
 // AQUI SE VAN A LLEVAR EL CONTROL DE LOS TIPOS QUE POSEE EL LENGUAJE
@@ -23,6 +24,10 @@ export class Type{
         return 'numeric';
       } else if (this.type==types.BOOLEAN){
         return 'boolean'
+      }else if (this.type==types.VOID){
+        return 'void'
+      }else if (this.type==types.ANY){
+        return 'any'
       }
     }
 }

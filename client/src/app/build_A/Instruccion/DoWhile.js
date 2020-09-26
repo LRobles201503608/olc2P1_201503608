@@ -26,9 +26,10 @@ class DoWhile extends Node_1.Node {
         this.line = line;
     }
     execute(table, tree) {
-        const newtable = new Table_1.Table(table);
+        let newtable;
         let result;
         do {
+            newtable = new Table_1.Table(table);
             result = this.condition.execute(table, tree);
             if (result instanceof Errors_1.Error) {
                 return result;
@@ -40,7 +41,6 @@ class DoWhile extends Node_1.Node {
                 tree.console.push(error.toString());
                 return error;
             }
-            debugger;
             for (let i = 0; i < this.List.length; i++) {
                 if (String(this.List[i]) == ";") {
                 }

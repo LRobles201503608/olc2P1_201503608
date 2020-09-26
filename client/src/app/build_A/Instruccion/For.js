@@ -48,7 +48,9 @@ class For extends Node_1.Node {
             tree.console.push(error.toString());
             return error;
         }
+        let newtable2;
         while (this.condition.execute(newtable, tree)) {
+            newtable2 = new Table_1.Table(newtable);
             if (result instanceof Errors_1.Error) {
                 return result;
             }
@@ -64,7 +66,7 @@ class For extends Node_1.Node {
                     if (String(this.List[i]) == ";") {
                     }
                     else {
-                        const res = this.List[i].execute(newtable, tree);
+                        const res = this.List[i].execute(newtable2, tree);
                         if (res instanceof Continue_1.Continue) {
                             break;
                         }

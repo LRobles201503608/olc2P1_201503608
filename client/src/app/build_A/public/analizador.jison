@@ -2,6 +2,7 @@
 %{
   const {Error} = require('../util/Errors');
   let errores=[];
+  let parametros=[];
 %}
 %lex
 
@@ -120,6 +121,8 @@
     const {Incremento} = require('../Instruccion/Incremento');
     const {Decremento} = require('../Instruccion/Decremento');
     const {GraficarTS} = require('../Instruccion/GraficarTs');
+    const {Funciones} = require('../Instruccion/Funciones');
+    const {Parametro} = require('../Instruccion/Parametro');
 
 %}
 
@@ -271,14 +274,24 @@ acceso
 ;
 
 metodo_funcion
-  : RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC LLA l_ins2 LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC LLA LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA PARENTC LLA l_ins2 LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA PARENTC LLA LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC DOSP tipo LLA l_ins2 LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA parametro PARENTC DOSP tipo LLA LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA PARENTC DOSP tipo LLA l_ins2 LLC {}
-  | RFUNCTION IDENTIFICADOR PARENTA PARENTC DOSP tipo LLA LLC {}
+  : RFUNCTION IDENTIFICADOR PARENTA parametrov2 PARENTC LLA l_ins2 LLC {$$=new Funciones($2,new Type(types.ANY),$4,$7, @1.first_line,@1.first_column);}
+  | RFUNCTION IDENTIFICADOR PARENTA parametrov2 PARENTC LLA LLC {$$=new Funciones($2,new Type(types.ANY),$4,null, @1.first_line,@1.first_column);}
+  | RFUNCTION IDENTIFICADOR PARENTA PARENTC LLA l_ins2 LLC {$$=new Funciones($2,new Type(types.ANY),null,$6, @1.first_line,@1.first_column);}
+  | RFUNCTION IDENTIFICADOR PARENTA PARENTC LLA LLC {$$=new Funciones($2,new Type(types.ANY),null,null, @1.first_line,@1.first_column);}
+  | RFUNCTION IDENTIFICADOR PARENTA parametrov2 PARENTC DOSP tipo LLA l_ins2 LLC {$$=new Funciones($2,$7,$4,$9, @1.first_line,@1.first_column);}
+  | RFUNCTION IDENTIFICADOR PARENTA parametrov2 PARENTC DOSP tipo LLA LLC {$$=new Funciones($2,$7,$4,null, @1.first_line,@1.first_column);}
+  | RFUNCTION IDENTIFICADOR PARENTA PARENTC DOSP tipo LLA l_ins2 LLC {$$=new Funciones($2,$6,null,$8, @1.first_line,@1.first_column);}
+  | RFUNCTION IDENTIFICADOR PARENTA PARENTC DOSP tipo LLA LLC {$$=new Funciones($2,$6,null,null, @1.first_line,@1.first_column);}
+;
+
+parametrov2
+  : parametro2v2 COMA parametrov2 {$$=$3; $$.push($1);}
+  | parametro2v2 {$$=[$1];}
+;
+parametro2v2
+  : IDENTIFICADOR DOSP tipo {$$= new Parametro($1,$3,@1.first_line,@1.first_column);}
+  | IDENTIFICADOR {$$= new Parametro($1,null,@1.first_line,@1.first_column);}
+  | ERROR {$$=$1;}
 ;
 
 parametro
