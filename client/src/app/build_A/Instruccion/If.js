@@ -52,16 +52,15 @@ class If extends Node_1.Node {
                 }
                 else {
                     const res = this.IfList[i].execute(newtable, tree);
-                    if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
+                    if (res instanceof Continue_1.Continue || res instanceof Break_1.Break || res instanceof Returns_1.Returns) {
                         return res;
-                    }
-                    if (res instanceof Returns_1.Returns) {
-                        resultado = res.expresion.execute(newtable, tree);
-                        debugger;
-                        contadorreturn++;
-                        console.log(resultado);
-                        break;
-                    }
+                    } /*if(res instanceof Returns){
+                      resultado = res.expresion.execute(newtable,tree);
+                      debugger;
+                      contadorreturn++;
+                      console.log(resultado);
+                      break;
+                    }*/
                 }
             }
             if (contadorreturn == 1) {
@@ -76,16 +75,15 @@ class If extends Node_1.Node {
                 }
                 else {
                     const res = this.ElseList[i].execute(newtable, tree);
-                    if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
+                    if (res instanceof Continue_1.Continue || res instanceof Break_1.Break || res instanceof Returns_1.Returns) {
                         return res;
-                    }
-                    if (this.ElseList[i] instanceof Returns_1.Returns) {
-                        resultado = this.ElseList[i].execute(newtable, tree);
-                        //debugger;
-                        contadorreturn++;
-                        console.log(resultado);
-                        return resultado;
-                    }
+                    } /*if(this.ElseList[i] instanceof Returns){
+                      resultado = this.ElseList[i].execute(newtable,tree);
+                      //debugger;
+                      contadorreturn++;
+                      console.log(resultado);
+                      return resultado;
+                    }*/
                 }
             }
         }

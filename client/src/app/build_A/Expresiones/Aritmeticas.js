@@ -6,6 +6,7 @@ const Node_1 = require("../Abstract/Node");
 const Types_1 = require("../util/Types");
 const Relacional_1 = require("./Relacional");
 const Logicas_1 = require("./Logicas");
+const LlamadaFuncion_1 = require("../Instruccion/LlamadaFuncion");
 /**
  * Esta @clase creara un nodo de tipo @ARITMETICA
 */
@@ -82,12 +83,12 @@ class Aritmetica extends Node_1.Node {
             if (derresultado instanceof Errors_1.Error) {
                 return derresultado;
             }
-            if (this.derecha instanceof Relacional_1.Relacional || this.derecha instanceof Logicas_1.Logica) {
+            if (this.derecha instanceof Relacional_1.Relacional || this.derecha instanceof Logicas_1.Logica || this.derecha instanceof LlamadaFuncion_1.LlamadaFuncion) {
                 if (this.derecha.type == null) {
                     this.derecha.type = new Types_1.Type(Types_1.types.NUMERIC);
                 }
             }
-            if (this.izquierda instanceof Relacional_1.Relacional || this.izquierda instanceof Logicas_1.Logica) {
+            if (this.izquierda instanceof Relacional_1.Relacional || this.izquierda instanceof Logicas_1.Logica || this.izquierda instanceof LlamadaFuncion_1.LlamadaFuncion) {
                 if (this.izquierda.type == null) {
                     this.izquierda.type = new Types_1.Type(Types_1.types.NUMERIC);
                 }

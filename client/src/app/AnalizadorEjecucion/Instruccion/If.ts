@@ -58,15 +58,15 @@ export class If extends Node {
               }else{
 
                 const res = this.IfList[i].execute(newtable, tree);
-                if(res instanceof Continue || res instanceof Break){
+                if(res instanceof Continue || res instanceof Break||res instanceof Returns){
                     return res;
-                }if(res instanceof Returns){
+                }/*if(res instanceof Returns){
                   resultado = res.expresion.execute(newtable,tree);
                   debugger;
                   contadorreturn++;
                   console.log(resultado);
                   break;
-                }
+                }*/
               }
 
             }
@@ -82,15 +82,15 @@ export class If extends Node {
 
               }else{
                 const res = this.ElseList[i].execute(newtable, tree);
-                if(res instanceof Continue || res instanceof Break){
+                if(res instanceof Continue || res instanceof Break || res instanceof Returns){
                     return res;
-                }if(this.ElseList[i] instanceof Returns){
+                }/*if(this.ElseList[i] instanceof Returns){
                   resultado = this.ElseList[i].execute(newtable,tree);
                   //debugger;
                   contadorreturn++;
                   console.log(resultado);
                   return resultado;
-                }
+                }*/
               }
 
             }

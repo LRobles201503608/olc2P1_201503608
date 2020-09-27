@@ -77,31 +77,24 @@ parameters:Array<Node>;
     }else{
       let contadorreturn=0;
       let resultado;
-      instructions.forEach(element=>{
+      debugger;
+      for (let x = 0; x < instructions.length; x++) {
+        const element = instructions[x];
         //console.log(element);
         //debugger;
         if(element instanceof Returns){
           resultado = element.expresion.execute(newtable,tree);
           debugger;
-          contadorreturn++;
-          //console.log(resultado);
+          this.type=resultado.type;
           return resultado;
         }
         let a=element.execute(newtable,tree);
-        if(a!=null){
-          console.log(a);
-          resultado=a;
+        if(a instanceof Returns){
           debugger;
-          return resultado;
-        }else{
-
+          this.type=a.type;
+          console.log("funciona mierda funciona "+a.value);
+          return a.value;
         }
-
-      });
-      if(contadorreturn==1){
-        return resultado;
-      }else{
-
       }
     }
 
