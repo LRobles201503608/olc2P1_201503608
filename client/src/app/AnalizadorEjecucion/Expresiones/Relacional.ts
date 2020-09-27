@@ -32,11 +32,13 @@ export class Relacional extends Node{
       if(this.derecha==null){
           const error= new Error('Semantico', 'Se necesita del operador derecho', this.linea, this.columna);
           tree.errores.push(error);
-          tree.console.push(error.toString());
+          //tree.console.push(error.toString());
           return error;
       }else{
         const izqresultado= this.izquierda.execute(table,tree);
         const derresultado= this.derecha.execute(table,tree);
+        //console.log(tree);
+        //debugger;
         if(izqresultado instanceof Error){
           return izqresultado;
         }

@@ -24,6 +24,8 @@ import {Ternario} from '../../build_A/Instruccion/Ternario';
 import { ParsedEvent } from '@angular/compiler';
 import { element } from 'protractor';
 import {GraficarTS} from '../../build_A/Instruccion/GraficarTs';
+import { Funciones } from '../../build_A/Instruccion/Funciones';
+import { LlamadaFuncion } from '../../build_A/Instruccion/LlamadaFuncion.js';
 
 declare var generateTree;
 @Component({
@@ -89,21 +91,33 @@ export class PrincipalComponent implements OnInit {
     tbl2.innerHTML = filas_e;
   }
   prueba(){
-    alert(this.captura);
+    alert("COMPILANDO...");
     this.tree= parser.parse(this.captura);
-    //console.log(this.tree);
     this.execute(this.tree);
     this.reporteast(this.tree.instructions);
   }
   execute(tree:any){
-    const tabla = new Table(null);
-    //console.log(tree);
-    tree.instructions.map((m: any) => {
-      const res = m.execute(tabla, tree);
-
-    });
+    let tabla = new Table(null);
+    tree.globalofensive=tabla;
+    this.primeraPasada(tree,tabla);
+    this.segundaExecute(tree,tabla);
     this.llenarConsola(tree.console);
     this.reporteGraficarTs(tabla,tree);
+  }
+  primeraPasada(tree,tabla){
+    tree.instructions.map((m: any) => {
+      if(m instanceof Funciones){
+        m.execute(tabla, tree);
+      }
+    });
+  }
+  segundaExecute(tree,tabla){
+    tree.instructions.map((m: any) => {
+      if(m instanceof Funciones){
+      }else{
+        m.execute(tabla, tree);
+      }
+    });
   }
   llenarConsola(consola){
     //console.log(consola);
@@ -137,6 +151,47 @@ export class PrincipalComponent implements OnInit {
         //console.log(actual);
         let raiz= new Nodo_AST("",null,[]);
         let hijo:Nodo_AST;
+        if(actual instanceof LlamadaFuncion){
+          //console.log(actual);
+          raiz.name="LLAMADA_FUNCIONES";
+          let identificador=new Nodo_AST("IDENTIFICADOR",raiz,[]);
+          identificador.children.push(new Nodo_AST(actual.identifier,hijo,[]));
+          raiz.children.push(identificador);
+          let parametros = new Nodo_AST("PARAMETROS",raiz,[]);
+          if(actual.parameters!=null){
+            actual.parameters.forEach(element => {
+              let identificador=new Nodo_AST("IDENTIFICADOR",parametros,[]);
+              identificador.children.push(new Nodo_AST(element.identifier,identificador,[]));
+              parametros.children.push(identificador);
+            });
+          }
+          raiz.children.push(parametros);
+        }
+        if(actual instanceof Funciones){
+          //console.log(actual);
+          raiz.name="FUNCIONES";
+          let identificador=new Nodo_AST("IDENTIFICADOR",raiz,[]);
+          identificador.children.push(new Nodo_AST(actual.identifier,hijo,[]));
+          raiz.children.push(identificador);
+          let parametros = new Nodo_AST("PARAMETROS",raiz,[]);
+          if(actual.parameters!=null){
+            actual.parameters.forEach(element => {
+              let identificador=new Nodo_AST("IDENTIFICADOR",parametros,[]);
+              identificador.children.push(new Nodo_AST(element.identifier,identificador,[]));
+              parametros.children.push(identificador);
+            });
+          }
+          raiz.children.push(parametros);
+          let instrucciones= new Nodo_AST("INSTRUCCIONES",raiz,[]);
+          actual.instructions.forEach(element => {
+            if(element != ";"){
+              hijo=this.instructionsUnion(element);
+              hijo.parent=instrucciones;
+              instrucciones.children.push(hijo);
+            }
+          });
+          raiz.children.push(instrucciones);
+        }
         if(actual instanceof GraficarTS){
           raiz.name="GRAFICAR_TS";
         }
@@ -316,7 +371,7 @@ export class PrincipalComponent implements OnInit {
       let condition=new Nodo_AST("CONDICION",ternario,[]);
       condition.children.push(this.expresionesUnion(actual.condition));
       ternario.children.push(condition);
-      console.log(actual);
+      //console.log(actual);
       let ifs=new Nodo_AST("EXPRESION1",null,[]);
       let hijo;
             if(actual.IfList != ";"){
@@ -353,6 +408,22 @@ export class PrincipalComponent implements OnInit {
       let identifier = new Nodo_AST("DECREMENTO",expresion,[]);
       identifier.children.push(new Nodo_AST(actual.identifier,null,[]));
       expresion.children.push(identifier);
+    }
+    if(actual instanceof LlamadaFuncion){
+      //console.log(actual);
+      expresion.name="LLAMADA_FUNCIONES";
+      let identificador=new Nodo_AST("IDENTIFICADOR",expresion,[]);
+      identificador.children.push(new Nodo_AST(actual.identifier,expresion,[]));
+      expresion.children.push(identificador);
+      let parametros = new Nodo_AST("PARAMETROS",expresion,[]);
+      if(actual.parameters!=null){
+        actual.parameters.forEach(element => {
+          let identificador=new Nodo_AST("IDENTIFICADOR",parametros,[]);
+          identificador.children.push(new Nodo_AST(element.identifier,identificador,[]));
+          parametros.children.push(identificador);
+        });
+      }
+      expresion.children.push(parametros);
     }
     return expresion;
   }

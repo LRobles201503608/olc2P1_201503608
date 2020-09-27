@@ -16,18 +16,20 @@ class Funciones extends Node_1.Node {
         let simbol;
         const newtable = new Table_1.Table(table);
         simbol = new Simbol_1.Simbol(this.type, this.identifier, null, true, this.instructions, this.parameters);
-        const res = newtable.setVariable(simbol);
+        const res = table.setVariable(simbol);
         if (res != null) {
             const error = new Errors_1.Error('Semantico', res, this.linea, this.columna);
             tree.errores.push(error);
-            tree.console.push(error.toString());
+            //tree.console.push(error.toString());
             return error;
         }
-        this.parameters.forEach(element => {
-            element.execute(newtable, tree);
-        });
-        console.log("HOLIIIIIIIIIIIIIIIII");
-        console.log(newtable);
+        if (this.parameters != null) {
+            this.parameters.forEach(element => {
+                element.execute(newtable, tree);
+            });
+            console.log("HOLIIIIIIIIIIIIIIIII");
+            //console.log(newtable);
+        }
         return null;
     }
 }

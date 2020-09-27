@@ -70,7 +70,7 @@ export class While extends Node {
             if (this.condition.type.type !== types.BOOLEAN) {
                 const error = new Error('Semantico','Se esperaba una expresion booleana para la condicion',this.line, this.column);
                 tree.errores.push(error);
-                tree.console.push(error.toString());
+                //tree.console.push(error.toString());
                 return error;
             }
             if (result) {

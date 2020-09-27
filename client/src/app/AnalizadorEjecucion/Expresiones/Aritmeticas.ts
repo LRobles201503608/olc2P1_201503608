@@ -3,6 +3,8 @@ import {Table} from '../Simbols/Table';
 import {Error} from '../util/Errors';
 import {Node} from '../Abstract/Node';
 import {Type,types} from '../util/Types';
+import { Relacional } from './Relacional';
+import { Logica } from './Logicas';
 
 /**
  * Esta @clase creara un nodo de tipo @ARITMETICA
@@ -77,8 +79,18 @@ export class Aritmetica extends Node{
       if(derresultado instanceof Error){
         return derresultado;
       }
-
+      if(this.derecha instanceof Relacional|| this.derecha instanceof Logica){
+        if(this.derecha.type==null){
+          this.derecha.type=new Type(types.NUMERIC);
+        }
+      }
+      if(this.izquierda instanceof Relacional|| this.izquierda instanceof Logica){
+        if(this.izquierda.type==null){
+          this.izquierda.type=new Type(types.NUMERIC);
+        }
+      }
       if(this.Operador=='+'){
+        //debugger;
         if (this.izquierda.type.type == types.NUMERIC && this.derecha.type.type == types.NUMERIC) {
           this.type = new Type(types.NUMERIC);
           return izqresultado + derresultado;

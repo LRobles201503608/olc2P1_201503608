@@ -64,7 +64,7 @@ class While extends Node_1.Node {
             if (this.condition.type.type !== Types_1.types.BOOLEAN) {
                 const error = new Errors_1.Error('Semantico', 'Se esperaba una expresion booleana para la condicion', this.line, this.column);
                 tree.errores.push(error);
-                tree.console.push(error.toString());
+                //tree.console.push(error.toString());
                 return error;
             }
             if (result) {

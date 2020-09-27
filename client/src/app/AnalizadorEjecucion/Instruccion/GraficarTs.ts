@@ -38,7 +38,7 @@ export class GraficarTS extends Node{
           }
           dato.Variables.forEach(element => {
             if(element.identifier=="global201503608"){
-              console.log(element);
+              //console.log(element);
             }else{
               console.log(element);
               console.log(element.type.type);

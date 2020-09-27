@@ -7,6 +7,7 @@ const Continue_1 = require("../Expresiones/Continue");
 const Break_1 = require("../Expresiones/Break");
 const Errors_1 = require("../util/Errors");
 const Types_1 = require("../util/Types");
+const Returns_1 = require("../Expresiones/Returns");
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
  */
@@ -44,6 +45,8 @@ class If extends Node_1.Node {
         //debugger;
         if (result) {
             let newtable = new Table_1.Table(table);
+            let contadorreturn = 0;
+            let resultado;
             for (let i = 0; i < this.IfList.length; i++) {
                 if (String(this.IfList[i]) == ";") {
                 }
@@ -52,10 +55,22 @@ class If extends Node_1.Node {
                     if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
                         return res;
                     }
+                    if (res instanceof Returns_1.Returns) {
+                        resultado = res.expresion.execute(newtable, tree);
+                        debugger;
+                        contadorreturn++;
+                        console.log(resultado);
+                        break;
+                    }
                 }
+            }
+            if (contadorreturn == 1) {
+                return resultado;
             }
         }
         else {
+            let contadorreturn = 0;
+            let resultado;
             for (let i = 0; i < this.ElseList.length; i++) {
                 if (String(this.IfList[i]) == ";") {
                 }
@@ -63,6 +78,13 @@ class If extends Node_1.Node {
                     const res = this.ElseList[i].execute(newtable, tree);
                     if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
                         return res;
+                    }
+                    if (this.ElseList[i] instanceof Returns_1.Returns) {
+                        resultado = this.ElseList[i].execute(newtable, tree);
+                        //debugger;
+                        contadorreturn++;
+                        console.log(resultado);
+                        return resultado;
                     }
                 }
             }

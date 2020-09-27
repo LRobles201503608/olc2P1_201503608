@@ -39,10 +39,11 @@ export class Logica extends Node{
       if(izqresult instanceof Error){
         return izqresult;
       }
-
+      //debugger;
       if(this.Operador=='!'){
+        this.izquierda.type=new Type(types.BOOLEAN);
         if(this.izquierda.type.type==types.BOOLEAN){
-          return !this.izquierda;
+          return !izqresult;
         } else {
           const error= new Error('Semantico', 'No se puede operar el operador not con esta expresion', this.linea, this.columna);
           tree.errores.push(error);
@@ -64,6 +65,10 @@ export class Logica extends Node{
       if(derresultado instanceof Error){
         return derresultado;
       }
+      this.izquierda.type=new Type(types.BOOLEAN);
+      this.derecha.type=new Type(types.BOOLEAN);
+      //debugger;
+      //console.log(tree);
       if(this.Operador=='||'){
         if(this.izquierda.type.type==types.BOOLEAN && this.derecha.type.type==types.BOOLEAN){
           return izqresultado || derresultado;

@@ -23,19 +23,21 @@ instructions:Array<Node>;
     let simbol;
     const newtable=new Table(table);
     simbol = new Simbol(this.type, this.identifier, null, true,this.instructions,this.parameters);
-    const res = newtable.setVariable(simbol);
+    const res = table.setVariable(simbol);
 
     if (res != null) {
         const error = new Error('Semantico', res, this.linea, this.columna);
         tree.errores.push(error);
-        tree.console.push(error.toString());
+        //tree.console.push(error.toString());
         return error;
     }
-    this.parameters.forEach(element=>{
-      element.execute(newtable,tree);
-    });
-    console.log("HOLIIIIIIIIIIIIIIIII");
-    console.log(newtable);
+    if(this.parameters!=null){
+      this.parameters.forEach(element=>{
+        element.execute(newtable,tree);
+      });
+      console.log("HOLIIIIIIIIIIIIIIIII");
+      //console.log(newtable);
+    }
     return null;
   }
 

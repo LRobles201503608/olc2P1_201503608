@@ -9,5 +9,8 @@ class Tree {
         this.errores = new Array();
         this.repent = new Array();
     }
+    setTable(table) {
+        this.globalofensive = table;
+    }
 }
 exports.Tree = Tree;

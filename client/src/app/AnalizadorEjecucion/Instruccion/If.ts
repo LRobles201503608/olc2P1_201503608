@@ -5,6 +5,7 @@ import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 import { Error } from "../util/Errors";
 import { types, Type } from "../util/Types";
+import { Returns } from "../Expresiones/Returns";
 
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
@@ -49,18 +50,33 @@ export class If extends Node {
         //debugger;
         if (result) {
           let newtable = new Table(table);
+          let contadorreturn=0;
+                let resultado;
             for (let i = 0; i < this.IfList.length; i++) {
               if(String(this.IfList[i])==";"){
 
               }else{
+
                 const res = this.IfList[i].execute(newtable, tree);
                 if(res instanceof Continue || res instanceof Break){
                     return res;
+                }if(res instanceof Returns){
+                  resultado = res.expresion.execute(newtable,tree);
+                  debugger;
+                  contadorreturn++;
+                  console.log(resultado);
+                  break;
                 }
               }
 
             }
+            if(contadorreturn==1){
+              return resultado;
+            }
+
         } else {
+             let contadorreturn=0;
+             let resultado;
             for (let i = 0; i < this.ElseList.length; i++) {
               if(String(this.IfList[i])==";"){
 
@@ -68,6 +84,12 @@ export class If extends Node {
                 const res = this.ElseList[i].execute(newtable, tree);
                 if(res instanceof Continue || res instanceof Break){
                     return res;
+                }if(this.ElseList[i] instanceof Returns){
+                  resultado = this.ElseList[i].execute(newtable,tree);
+                  //debugger;
+                  contadorreturn++;
+                  console.log(resultado);
+                  return resultado;
                 }
               }
 

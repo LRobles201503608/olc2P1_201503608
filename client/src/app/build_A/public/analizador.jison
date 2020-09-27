@@ -108,6 +108,7 @@
     const {Relacional} = require('../Expresiones/Relacional');
     const {Logica} = require('../Expresiones/Logicas');
     const {Identifier} = require('../Expresiones/Identifier');
+    const {Returns} = require('../Expresiones/Returns');
     const {print} = require('../Instruccion/Print');
     const {Type, types} = require('../util/Types');
     const {Tree} = require('../Simbols/Tree');
@@ -123,6 +124,7 @@
     const {GraficarTS} = require('../Instruccion/GraficarTs');
     const {Funciones} = require('../Instruccion/Funciones');
     const {Parametro} = require('../Instruccion/Parametro');
+    const {LlamadaFuncion} = require('../Instruccion/LlamadaFuncion');
 
 %}
 
@@ -168,7 +170,7 @@ ins
   | funciones_nativas PYCOMA {$$=$1;}
   | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
   | sentencias {$$=$1;}
-  | RETURN retorno final_linea {}
+  | RETURN retorno final_linea {$$=new Returns($2,@1.first_line,@1.first_column);}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column)}
   | llamado_funcion {$$=$1;}
 ;
@@ -188,14 +190,14 @@ ins2
   | funciones_nativas PYCOMA {$$=$1;}
   | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
   | sentencias {$$=$1;}
-  | RETURN retorno final_linea {}
+  | RETURN retorno final_linea {$$=new Returns($2,@1.first_line,@1.first_column);}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
   | llamado_funcion {$$=$1;}
 ;
 
 retorno
-  : expresion {}
-  | {}
+  : expresion {$$=$1;}
+  | {$$=null;}
 ;
 
 asignacion_declaracion
@@ -206,13 +208,14 @@ asignacion_declaracion
   | constancia lista_asigna {}
   | constancia IDENTIFICADOR arreglo_mat {}
   | constancia IDENTIFICADOR arreglo_mat IGUAL arreglo_mat2 {}
-  | llamado_funcion {}
+  | llamado_funcion {$$=$1;}
   | acceso {}
   | ERROR {$$=$1;}
 ;
 final_linea
   : PYCOMA {}
   | {}
+  | ERROR {$$=$1;}
 ;
 
 arreglo_mat
@@ -412,6 +415,7 @@ instru_f
     : asignacion_declaracion final_linea {$$=$1;}
     | asignacion {$$=$1;}
     | sentencias {$$=$1;}
+    | RETURN retorno final_linea {$$=new Returns($2,@1.first_line,@1.first_column);}
     | BREAK final_linea {$$ = new Break(_$.first_line, _$.first_column);}
     | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
     | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
@@ -439,23 +443,24 @@ instru_f2
     | CONTINUE final_linea { $$ = new Continue(@1.first_line, @1.first_column);}
     | imprimir final_linea{$$=$1;}
     | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
-    | llamado_funcion {}
+    | llamado_funcion {$$=$1;}
     | ERROR {$$=$1;}
 ;
 
 llamado_funcion
-  : IDENTIFICADOR PARENTA parammm PARENTC final_linea {}
+  : IDENTIFICADOR PARENTA params PARENTC final_linea {$$=new LlamadaFuncion($1,$3,@1.first_line,@1.first_column);}
+  | IDENTIFICADOR PARENTA expresion PARENTC final_linea {$$=new LlamadaFuncion($1,[$3],@1.first_line,@1.first_column);}
+  | IDENTIFICADOR PARENTA PARENTC final_linea {$$=new LlamadaFuncion($1,null,@1.first_line,@1.first_column);}
  ;
 
-parammm
-  : parammm COMA expresion {}
-  | expresion {}
-  | {}
-;
-parametraje
-  : parametraje COMA expresion {}
-  | expresion {}
-    | {}
+/*params
+  : expresion COMA params { $$ = $3; $$.push($1);}
+  | expresion {$$ = [$1];}
+;*/
+
+params
+  : expresion {$$ = [$1];}
+  | params COMA expresion { $$ = $1; $$.push($3);}
 ;
 
 expresion
@@ -471,7 +476,6 @@ expresion
     | IDENTIFICADOR dimensional2 PUNTO LENGTH {}
     | IDENTIFICADOR PUNTO LENGTH {}
     | actualizar {$$=$1;}
-    | expresion COMA expresion {$$= new Aritmetica($1, $3, '+',@1.first_line,@1.first_column);}
     | expresion MAS expresion {$$= new Aritmetica($1, $3, '+',@1.first_line,@1.first_column);}
     | expresion MENOS expresion {$$= new Aritmetica($1, $3, '-',@1.first_line,@1.first_column);}
     | expresion POR expresion {$$= new Aritmetica($1, $3, '*',@1.first_line,@1.first_column);}
@@ -521,21 +525,16 @@ condicion
 
 nativo_mat
   : POP PARENTA PARENTC{}
-  | PUSH PARENTA lista_push PARENTC {}
+  | PUSH PARENTA params PARENTC {}
   | LENGTH {}
 ;
 
-lista_push
-  : lista_push COMA expresion {}
-  | expresion {}
-;
 
 funciones_mat
   : PUNTO nativo_mat {}
   | {}
   | ERROR {$$=$1;}
 ;
-
 
 ERROR
   : error PYCOMA {errores.push(new Error("Sintactico","TOKEN INESPERADO",@1.first_line , @1.first_column));}
