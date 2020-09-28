@@ -104,6 +104,10 @@ export class PrincipalComponent implements OnInit {
     this.llenarConsola(tree.console);
     this.reporteGraficarTs(tabla,tree);
   }
+  /**
+   * @method primeraPasada
+   * Hace la ejecucion de las funciones, este ingresa a la tabla de simbolos y a sus instrucciones
+   */
   primeraPasada(tree,tabla){
     tree.instructions.map((m: any) => {
       if(m instanceof Funciones){
@@ -111,6 +115,12 @@ export class PrincipalComponent implements OnInit {
       }
     });
   }
+  /**
+   * @method segundaExecute
+   * hace la segunda pasada, donde verifica y ejecuta todo con excepcion de las funciones puesto
+   * que ya han sido creadas con anterioridad
+  */
+
   segundaExecute(tree,tabla){
     tree.instructions.map((m: any) => {
       if(m instanceof Funciones){
@@ -119,6 +129,11 @@ export class PrincipalComponent implements OnInit {
       }
     });
   }
+  /**
+   * @method llenarConsola está hecho para mostrar en consola todo lo que exista en los arreglos que
+   * se llenan durante la ejecucion
+   * @Arrays son de los prints
+   */
   llenarConsola(consola){
     //console.log(consola);
     const regex = /\\n/gi;
@@ -132,6 +147,15 @@ export class PrincipalComponent implements OnInit {
     }
     //console.log(this.console2);
   }
+  /**
+   * @method reporteast
+   * es la viva imagen de mi cabeza a media noche :v
+   * en ese entonces solo Dios y yo sabíamos que hacía
+   * ahora solo Él lo sabe XD
+   * Este metodo recorre instruccion a instruccion y las va juntando
+   * para posteriormente ser empleado por la librería chart para mostrarlo
+   * este une instrucciones y expresiones
+   */
   reporteast(linstrucciones:any){
     if (document.getElementById("grafo")) {
       document.getElementById("grafo").remove();
@@ -427,7 +451,10 @@ export class PrincipalComponent implements OnInit {
     }
     return expresion;
   }
-
+/**
+ * @method este metodo es el que recorre el arreglo donde está el codigo para la tabla de graficar_ts
+ * y lo posiciona en el div que yo le indico en el html para que se muestre
+ */
   reporteGraficarTs(tabla:any,tree:any){
 
       let tbl2 = document.getElementById("variables");

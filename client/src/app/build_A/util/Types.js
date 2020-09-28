@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Type = exports.types = void 0;
+/**
+ * @enum que contiene los tipos que pueden venir
+ */
 var types;
 (function (types) {
     types[types["NUMERIC"] = 0] = "NUMERIC";

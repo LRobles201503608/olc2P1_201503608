@@ -1,3 +1,6 @@
+/**
+ * @enum que contiene los tipos que pueden venir
+ */
 export enum types {
   NUMERIC,
   STRING,

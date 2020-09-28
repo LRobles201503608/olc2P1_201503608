@@ -10,6 +10,9 @@ class Simbol {
      * @param type Tipo de la varible o funcion
      * @param identifier Nombre de la variable o funcion
      * @param value Valor de la variable u objeto completo de la función
+     * @param editable valor para ver si se puede editar la variable o no
+     * @param instrucFunc arreglo que tiene las instrucciones de las funciones
+     * @param parameters arreglo que tiene los parametros
      */
     constructor(type, identifier, value, editable, instrucFunc, parameters) {
         this.type = type;

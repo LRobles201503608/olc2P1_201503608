@@ -345,9 +345,10 @@ function  FactorialIterativo(n2:number){
                 if (j < 0){
                     absolutoj = j*-1;
                 }
-                if ((absolutoi + absolutoj < n)
-                    || ((-n/2-i) * (-n/2-i) + ( n/2-j) * ( n/2-j) <= n*n/2)
-                    || ((-n/2-i) * (-n/2-i) + (-n/2-j) * (-n/2-j) <= n*n/2)) {
+                let a= (absolutoi + absolutoj < n);
+                let b = ((-n/2-i) * (-n/2-i) + ( n/2-j) * ( n/2-j) <= n*n/2);
+                let x =((-n/2-i) * (-n/2-i) + (-n/2-j) * (-n/2-j) <= n*n/2);
+                if (a|| b|| x ){
                     letFigura = letFigura + "* ";
                 }
                 else{
