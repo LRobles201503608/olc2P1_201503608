@@ -28,7 +28,7 @@ class LlamadaFuncion extends Node_1.Node {
                     let tamanio = entorno.parameters.length;
                     let result;
                     if (this.parameters != null) {
-                        debugger;
+                        //debugger;
                         result = this.parameters[tamanio - (a + 1)].execute(table, tree);
                     }
                     else {

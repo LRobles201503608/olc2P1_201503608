@@ -45,7 +45,7 @@ export class Relacional extends Node{
         if(derresultado instanceof Error){
           return derresultado;
         }
-        debugger;
+        //debugger;
         if(this.derecha.type==null){
             if(this.Operador=="<"||this.Operador=="<="||this.Operador==">"||this.Operador==">="){
               this.derecha.type=new Type(types.NUMERIC);

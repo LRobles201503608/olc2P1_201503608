@@ -39,7 +39,7 @@ class Relacional extends Node_1.Node {
             if (derresultado instanceof Errors_1.Error) {
                 return derresultado;
             }
-            debugger;
+            //debugger;
             if (this.derecha.type == null) {
                 if (this.Operador == "<" || this.Operador == "<=" || this.Operador == ">" || this.Operador == ">=") {
                     this.derecha.type = new Types_1.Type(Types_1.types.NUMERIC);
