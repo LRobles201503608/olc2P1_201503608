@@ -94,6 +94,7 @@ export class PrincipalComponent implements OnInit {
     alert("COMPILANDO...");
     this.tree= parser.parse(this.captura);
     this.execute(this.tree);
+    alert("LISTO!!!");
     this.reporteast(this.tree.instructions);
   }
   execute(tree:any){
