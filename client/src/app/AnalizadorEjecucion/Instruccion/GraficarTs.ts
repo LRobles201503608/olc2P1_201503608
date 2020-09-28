@@ -15,9 +15,7 @@ export class GraficarTS extends Node{
   execute(table: Table, tree: Tree):any{
     let global=table;
 
-    while(global.Previous!=null){
-      global=global.Previous;
-    }
+    global=tree.globalofensive;
     //debugger;
     global.setVariable(new Simbol(null,"global201503608",table,true,null,null));
 

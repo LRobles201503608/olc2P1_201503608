@@ -14,9 +14,7 @@ class GraficarTS extends Node_1.Node {
     }
     execute(table, tree) {
         let global = table;
-        while (global.Previous != null) {
-            global = global.Previous;
-        }
+        global = tree.globalofensive;
         //debugger;
         global.setVariable(new Simbol_1.Simbol(null, "global201503608", table, true, null, null));
         let entorno = table.getVariable("global201503608");
