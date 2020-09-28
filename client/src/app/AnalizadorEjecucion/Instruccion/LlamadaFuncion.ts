@@ -35,6 +35,7 @@ parameters:Array<Node>;
           let tamanio=entorno.parameters.length;
           let result;
           if(this.parameters!=null){
+            debugger;
             result = this.parameters[tamanio-(a+1)].execute(table, tree);
           } else{
             result =null;
@@ -77,8 +78,9 @@ parameters:Array<Node>;
     }else{
       let contadorreturn=0;
       let resultado;
-      debugger;
+      //debugger;
       for (let x = 0; x < instructions.length; x++) {
+        //debugger;
         const element = instructions[x];
         //console.log(element);
         //debugger;

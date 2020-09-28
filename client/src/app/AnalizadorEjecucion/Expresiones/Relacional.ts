@@ -45,6 +45,17 @@ export class Relacional extends Node{
         if(derresultado instanceof Error){
           return derresultado;
         }
+        debugger;
+        if(this.derecha.type==null){
+            if(this.Operador=="<"||this.Operador=="<="||this.Operador==">"||this.Operador==">="){
+              this.derecha.type=new Type(types.NUMERIC);
+            }
+        }
+        if(this.izquierda.type==null){
+          if(this.Operador=="<"||this.Operador=="<="||this.Operador==">"||this.Operador==">="){
+            this.izquierda.type=new Type(types.NUMERIC);
+          }
+        }
         if(this.Operador=='<'){
           if(this.izquierda.type.type==types.NUMERIC && this.derecha.type.type==types.NUMERIC){
             return izqresultado < derresultado;

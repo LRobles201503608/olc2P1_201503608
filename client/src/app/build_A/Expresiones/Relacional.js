@@ -39,6 +39,17 @@ class Relacional extends Node_1.Node {
             if (derresultado instanceof Errors_1.Error) {
                 return derresultado;
             }
+            debugger;
+            if (this.derecha.type == null) {
+                if (this.Operador == "<" || this.Operador == "<=" || this.Operador == ">" || this.Operador == ">=") {
+                    this.derecha.type = new Types_1.Type(Types_1.types.NUMERIC);
+                }
+            }
+            if (this.izquierda.type == null) {
+                if (this.Operador == "<" || this.Operador == "<=" || this.Operador == ">" || this.Operador == ">=") {
+                    this.izquierda.type = new Types_1.Type(Types_1.types.NUMERIC);
+                }
+            }
             if (this.Operador == '<') {
                 if (this.izquierda.type.type == Types_1.types.NUMERIC && this.derecha.type.type == Types_1.types.NUMERIC) {
                     return izqresultado < derresultado;
