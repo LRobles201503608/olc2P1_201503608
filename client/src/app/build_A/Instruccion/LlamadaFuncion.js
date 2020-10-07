@@ -79,7 +79,7 @@ class LlamadaFuncion extends Node_1.Node {
                 //debugger;
                 if (element instanceof Returns_1.Returns) {
                     resultado = element.expresion.execute(newtable, tree);
-                    debugger;
+                    //debugger;
                     this.type = resultado.type;
                     return resultado;
                 }

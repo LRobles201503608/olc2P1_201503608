@@ -117,6 +117,8 @@
     const {DoWhile} = require('../Instruccion/DoWhile');
     const {While} = require('../Instruccion/While');
     const {For} = require('../Instruccion/For');
+    const {ForIn} = require('../Instruccion/ForIn');
+    const {ForOf} = require('../Instruccion/ForOf');
     const {Declaracion} = require('../Instruccion/Declaracion');
     const {Asignacion} = require('../Instruccion/Asignacion');
     const {Incremento} = require('../Instruccion/Incremento');
@@ -125,6 +127,12 @@
     const {Funciones} = require('../Instruccion/Funciones');
     const {Parametro} = require('../Instruccion/Parametro');
     const {LlamadaFuncion} = require('../Instruccion/LlamadaFuncion');
+    const {Arrays} = require('../Instruccion/Arrays');
+    const {Pops} = require('../Instruccion/Pop');
+    const {Lengths} = require('../Instruccion/Length');
+    const {Pushs} = require('../Instruccion/Push');
+    const {AccesoArrays} = require('../Instruccion/AccessoDimensiones');
+    const {AsignaArrays} = require('../Instruccion/AsignaArray');
 
 %}
 
@@ -172,6 +180,7 @@ ins
   | sentencias {$$=$1;}
   | RETURN retorno final_linea {$$=new Returns($2,@1.first_line,@1.first_column);}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column)}
+  | nativas_arreglos {$$=$1;}
   | llamado_funcion {$$=$1;}
 ;
 l_ins2
@@ -192,6 +201,7 @@ ins2
   | sentencias {$$=$1;}
   | RETURN retorno final_linea {$$=new Returns($2,@1.first_line,@1.first_column);}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
+  | nativas_arreglos {$$=$1;}
   | llamado_funcion {$$=$1;}
 ;
 
@@ -207,7 +217,7 @@ asignacion_declaracion
   | constancia IDENTIFICADOR DOSP tipo {$$ = new Declaracion($4, $2, null, @1.first_line, @1.first_column,$1);}
   | constancia lista_asigna {}
   | constancia IDENTIFICADOR arreglo_mat {}
-  | constancia IDENTIFICADOR arreglo_mat IGUAL arreglo_mat2 {}
+  | constancia IDENTIFICADOR arreglo_mat IGUAL arreglo_mat2 {$$=new Arrays(new Type(types.NUMERIC),$2,$5,@1.first_line,@1.first_column,$1);}
   | llamado_funcion {$$=$1;}
   | acceso {}
   | ERROR {$$=$1;}
@@ -236,9 +246,13 @@ asigl
 ;
 
 arreglo_params
-  : arreglo_params COMA expresion {}
-  | expresion {}
-  | {}
+  : arreglo_params COMA expresion  {$$=$1; $$.push($3);}
+  | expresion {$$=[$1];}
+;
+
+arreglo_params2
+  : expresion {$$=[$1];}
+  | arreglo_params2 expresion  {$$=$1; $$.push($2);}
 ;
 
 constancia
@@ -249,10 +263,14 @@ constancia
 
 asignacion
   : IDENTIFICADOR IGUAL expresion final_linea {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);}
-  | IDENTIFICADOR arreglo_params IGUAL expresion final_linea {}
+  | IDENTIFICADOR posisi IGUAL expresion final_linea {$$= new AsignaArrays($1,$2,$4,@1.first_line,@1.first_column,true);}
   | actualizar {$$=$1;}
   | asignacion_types {}
   | ERROR {$$=$1;}
+;
+posisi
+ : posisi CORCHETEA expresion CORCHETEC {$$=$1; $$.push($3);}
+ | CORCHETEA expresion CORCHETEC {$$=[$2]}
 ;
 
 asignacion_types
@@ -332,9 +350,9 @@ dimensional
   | ERROR {}
 ;
 dimensional2
-  : dimensional2 CORCHETEA expresion CORCHETEC {}
-  | CORCHETEA expresion CORCHETEC {}
-  | {}
+  : dimensional2 CORCHETEA expresion CORCHETEC {$$=$1; $$.push($3);}
+  | CORCHETEA expresion CORCHETEC {$$=[$3];}
+  | {$$=[];}
   | ERROR {$$=$1;}
 ;
 funciones_nativas
@@ -363,8 +381,8 @@ sentencias
 sentenciafor
     : FOR PARENTA RLET IDENTIFICADOR IGUAL expresion PYCOMA expresion PYCOMA asignacion PARENTC cuerposentencia {$$=new For($4,$6,$8,$10,$12,@1.first_line, @1.first_column);}
     | FOR PARENTA RVAR IDENTIFICADOR IGUAL expresion PYCOMA expresion PYCOMA asignacion PARENTC cuerposentencia {$$=new For($4,$6,$8,$10,$12,@1.first_line, @1.first_column);}
-    | FOR PARENTA RLET IDENTIFICADOR ROF IDENTIFICADOR PARENTC cuerposentencia {}
-    | FOR PARENTA RLET IDENTIFICADOR RIN IDENTIFICADOR PARENTC cuerposentencia {}
+    | FOR PARENTA RLET IDENTIFICADOR ROF IDENTIFICADOR PARENTC cuerposentencia {$$=new ForOf($4,$6,$8,@1.first_line, @1.first_column);}
+    | FOR PARENTA RLET IDENTIFICADOR RIN IDENTIFICADOR PARENTC cuerposentencia {$$=new ForIn($4,$6,$8,@1.first_line, @1.first_column);}
 ;
 
 sentenciawhile
@@ -420,6 +438,7 @@ instru_f
     | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
     | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
     | funciones_nativas PYCOMA{$$=$1;}
+    | nativas_arreglos {$$=$1;}
     | ERROR {$$=$1;}
 ;
 
@@ -444,6 +463,7 @@ instru_f2
     | imprimir final_linea{$$=$1;}
     | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
     | llamado_funcion {$$=$1;}
+    | nativas_arreglos {$$=$1;}
     | ERROR {$$=$1;}
 ;
 
@@ -472,9 +492,8 @@ expresion
     | CADENA {$$= new Primitivos(new Type(types.STRING),$1,@1.first_line,@1.first_column);}
     | CADENAE {$$= new Primitivos(new Type(types.STRING),$1,@1.first_line,@1.first_column);}
     | IDENTIFICADOR {$$ = new Identifier($1, @1.first_line, @1.first_column);}
-    | IDENTIFICADOR dimensional2{}
+    | dimensionales_access {$$=$1;}
     | IDENTIFICADOR dimensional2 PUNTO LENGTH {}
-    | IDENTIFICADOR PUNTO LENGTH {}
     | actualizar {$$=$1;}
     | expresion MAS expresion {$$= new Aritmetica($1, $3, '+',@1.first_line,@1.first_column);}
     | expresion MENOS expresion {$$= new Aritmetica($1, $3, '-',@1.first_line,@1.first_column);}
@@ -493,16 +512,26 @@ expresion
     | expresion MEN expresion {$$= new Relacional($1,$3,'<',@1.first_line,@1.first_column);}
     | expresion IG expresion {$$= new Relacional($1,$3,'==',@1.first_line,@1.first_column);}
     | llamado_funcion {$$=$1;}
-    | arreglo_mat2 {}
+    | arreglo_mat2 {$$=$1;}
     | op_terna {$$=$1;}
     | RNULL {}
-    | IDENTIFICADOR PUNTO nativo_mat {}
+    | nativas_arreglos {$$=$1;}
     | acceso {}
     | ERROR {$$=$1;}
 ;
 
+dimensionales_access
+  : IDENTIFICADOR dimensional2{$2.splice(0,1); $$= new AccesoArrays($1,$2,@1.first_line,@1.first_column,true);}
+;
+
+nativas_arreglos
+  : IDENTIFICADOR PUNTO POP PARENTA PARENTC {$$=new Pops($1,@1.first_line,@1.first_column,true);}
+  | IDENTIFICADOR PUNTO PUSH PARENTA expresion PARENTC {$$=new Pushs($1,$5,@1.first_line,@1.first_column,true);}
+  | IDENTIFICADOR PUNTO LENGTH {$$=new Lengths($1,@1.first_line,@1.first_column,true);}
+  | ERROR {$$=$1;}
+;
 arreglo_mat2
-  : CORCHETEA arreglo_params CORCHETEC {}
+  : CORCHETEA params CORCHETEC {$$=$2;}
   | {}
   | ERROR {$$=$1;}
 ;

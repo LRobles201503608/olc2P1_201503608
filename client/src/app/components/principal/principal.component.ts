@@ -196,7 +196,7 @@ export class PrincipalComponent implements OnInit {
           //console.log(actual);
           raiz.name="FUNCIONES";
           let identificador=new Nodo_AST("IDENTIFICADOR",raiz,[]);
-          identificador.children.push(new Nodo_AST(actual.identifier,hijo,[]));
+          identificador.children.push(new Nodo_AST(actual.identifier,identificador,[]));
           raiz.children.push(identificador);
           let parametros = new Nodo_AST("PARAMETROS",raiz,[]);
           if(actual.parameters!=null){

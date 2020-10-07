@@ -68,6 +68,7 @@ export class For extends Node {
             tree.console.push(error.toString());
             return error;
         }
+        debugger;
         if (result) {
             for (let i = 0; i < this.List.length; i++) {
                 if (String(this.List[i]) == ";") {

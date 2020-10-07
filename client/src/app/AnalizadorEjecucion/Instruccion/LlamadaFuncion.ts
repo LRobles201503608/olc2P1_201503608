@@ -86,7 +86,7 @@ parameters:Array<Node>;
         //debugger;
         if(element instanceof Returns){
           resultado = element.expresion.execute(newtable,tree);
-          debugger;
+          //debugger;
           this.type=resultado.type;
           return resultado;
         }

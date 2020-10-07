@@ -6,6 +6,7 @@ import {Type,types} from '../util/Types';
 import { Relacional } from './Relacional';
 import { Logica } from './Logicas';
 import { LlamadaFuncion } from '../Instruccion/LlamadaFuncion';
+import { Lengths } from '../Instruccion/Length';
 
 /**
  * Esta @clase creara un nodo de tipo @ARITMETICA
@@ -72,6 +73,7 @@ export class Aritmetica extends Node{
           return error;
       }
     } else{
+
       const izqresultado= this.izquierda.execute(table,tree);
       const derresultado= this.derecha.execute(table,tree);
       if(izqresultado instanceof Error){
@@ -80,12 +82,12 @@ export class Aritmetica extends Node{
       if(derresultado instanceof Error){
         return derresultado;
       }
-      if(this.derecha instanceof Relacional|| this.derecha instanceof Logica||this.derecha instanceof LlamadaFuncion){
+      if(this.derecha instanceof Relacional|| this.derecha instanceof Logica||this.derecha instanceof LlamadaFuncion||this.derecha instanceof Lengths){
         if(this.derecha.type==null){
           this.derecha.type=new Type(types.NUMERIC);
         }
       }
-      if(this.izquierda instanceof Relacional|| this.izquierda instanceof Logica||this.izquierda instanceof LlamadaFuncion){
+      if(this.izquierda instanceof Relacional|| this.izquierda instanceof Logica||this.izquierda instanceof LlamadaFuncion||this.izquierda instanceof Lengths){
         if(this.izquierda.type==null){
           this.izquierda.type=new Type(types.NUMERIC);
         }
