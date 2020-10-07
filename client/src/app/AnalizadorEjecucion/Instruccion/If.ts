@@ -59,7 +59,7 @@ export class If extends Node {
 
                 const res = this.IfList[i].execute(newtable, tree);
                 if(res instanceof Continue || res instanceof Break||res instanceof Returns){
-                    debugger;
+                    //debugger;
                     return res;
                 }/*if(res instanceof Returns){
                   resultado = res.expresion.execute(newtable,tree);

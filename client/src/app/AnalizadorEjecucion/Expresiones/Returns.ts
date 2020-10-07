@@ -7,8 +7,8 @@ import { Type, types } from "../util/Types";
  * @class Nodo expresion break, nos indica cuando terminar un ciclo
  */
 export class Returns extends Node {
-  value:Object;
-    expresion:Node;
+  value:Object; //valor de retorno
+    expresion:Node; // expresion a retornar
     /**
      * @constructor Retorna el objeto break creado
      * @param line Linea del break
@@ -22,13 +22,17 @@ export class Returns extends Node {
 
     execute(table: Table, tree: Tree){
       if(this.expresion==null){
+        // cuando no viene una expresion me regresa un void
         this.type=new Type(types.VOID);
+        // tampoco tiene valor porque no tiene una expresion
         this.value=null
+        //retornamos la instacia de la clase
         return this;
       }else{
+        //lo mismo de arriba pero este si trae tipo y trae valor :v
         let result= this.expresion.execute(table,tree);
         this.type=this.expresion.type;
-        this.value=result;
+        this.value=result; // el valor :v
         return this;
       }
         //return this;

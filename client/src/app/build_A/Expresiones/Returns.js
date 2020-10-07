@@ -18,14 +18,18 @@ class Returns extends Node_1.Node {
     }
     execute(table, tree) {
         if (this.expresion == null) {
+            // cuando no viene una expresion me regresa un void
             this.type = new Types_1.Type(Types_1.types.VOID);
+            // tampoco tiene valor porque no tiene una expresion
             this.value = null;
+            //retornamos la instacia de la clase
             return this;
         }
         else {
+            //lo mismo de arriba pero este si trae tipo y trae valor :v
             let result = this.expresion.execute(table, tree);
             this.type = this.expresion.type;
-            this.value = result;
+            this.value = result; // el valor :v
             return this;
         }
         //return this;

@@ -55,7 +55,7 @@ export class ForOf extends Node {
           let varval= variable.value;
 
           let newtable2;
-          debugger;
+          //debugger;
           for(simval of varval){
             simbol.value=simval;
             newtable2=new Table(newtable);

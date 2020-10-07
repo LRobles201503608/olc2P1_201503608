@@ -44,7 +44,7 @@ class ForOf extends Node_1.Node {
         let simval = simbol.value;
         let varval = variable.value;
         let newtable2;
-        debugger;
+        //debugger;
         for (simval of varval) {
             simbol.value = simval;
             newtable2 = new Table_1.Table(newtable);

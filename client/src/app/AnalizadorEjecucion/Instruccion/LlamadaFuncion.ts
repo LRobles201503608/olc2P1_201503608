@@ -92,9 +92,9 @@ parameters:Array<Node>;
         }
         let a=element.execute(newtable,tree);
         if(a instanceof Returns){
-          debugger;
+          //debugger;
           this.type=a.type;
-          console.log("funciona mierda funciona "+a.value);
+          //console.log("funciona mierda funciona "+a.value);
           return a.value;
         }
       }

@@ -25,7 +25,14 @@ import { ParsedEvent } from '@angular/compiler';
 import { element } from 'protractor';
 import {GraficarTS} from '../../build_A/Instruccion/GraficarTs';
 import { Funciones } from '../../build_A/Instruccion/Funciones';
-import { LlamadaFuncion } from '../../build_A/Instruccion/LlamadaFuncion.js';
+import { LlamadaFuncion } from '../../build_A/Instruccion/LlamadaFuncion';
+import { ForIn } from '../../build_A/Instruccion/ForIn';
+import { ForOf } from '../../build_A/Instruccion/ForOf';
+import { Switch } from '../../build_A/Instruccion/Switch';
+import { Cases } from '../../build_A/Instruccion/Cases';
+import { Default } from '../../build_A/Instruccion/Default';
+import { Arrays } from '../../build_A/Instruccion/Arrays';
+import { Returns } from '../../build_A/Expresiones/Returns';
 
 declare var generateTree;
 @Component({
@@ -280,6 +287,93 @@ export class PrincipalComponent implements OnInit {
           });
           raiz.children.push(ifs);
         }
+        if(actual instanceof Switch){
+          raiz.name="SWITCH";
+          let condition=new Nodo_AST("CONDICION",raiz,[]);
+          condition.children.push(this.expresionesUnion(actual.condition));
+          raiz.children.push(condition);
+          let ifs=new Nodo_AST("LISTA_CASES",null,[]);
+          actual.List.forEach(element => {
+            if(element != ";"){
+              hijo=this.instructionsUnion(element);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+            }
+          });
+          raiz.children.push(ifs);
+        }
+        if(actual instanceof Cases){
+          raiz.name="CASE";
+          let condition=new Nodo_AST("CONDICION",raiz,[]);
+          condition.children.push(this.expresionesUnion(actual.condition));
+          raiz.children.push(condition);
+          let ifs=new Nodo_AST("LISTA_INSTRUCCIONES",null,[]);
+          actual.List.forEach(element => {
+              hijo=this.instructionsUnion(element);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+          });
+          raiz.children.push(ifs);
+        }
+        if(actual instanceof Default){
+          raiz.name="DEFAULT";
+          let condition=new Nodo_AST("CONDICION",raiz,[]);
+          condition.children.push(this.expresionesUnion(actual.condition));
+          raiz.children.push(condition);
+          let ifs=new Nodo_AST("LISTA_INSTRUCCIONES",null,[]);
+          actual.List.forEach(element => {
+              hijo=this.instructionsUnion(element);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+          });
+          raiz.children.push(ifs);
+        }
+        if(actual instanceof Arrays){
+          raiz.name="ARRAY";
+          let condition=new Nodo_AST("IDENTIFICADOR",raiz,[]);
+          let condition2=new Nodo_AST(actual.identifier,raiz,[]);
+          condition.children.push(condition2);
+          raiz.children.push(condition);
+        }
+        //debugger;
+        if(actual instanceof ForIn){
+          raiz.name="FORIN";
+          let declaracion=new Nodo_AST("DECLARACION",raiz,[]);
+          let identificador=new Nodo_AST("IDENTIFICADOR",declaracion,[]);
+          let variable=new Nodo_AST(actual.declaracion,identificador,[]);
+          identificador.children.push(variable);
+          declaracion.children.push(identificador);
+          raiz.children.push(declaracion);
+          let condition=new Nodo_AST("ARREGLO",raiz,[]);
+          condition.children.push(new Nodo_AST(actual.condition,identificador,[]));
+          raiz.children.push(condition);
+          let ifs=new Nodo_AST("LISTA_INSTRUCCIONES",null,[]);
+          actual.List.forEach(element => {
+              hijo=this.instructionsUnion(element);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+          });
+          raiz.children.push(ifs);
+        }
+        if(actual instanceof ForOf){
+          raiz.name="FOROF";
+          let declaracion=new Nodo_AST("DECLARACION",raiz,[]);
+          let identificador=new Nodo_AST("IDENTIFICADOR",declaracion,[]);
+          let variable=new Nodo_AST(actual.declaracion,identificador,[]);
+          identificador.children.push(variable);
+          declaracion.children.push(identificador);
+          raiz.children.push(declaracion);
+          let condition=new Nodo_AST("ARREGLO",raiz,[]);
+          condition.children.push(new Nodo_AST(actual.condition,identificador,[]));
+          raiz.children.push(condition);
+          let ifs=new Nodo_AST("LISTA_INSTRUCCIONES",null,[]);
+          actual.List.forEach(element => {
+              hijo=this.instructionsUnion(element);
+              hijo.parent=ifs;
+              ifs.children.push(hijo);
+          });
+          raiz.children.push(ifs);
+        }
         if(actual instanceof DoWhile){
           raiz.name="DOWHILE";
           let ifs=new Nodo_AST("LISTA_INSTRUCCIONES",null,[]);
@@ -344,6 +438,12 @@ export class PrincipalComponent implements OnInit {
           identifier.children.push(new Nodo_AST(actual.identifier,null,[]));
           raiz.children.push(identifier);
         }
+        if(actual instanceof Returns){
+          raiz.name="RETURN";
+          let condition=new Nodo_AST("EXPRESION",raiz,[]);
+          condition.children.push(this.expresionesUnion(actual.expresion));
+          raiz.children.push(condition);
+        }
 
         return raiz;
       }
@@ -364,6 +464,12 @@ export class PrincipalComponent implements OnInit {
         derecha.parent=expresion;
         expresion.children.push(derecha);
       }
+    }
+    if(actual instanceof Returns){
+      expresion.name="RETURN";
+      let condition=new Nodo_AST("EXPRESION",expresion,[]);
+      condition.children.push(this.expresionesUnion(actual.expresion));
+      expresion.children.push(condition);
     }
     if(actual instanceof Logica){
       if(actual.izquierda!=null){

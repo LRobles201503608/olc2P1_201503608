@@ -133,6 +133,9 @@
     const {Pushs} = require('../Instruccion/Push');
     const {AccesoArrays} = require('../Instruccion/AccessoDimensiones');
     const {AsignaArrays} = require('../Instruccion/AsignaArray');
+    const {Switch} = require('../Instruccion/Switch');
+    const {Cases} = require('../Instruccion/Cases');
+    const {Default} = require('../Instruccion/Default');
 
 %}
 
@@ -400,19 +403,19 @@ sentenciaif
 ;
 
 sentenciaswitch
-    : SWITCH PARENTA expresion PARENTC LLA listacase LLC {}
+    : SWITCH PARENTA expresion PARENTC LLA listacase LLC {$$=new Switch($3,$6,@1.first_line,@1.first_column);}
 ;
 
 listacase
-    : listacase cases {}
-    | cases {}
+    : listacase cases {$$=$1; $$.push($2);}
+    | cases {$$=[$1]}
 ;
 
 cases
-    : CASE expresion DOSP instrucciones_funciones {}
-    | CASE expresion DOSP {}
-    | DEFAULT DOSP instrucciones_funciones {}
-    | DEFAULT DOSP {}
+    : CASE expresion DOSP instrucciones_funciones {$$=new Cases($2,$4,@1.first_line,@1.first_column);}
+    | CASE expresion DOSP {$$=new Cases($2,null,@1.first_line,@1.first_column);}
+    | DEFAULT DOSP instrucciones_funciones {$$=new Default($3,@1.first_line,@1.first_column);}
+    | DEFAULT DOSP {$$=new Default($3,@1.first_line,@1.first_column);}
 ;
 
 cuerposentencia
@@ -434,7 +437,7 @@ instru_f
     | asignacion {$$=$1;}
     | sentencias {$$=$1;}
     | RETURN retorno final_linea {$$=new Returns($2,@1.first_line,@1.first_column);}
-    | BREAK final_linea {$$ = new Break(_$.first_line, _$.first_column);}
+    | BREAK final_linea {$$ = new Break(@1.first_line, @1.first_column);}
     | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
     | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
     | funciones_nativas PYCOMA{$$=$1;}

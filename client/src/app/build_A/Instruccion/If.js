@@ -53,7 +53,7 @@ class If extends Node_1.Node {
                 else {
                     const res = this.IfList[i].execute(newtable, tree);
                     if (res instanceof Continue_1.Continue || res instanceof Break_1.Break || res instanceof Returns_1.Returns) {
-                        debugger;
+                        //debugger;
                         return res;
                     } /*if(res instanceof Returns){
                       resultado = res.expresion.execute(newtable,tree);
