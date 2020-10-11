@@ -32,7 +32,7 @@ function estadoPila() : boolean{
 function vaciar() : void{
     stack = [""];
 }
-for(let i = 1; i < (20 && !estadoPila()); i++){
+for(let i = 1; i < 20; i++){
     apilar(i);
 }
 console.log(stack.length); //20
