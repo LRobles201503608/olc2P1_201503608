@@ -23,6 +23,29 @@ String_4 = (int2_ >= 77 || (-1) < 100)+ ","+ (int2_ > 78 && 100 + 0);
 
 console.log("Lógica 1" + " = " + String_3); //false,true,false,true
 console.log("Lógica 2" + " = " + String_4); //true,false);
+
+let b1:boolean=(a == 0);
+let b2:boolean= (44.3 < 44.4);
+let b3:number= (2**5);
+let b4:number= (31 + 2 % 1);
+let rel1:boolean=(b1!=b2);
+let rel2:boolean=(b3==b4);
+let relacionaes : boolean = (rel1 == rel2);
+let bb:boolean=((b == a));
+let bb1:boolean=(relacionaes==bb);
+let bb2:boolean=(532 > 532);
+let bb3:boolean=(String_3 == "false,true,false,true");
+let bb4:boolean=(String_4 == "true,false");
+let bb5:boolean=(bb2 == bb3);
+let bb6:boolean=(bb4 == bb5);
+relacionaes = bb1!=bb6;
+    if(relacionaes){
+        console.log("Relacionels 100");
+    }
+    else{
+        console.log("Relacionales 0");
+    }
+
 const dimension = 3;
 const dim2;
 let arreglo[] = ["Estudiante1", "Estudiante2", "Estudiante3"];
@@ -41,7 +64,10 @@ function agregar(i : number, j : number, nota : number) : boolean{
         return false;
     }
 function imprimirPromedio(estudiante : number){
-        let promedio = (tablero[][estudiante * dimension + 0]);
+        let promedio1 = (tablero[][estudiante * dimension + 0]);
+  		let promedio2 = (tablero[][estudiante * dimension + 1]);
+  		let promedio3 = (tablero[][estudiante * dimension + 2]);
+  		let promedio = ((promedio1+promedio2+promedio3)/3);
         console.log("Promedio Estudiante "+ arreglo[][estudiante]+ " = "+ promedio);
     }
 //Error porque es una constante

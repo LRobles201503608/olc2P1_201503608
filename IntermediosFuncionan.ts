@@ -89,14 +89,18 @@ console.log("*******************************************************************
 let arr[] = [1,2,3,4,5,6];
 let arr2[] =[1,2,3,4,5,6];
 for(let i in arr2){
-    console.log((arr[][i]));
+  let aa=arr[][i];
+  console.log((aa == 1)+""+ (aa== 2)+""+ (aa == 3)+""+ (aa == 4)+""+ (aa == 5)+""+ (aa == 6)+"");  
+  //console.log(aa);
 }
 console.log('\n');
 console.log("***********************************************************************");
 console.log("***********                 FOR IN                     ****************");
 console.log("***********************************************************************");
 for(let e of arr2){
-    if(6 > e){
-        console.log(arr[][e]);
+  let aa=arr.length;
+  let mu=arr[][e];
+    if(aa > e){
+      	console.log((e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu));
     }
 }
