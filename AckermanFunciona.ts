@@ -1,3 +1,5 @@
+//el ackermann me funciona como el del primer archivo que subio Pavel y así no se tarda
+
 function ackermann( m:number,  n:number):number {
   if (m == 0) {
       return (n + 1);

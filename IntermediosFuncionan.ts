@@ -1,9 +1,9 @@
 let array[] = [32, 21, 7, 89, 56, 909, 109, 2];
-let indice = "indice ["+array[][0]+"]";
+let indice = "indice ["+array[][0]+"]";// no tengo la cadena que permite ejecutar algo dentro de ella
 console.log("***********************************************************************");
 console.log("***********                TERNARIO                    ****************");
 console.log("***********************************************************************");
-console.log(indice == ("indice [32]") ? 'TERNARIO BIEN' : 'TERNARIO MALO');
+console.log(indice == ("indice [32]") ? 'TERNARIO BIEN' : 'TERNARIO MALO'); // le tengo que agregar un parentesis a la condicion del ternario
 console.log('\n');
 console.log("***********************************************************************");
 console.log("***********                 IF                         ****************");
@@ -19,7 +19,11 @@ console.log('\n');
 console.log("***********************************************************************");
 console.log("***********                 SWITCH                     ****************");
 console.log("***********************************************************************");
-switch ("2") {
+// lo que va dentro de la expresion del switch hubo necesidad de cambiarlo porque sino no lo reconocia, solo se separó en variables
+let aaa=array.length;
+aaa=aaa-1;
+let bbbb=array[aaa];
+switch (bbbb) {
     case "1":
         console.log("SWITCH MALO");
     case "2":
@@ -87,19 +91,21 @@ console.log("*******************************************************************
 console.log("***********                 FOR OF                     ****************");
 console.log("***********************************************************************");
 let arr[] = [1,2,3,4,5,6];
-let arr2[] =[1,2,3,4,5,6];
+let arr2[] =[1,2,3,4,5,6]; // se saco el arreglo que estaba a la derecha de in porque no valide eso entonces puse un arreglo con lo mismo afuera
 for(let i in arr2){
   let aa=arr[][i];
-  console.log((aa == 1)+""+ (aa== 2)+""+ (aa == 3)+""+ (aa == 4)+""+ (aa == 5)+""+ (aa == 6)+"");  
+  // se concatenaron cadenas porque sino operaba booleanos y solo retornaba la suma de 0s y 1s
+  console.log((aa == 1)+""+ (aa== 2)+""+ (aa == 3)+""+ (aa == 4)+""+ (aa == 5)+""+ (aa == 6)+""); 
   //console.log(aa);
 }
 console.log('\n');
 console.log("***********************************************************************");
 console.log("***********                 FOR IN                     ****************");
 console.log("***********************************************************************");
+// se saco el arreglo que estaba a la derecha de of porque no valide eso entonces puse un arreglo con lo mismo afuera
 for(let e of arr2){
   let aa=arr.length;
-  let mu=arr[][e];
+  let mu=arr[][e];// se guarda en una variable el valor del arreglo para operarlo y se agregan cadenas para que no las sume como numeros
     if(aa > e){
       	console.log((e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu));
     }

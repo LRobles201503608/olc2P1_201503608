@@ -30,7 +30,7 @@ function estadoPila() : boolean{
 }
 
 function vaciar() : void{
-    stack = [""];
+    stack = [""]; //esto ya no lo valide
 }
 for(let i = 1; i < 20; i++){
     apilar(i);
@@ -65,6 +65,7 @@ let arreglo [] = [1,2,3,4,5];
 let arreglo2 [] = [true, false];
 
 function funcion1() : void{
+    // mi graficar ts no tiene parentesis porque me los comí XD
     graficar_ts; //Grafica global
 }
 
