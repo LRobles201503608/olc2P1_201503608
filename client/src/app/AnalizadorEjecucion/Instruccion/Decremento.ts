@@ -23,7 +23,35 @@ export class Decremento extends Node {
         super(null, line, column,editable);
         this.identifier = identifier;
     }
-
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
+        let variable:Simbol;
+        variable = tabla.getVariable(this.identifier);
+        if(variable==null){
+          const error= new Error('Semantico', 'No se puede encontrar la variable', this.linea, this.columna);
+          tree.errores.push(error);
+          tree.console.push(error.toString());
+          return error;
+        }
+        if(variable.entorno==0){
+          let value=tree.obtener_Heap(variable.posh.toString(),"t"+tree.temp);
+          tree.temp++;
+          let a=tree.generar_3d("-",value.toString(),"1","t"+tree.temp);
+          tree.tmpsop.push("t"+tree.temp);
+          let b = tree.tmpsop.pop();
+          tree.modificar_stack(variable.posh.toString(),b.toString());
+          tree.temp++;
+          return a;
+        }else{
+          let value=tree.obtener_stack(variable.poss.toString(),"t"+tree.temp);
+          tree.temp++;
+          let a=tree.generar_3d("-",value.toString(),"1","t"+tree.temp);
+          tree.tmpsop.push("t"+tree.temp);
+          let b = tree.tmpsop.pop();
+          tree.modificar_stack(variable.poss.toString(),b.toString());
+          tree.temp++;
+          return a;
+        }
+    }
     execute(table: Table, tree: Tree) {
 
         let variable: Simbol;

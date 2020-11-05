@@ -19,6 +19,8 @@ class AccesoArrays extends Node_1.Node {
         this.identifier = identifier;
         this.value = value;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         //console.log(this.value);
         let variable;

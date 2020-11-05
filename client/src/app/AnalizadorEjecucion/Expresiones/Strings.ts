@@ -5,10 +5,10 @@ import {Node} from '../Abstract/Node';
 import {Type,types} from '../util/Types';
 
 /**
- * La @class Primitivos es para los nodos de tipo de datos primitivos
+ * La @class Strings es para los nodos de tipo de datos primitivos
  */
 
-export class Primitivos extends Node{
+export class Strings extends Node{
   val:Object;
 
   /**
@@ -29,12 +29,6 @@ export class Primitivos extends Node{
    * @param tree arbol de nodos
    */
   traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
-    if(this.val==true){
-      return 1;
-    }else if(this.val==false){
-      return 0;
-    }
-    return this.val;
 
   }
   execute(table: Table, tree: Tree) {

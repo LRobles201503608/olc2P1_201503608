@@ -25,6 +25,8 @@ class While extends Node_1.Node {
         this.column = column;
         this.line = line;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         /*while(this.condition.execute(table, tree)){
           if (result instanceof Error) {

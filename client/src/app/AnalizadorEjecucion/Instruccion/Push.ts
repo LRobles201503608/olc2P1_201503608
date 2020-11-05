@@ -26,7 +26,9 @@ export class Pushs extends Node {
         this.identifier = identifier;
         this.value = value;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree) {
       const result = this.value.execute(table, tree);
         if (result instanceof Error) {

@@ -20,6 +20,34 @@ class Asignacion extends Node_1.Node {
         this.identifier = identifier;
         this.value = value;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+        let a = this.value.traducir(tabla, tree, cadena, contTemp);
+        let simbol = tabla.getVariable(this.identifier);
+        //debugger;
+        if (a instanceof Errors_1.Error) {
+            return a;
+        }
+        console.log(tree);
+        if (simbol.entorno == 0) {
+            tree.generar_3d("", simbol.posh.toString(), "", "t" + tree.temp);
+            tree.tmpsop.push("t" + tree.temp);
+            tree.temp++;
+            //debugger;
+            let posi = tree.tmpsop.pop();
+            let stackk = tree.modificar_heap("(int)" + posi.toString(), tree.tmpsop.pop().toString());
+            tree.temp++;
+        }
+        else {
+            tree.generar_3d("", simbol.poss.toString(), "", "t" + tree.temp);
+            tree.tmpsop.push("t" + tree.temp);
+            tree.temp++;
+            //debugger;
+            let posi = tree.tmpsop.pop();
+            let stackk = tree.modificar_stack("(int)" + posi.toString(), tree.tmpsop.pop().toString());
+            tree.temp++;
+        }
+        return;
+    }
     execute(table, tree) {
         const result = this.value.execute(table, tree);
         if (result instanceof Errors_1.Error) {

@@ -18,7 +18,9 @@ instructions:Array<Node>;
     this.parameters=parametros;
     this.instructions=instrucciones;
   }
+  traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+  }
   execute(table: Table, tree: Tree) {
     let simbol;
     const newtable=new Table(table);

@@ -18,6 +18,8 @@ class Pops extends Node_1.Node {
         super(null, line, column, editable);
         this.identifier = identifier;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         let variable;
         variable = table.getVariable(this.identifier);

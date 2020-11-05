@@ -31,7 +31,9 @@ export class Ternario extends Node {
         this.linea=line;
         this.columna=column;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree) {
         const newtable = new Table(table);
         let result: Node;

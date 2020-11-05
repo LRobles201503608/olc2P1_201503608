@@ -87,6 +87,20 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit() {
   }
+  translat(){
+    let cadenaTraducida="";
+    let numTempo=0;
+    alert("COMPILANDO...");
+    this.tree= parser.parse(this.captura);
+    this.tree.instructions.map((m: any) => {
+        let varr=m.traducir(this.tree,cadenaTraducida,numTempo);
+        cadenaTraducida=varr.cad;
+        numTempo=varr.cont;
+        //alert(cadenaTraducida);
+    });
+    this.translate=cadenaTraducida;
+    alert("LISTO!!!");
+  }
   RepErrores(){
     let tbl2 = document.getElementById("errores");
     let filas_e = "";
@@ -110,7 +124,18 @@ export class PrincipalComponent implements OnInit {
     this.primeraPasada(tree,tabla);
     this.segundaExecute(tree,tabla);
     this.llenarConsola(tree.console);
+    this.llenartraduc(tree);
     this.reporteGraficarTs(tabla,tree);
+  }
+  llenartraduc(tree){
+    tree.setHeader();
+    this.translate=tree.cabecera[0];
+    this.translate+=tree.setTemporalesHeader()+"\n";
+    this.translate+="int main(){\n";
+    for(let a = 0; a<tree.traduccion.length;a++){
+      this.translate+="\t"+tree.traduccion[a];
+    }
+    this.translate+="\treturn 0;\n}\n";
   }
   /**
    * @method primeraPasada
@@ -130,10 +155,13 @@ export class PrincipalComponent implements OnInit {
   */
 
   segundaExecute(tree,tabla){
+    let cadenaTraducida="";
+    let numTempo=0;
     tree.instructions.map((m: any) => {
       if(m instanceof Funciones){
       }else{
         m.execute(tabla, tree);
+        m.traducir(tabla,tree,cadenaTraducida,numTempo);
       }
     });
   }

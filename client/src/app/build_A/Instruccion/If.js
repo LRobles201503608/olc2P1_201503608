@@ -28,6 +28,9 @@ class If extends Node_1.Node {
         this.linea = line;
         this.columna = column;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+        let a = this.condition.traducir(tabla, tree, cadena, contTemp);
+    }
     execute(table, tree) {
         let newtable = new Table_1.Table(table);
         let result;

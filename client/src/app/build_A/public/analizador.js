@@ -278,7 +278,7 @@ case 135:
 this.$=new Default($$[$01],_$[$0-1].first_line,_$[$0-1].first_column);
 break;
 case 144:
-this.$ = new Break(_$.first_line, _$.first_column);
+this.$ = new Break(_$[$0-1].first_line, _$[$0-1].first_column);
 break;
 case 152:
 this.$ = $$[$0-1];
@@ -315,7 +315,7 @@ case 170:
 this.$= new Primitivos(new Type(types.BOOLEAN),false,_$[$0].first_line,_$[$0].first_column);
 break;
 case 172: case 173:
-this.$= new Primitivos(new Type(types.STRING),$$[$0],_$[$0].first_line,_$[$0].first_column);
+this.$= new Strings(new Type(types.STRING),$$[$0],_$[$0].first_line,_$[$0].first_column);
 break;
 case 174:
 this.$ = new Identifier($$[$0], _$[$0].first_line, _$[$0].first_column);
@@ -641,6 +641,7 @@ _handle_error:
 
   // codigo para ir armando el ast
     const {Primitivos}= require('../Expresiones/Primitivos');
+    const {Strings}= require('../Expresiones/Strings');
     const {Aritmetica} = require('../Expresiones/Aritmeticas');
     const {Relacional} = require('../Expresiones/Relacional');
     const {Logica} = require('../Expresiones/Logicas');

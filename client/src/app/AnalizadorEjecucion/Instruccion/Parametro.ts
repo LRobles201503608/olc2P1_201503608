@@ -16,7 +16,9 @@ instructions:Array<Node>;
     super(tipo,line,column,true);
     this.identifier=indentificador;
   }
+  traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+  }
   execute(table: Table, tree: Tree) {
     /*this.parameters.forEach(element => {
       let simbol;

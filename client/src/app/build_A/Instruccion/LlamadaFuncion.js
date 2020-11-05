@@ -12,6 +12,8 @@ class LlamadaFuncion extends Node_1.Node {
         this.identifier = indentificador;
         this.parameters = parametros;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         //asignaciones de valores a los parametros, si viene nulo no hace nada
         let entorno = table.getVariable(this.identifier);

@@ -9,6 +9,8 @@ class Parametro extends Node_1.Node {
         super(tipo, line, column, true);
         this.identifier = indentificador;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         /*this.parameters.forEach(element => {
           let simbol;

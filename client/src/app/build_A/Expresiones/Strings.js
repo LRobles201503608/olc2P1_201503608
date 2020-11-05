@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Primitivos = void 0;
+exports.Strings = void 0;
 const Node_1 = require("../Abstract/Node");
 /**
- * La @class Primitivos es para los nodos de tipo de datos primitivos
+ * La @class Strings es para los nodos de tipo de datos primitivos
  */
-class Primitivos extends Node_1.Node {
+class Strings extends Node_1.Node {
     /**
      *
      * @param type tipo que tiene el valor primitivo
@@ -22,16 +22,9 @@ class Primitivos extends Node_1.Node {
      * @param tree arbol de nodos
      */
     traducir(tabla, tree, cadena, contTemp) {
-        if (this.val == true) {
-            return 1;
-        }
-        else if (this.val == false) {
-            return 0;
-        }
-        return this.val;
     }
     execute(table, tree) {
         return this.val;
     }
 }
-exports.Primitivos = Primitivos;
+exports.Strings = Strings;

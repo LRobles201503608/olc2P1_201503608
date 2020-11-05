@@ -19,6 +19,8 @@ class Pushs extends Node_1.Node {
         this.identifier = identifier;
         this.value = value;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         const result = this.value.execute(table, tree);
         if (result instanceof Errors_1.Error) {

@@ -28,7 +28,9 @@ export class DoWhile extends Node {
         this.column=column;
         this.line=line;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree):any {
         let newtable;
         let result:Node;

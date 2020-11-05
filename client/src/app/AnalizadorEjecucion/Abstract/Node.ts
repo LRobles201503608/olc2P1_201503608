@@ -14,6 +14,7 @@ export abstract class Node{
    **/
 
    abstract execute(table:Table, tree:Tree):any;
+   abstract traducir(tabla:Table,tree:Tree,cadena:string,contTemp:number):any;
 
     /**
      * @constructor Base para cualquier instruccion o expresion, omitir tipo si fuera una instruccion

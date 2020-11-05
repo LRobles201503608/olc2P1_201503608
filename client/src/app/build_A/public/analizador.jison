@@ -104,6 +104,7 @@
 %{
   // codigo para ir armando el ast
     const {Primitivos}= require('../Expresiones/Primitivos');
+    const {Strings}= require('../Expresiones/Strings');
     const {Aritmetica} = require('../Expresiones/Aritmeticas');
     const {Relacional} = require('../Expresiones/Relacional');
     const {Logica} = require('../Expresiones/Logicas');
@@ -492,8 +493,8 @@ expresion
     | TRUE {$$= new Primitivos(new Type(types.BOOLEAN),true,@1.first_line,@1.first_column);}
     | FALSE {$$= new Primitivos(new Type(types.BOOLEAN),false,@1.first_line,@1.first_column);}
     | DECIMAL {$$= new Primitivos(new Type(types.NUMERIC),Number($1),@1.first_line,@1.first_column);}
-    | CADENA {$$= new Primitivos(new Type(types.STRING),$1,@1.first_line,@1.first_column);}
-    | CADENAE {$$= new Primitivos(new Type(types.STRING),$1,@1.first_line,@1.first_column);}
+    | CADENA {$$= new Strings(new Type(types.STRING),$1,@1.first_line,@1.first_column);}
+    | CADENAE {$$= new Strings(new Type(types.STRING),$1,@1.first_line,@1.first_column);}
     | IDENTIFICADOR {$$ = new Identifier($1, @1.first_line, @1.first_column);}
     | dimensionales_access {$$=$1;}
     | IDENTIFICADOR dimensional2 PUNTO LENGTH {}

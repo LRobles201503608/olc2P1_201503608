@@ -11,6 +11,8 @@ class print extends Node_1.Node {
         super(new Types_1.Type(Types_1.types.VOID), linea, col, true);
         this.expresion = expresion;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     // metodo de ejecucion que pertenece a la clase PRINT
     execute(table, tree) {
         if (String(this.expresion) == "\\n") {

@@ -20,6 +20,8 @@ class AsignaArrays extends Node_1.Node {
         this.value = value;
         this.expre = expre;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         //console.log(this.expre);
         //console.log(this.value);

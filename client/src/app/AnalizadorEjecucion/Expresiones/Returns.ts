@@ -19,7 +19,9 @@ export class Returns extends Node {
         super(null, line, column,true);
         this.expresion=expresion;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree){
       if(this.expresion==null){
         // cuando no viene una expresion me regresa un void

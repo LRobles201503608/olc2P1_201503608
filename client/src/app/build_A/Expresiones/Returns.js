@@ -16,6 +16,8 @@ class Returns extends Node_1.Node {
         super(null, line, column, true);
         this.expresion = expresion;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         if (this.expresion == null) {
             // cuando no viene una expresion me regresa un void

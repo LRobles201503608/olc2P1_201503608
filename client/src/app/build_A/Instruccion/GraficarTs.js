@@ -12,6 +12,8 @@ class GraficarTS extends Node_1.Node {
     constructor(linea, col) {
         super(new Types_1.Type(Types_1.types.VOID), linea, col, true);
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         let global = table;
         global = tree.globalofensive;

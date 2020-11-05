@@ -23,7 +23,9 @@ export class Lengths extends Node {
         super(null, line, column,editable);
         this.identifier = identifier;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree) {
         let variable: Simbol;
         variable = table.getVariable(this.identifier);

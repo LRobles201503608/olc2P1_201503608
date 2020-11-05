@@ -37,7 +37,9 @@ export class For extends Node {
         this.line=line;
         this.expresiondecla=expresiondecla;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree):any {
         const newtable = new Table(table);
         let crearvar:Node=new Declaracion(null,this.declaracion,this.expresiondecla,this.line,this.column,true);

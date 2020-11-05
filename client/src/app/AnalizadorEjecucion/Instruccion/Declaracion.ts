@@ -4,6 +4,10 @@ import { Tree } from "../Simbols/Tree";
 import { Error } from "../util/Errors";
 import { types, Type } from "../util/Types";
 import { Simbol } from "../Simbols/Simbol";
+import { Aritmetica } from "../Expresiones/Aritmeticas";
+import { Relacional } from "../Expresiones/Relacional";
+import { Logica } from "../Expresiones/Logicas";
+import { Primitivos } from "../Expresiones/Primitivos";
 
 /**
  * @class Inserta una nueva variable en la tabla de simbolos
@@ -27,7 +31,45 @@ export class Declaracion extends Node {
         this.value = value;
         this.edit=editable;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
+      //debugger;
+      let a=this.value.traducir(tabla,tree,cadena,contTemp);
+      let simbol=tabla.getVariable(this.identifier);
+      if(a instanceof Error){
+        return a;
+      }
+      if(this.value instanceof Aritmetica||this.value instanceof Relacional||this.value instanceof Logica){
+        if(simbol.entorno==0){
+          let posh=tree.posh;
+          let destino=tree.tmpsop.pop();
+          tree.modificar_heap(posh.toString(),destino.toString());
+          simbol.posh=posh;
+          tree.posh+=250;
+        }else{
+          let poss=tree.poss;
+          let destino=tree.tmpsop.pop();
+          tree.modificar_stack(poss.toString(),destino.toString());
+          simbol.poss=poss;
+          tree.poss+=250;
+        }
+      }else if(this.value instanceof Primitivos){
+        if(simbol.entorno==0){
+          let posh=tree.posh;
+          let destino=this.value.traducir(tabla,tree,cadena,contTemp);
+          tree.modificar_heap(posh.toString(),destino.toString());
+          simbol.posh=posh;
+          tree.posh+=250;
+        }else{
+          let poss=tree.poss;
+          let destino=this.value.traducir(tabla,tree,cadena,contTemp);
+          tree.modificar_stack(poss.toString(),destino.toString());
+          simbol.poss=poss;
+          tree.poss+=250;
+        }
+      }
 
+      return;
+    }
     execute(table: Table, tree: Tree) {
       let result;
       if(this.value!=null){
@@ -57,6 +99,12 @@ export class Declaracion extends Node {
         }
         let simbol;
           simbol = new Simbol(this.type, this.identifier, result, this.edit,null,null);
+          let global=tree.globalofensive;
+          if(table==global){
+            simbol.entorno=0;
+          }else{
+            simbol.entorno=1;
+          }
           const res = table.setVariable(simbol);
           if (res != null) {
               const error = new Error('Semantico', res, this.linea, this.columna);

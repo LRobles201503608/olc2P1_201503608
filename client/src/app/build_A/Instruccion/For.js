@@ -31,6 +31,8 @@ class For extends Node_1.Node {
         this.line = line;
         this.expresiondecla = expresiondecla;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         const newtable = new Table_1.Table(table);
         let crearvar = new Declaracion_1.Declaracion(null, this.declaracion, this.expresiondecla, this.line, this.column, true);

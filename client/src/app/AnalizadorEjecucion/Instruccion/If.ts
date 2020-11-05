@@ -32,7 +32,17 @@ export class If extends Node {
         this.linea=line;
         this.columna=column;
     }
-
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
+      let a=this.condition.traducir(tabla,tree,cadena,contTemp);
+      let condicion ="(int)"+tree.tmpsop.pop();
+      let L1=tree.etiqueta;
+      tree.tmplis.push(L1.toString());
+      tree.etiqueta++;
+      let L2=tree.etiqueta;
+      tree.tmplis.push(L2.toString());
+      tree.etiqueta++;
+      let gen= tree.generarIFC3D(condicion.toString(),L1.toString(),L2.toString());
+    }
     execute(table: Table, tree: Tree) {
         let newtable = new Table(table);
         let result: Node;

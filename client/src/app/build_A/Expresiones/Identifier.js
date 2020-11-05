@@ -8,6 +8,26 @@ class Identifier extends Node_1.Node {
         super(null, linea, columna, editable); // no se le agrega un tipo porque aun no lo tiene
         this.iden = iden;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+        let variable;
+        variable = tabla.getVariable(this.iden);
+        if (variable == null) {
+            const error = new Errors_1.Error('Semantico', 'No se puede encontrar la variable', this.linea, this.columna);
+            tree.errores.push(error);
+            tree.console.push(error.toString());
+            return error;
+        }
+        if (variable.entorno == 0) {
+            let value = tree.obtener_Heap(variable.posh.toString(), "t" + tree.temp);
+            tree.temp++;
+            return value;
+        }
+        else {
+            let value = tree.obtener_stack(variable.poss.toString(), "t" + tree.temp);
+            tree.temp++;
+            return value;
+        }
+    }
     execute(table, tree) {
         let variable;
         variable = table.getVariable(this.iden);

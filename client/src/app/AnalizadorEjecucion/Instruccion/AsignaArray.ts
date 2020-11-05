@@ -28,7 +28,9 @@ export class AsignaArrays extends Node {
         this.value = value;
         this.expre=expre;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree) {
       //console.log(this.expre);
       //console.log(this.value);

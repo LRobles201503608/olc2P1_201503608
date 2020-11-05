@@ -14,7 +14,9 @@ export class Break extends Node {
     constructor(line: number, column: number) {
         super(null, line, column,true);
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree){
         return this;
     }

@@ -12,6 +12,9 @@ export class Simbol {
     editable:Boolean;
     insfunc:Array<Node>;
     parameters:Array<Node>;
+    posh:number;
+    poss:number;
+    entorno:number;
     /**
      * @constructor Para crear un nuevo simbolo a utilizar en una tabla de simbolos o funciones
      * @param type Tipo de la varible o funcion
@@ -28,5 +31,8 @@ export class Simbol {
         this.editable=editable;
         this.insfunc=instrucFunc;
         this.parameters=parameters;
+        this.posh=0;
+        this.poss=0;
+        this.entorno=0;
     }
 }

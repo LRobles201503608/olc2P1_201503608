@@ -26,7 +26,9 @@ export class AccesoArrays extends Node {
         this.identifier = identifier;
         this.value = value;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree) {
       //console.log(this.value);
       let variable: Simbol;

@@ -5,7 +5,7 @@ import {Simbol} from './Simbol';
 export class Table{
   Previous: Table;
     Variables: Map<String, Simbol>;
-
+    hijos:Array<Table>;
     /**
      * @constructor Crea una nueva tabla
      * @param Previous Tabla anterior para manejar los ambitos

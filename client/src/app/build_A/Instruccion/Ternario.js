@@ -27,6 +27,8 @@ class Ternario extends Node_1.Node {
         this.linea = line;
         this.columna = column;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         const newtable = new Table_1.Table(table);
         let result;

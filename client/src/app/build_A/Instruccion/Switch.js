@@ -24,6 +24,8 @@ class Switch extends Node_1.Node {
         this.column = column;
         this.line = line;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         let newtable = new Table_1.Table(table);
         let valcondi = this.condition.execute(newtable, tree);

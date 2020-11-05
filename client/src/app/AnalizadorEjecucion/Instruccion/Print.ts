@@ -14,6 +14,9 @@ expresion:Node;
     super(new Type(types.VOID),linea,col,true);
     this.expresion=expresion;
   }
+  traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
+
+  }
 // metodo de ejecucion que pertenece a la clase PRINT
   execute(table: Table, tree: Tree):any{
     if(String(this.expresion)=="\\n"){

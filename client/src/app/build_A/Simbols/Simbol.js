@@ -21,6 +21,9 @@ class Simbol {
         this.editable = editable;
         this.insfunc = instrucFunc;
         this.parameters = parameters;
+        this.posh = 0;
+        this.poss = 0;
+        this.entorno = 0;
     }
 }
 exports.Simbol = Simbol;

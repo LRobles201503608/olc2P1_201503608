@@ -12,6 +12,8 @@ class Funciones extends Node_1.Node {
         this.parameters = parametros;
         this.instructions = instrucciones;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         let simbol;
         const newtable = new Table_1.Table(table);

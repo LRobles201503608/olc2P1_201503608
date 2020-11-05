@@ -17,7 +17,9 @@ parameters:Array<Node>;
     this.identifier=indentificador;
     this.parameters=parametros;
   }
+  traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+  }
   execute(table: Table, tree: Tree) {
     //asignaciones de valores a los parametros, si viene nulo no hace nada
 

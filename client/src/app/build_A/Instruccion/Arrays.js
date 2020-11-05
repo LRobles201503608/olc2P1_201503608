@@ -25,6 +25,8 @@ class Arrays extends Node_1.Node {
         this.value = value;
         this.edit = editable;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         this.llenadoArreglo(table, tree, this.value);
         let simbol;

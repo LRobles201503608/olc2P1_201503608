@@ -14,6 +14,8 @@ class Break extends Node_1.Node {
     constructor(line, column) {
         super(null, line, column, true);
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         return this;
     }

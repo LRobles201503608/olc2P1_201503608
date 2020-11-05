@@ -11,7 +11,9 @@ export class GraficarTS extends Node{
   constructor(linea:number,col:number){
     super(new Type(types.VOID),linea,col,true);
   }
+  traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+  }
   execute(table: Table, tree: Tree):any{
     let global=table;
 

@@ -31,7 +31,9 @@ export class Arrays extends Node {
         this.value = value;
         this.edit=editable;
     }
+    traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
 
+    }
     execute(table: Table, tree: Tree) {
       this.llenadoArreglo(table,tree,this.value);
       let simbol;

@@ -24,6 +24,8 @@ class Default extends Node_1.Node {
         this.column = column;
         this.line = line;
     }
+    traducir(tabla, tree, cadena, contTemp) {
+    }
     execute(table, tree) {
         let newtable;
         for (let i = 0; i < this.List.length; i++) {
