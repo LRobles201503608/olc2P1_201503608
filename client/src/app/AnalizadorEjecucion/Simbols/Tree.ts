@@ -31,6 +31,7 @@ export class Tree{
     etiqueta: number;
     posh:number;
     poss:number;
+    operalist:Array<String>;
 
     constructor(instructions:Array<Node>){
       this.instructions=instructions;
@@ -41,7 +42,7 @@ export class Tree{
       this.traduccion=new Array<String>();
       this.tmpsop=new Array<String>();
       this.operatemp=new Array<String>();
-
+      this.operalist=new Array<String>();
       this.tmplis=new Array<String>();
       this.registroTemporales=new Array<Contenido>();
 
@@ -122,7 +123,12 @@ export class Tree{
         return destino;
     }
     public generarIFC3D(condicion:string,gotosi:string,gotono:string){
-      let res = "if("+condicion+") goto "+gotosi+";\n goto"+gotono+";";
+      let res = "if("+condicion+") goto "+gotosi+";\n\tgoto "+gotono+";\n";
+      this.traduccion.push(res);
+      return res;
+    }
+    public generarWhileC3D(condicion:string,gotosi:string,gotono:string){
+      let res = "if("+condicion+") goto "+gotosi+";\n\tgoto "+gotono+";\n";
       this.traduccion.push(res);
       return res;
     }

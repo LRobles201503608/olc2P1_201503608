@@ -31,6 +31,7 @@ class Cases extends Node_1.Node {
         let newtable;
         for (let i = 0; i < this.List.length; i++) {
             newtable = new Table_1.Table(table);
+            table.hijos.push(newtable);
             const res = this.List[i].execute(newtable, tree);
             if (res instanceof Continue_1.Continue) {
                 break;

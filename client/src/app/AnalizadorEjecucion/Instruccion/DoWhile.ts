@@ -5,6 +5,7 @@ import { Error } from "../util/Errors";
 import { types,Type } from "../util/Types";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
+import { Primitivos } from "../Expresiones/Primitivos";
 
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
@@ -29,13 +30,41 @@ export class DoWhile extends Node {
         this.line=line;
     }
     traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
-
+      let L1="L"+tree.etiqueta;
+      tree.etiqueta++;
+      let L2="L"+tree.etiqueta;
+      tree.etiqueta++;
+      let L3="L"+tree.etiqueta;
+      tree.etiqueta++;
+      tree.operalist.push(L1);
+      tree.operalist.push(L2);
+      tree.operalist.push(L3);
+      tree.traduccion.push("goto "+L1+";\n");
+      tree.traduccion.push(L3+":\n");
+      let condicion;
+      let a=this.condition.traducir(tabla,tree,cadena,contTemp);
+      if(this.condition instanceof Primitivos){
+        condicion = a;
+      }else{
+        condicion ="(int)"+tree.tmpsop.pop();
+      }
+      let gen= tree.generarWhileC3D(condicion.toString(),L1.toString(),L2.toString());
     }
     execute(table: Table, tree: Tree):any {
         let newtable;
         let result:Node;
+        let L1;
+        let L2;
+        let L3;
+        let traducidas=0;
+        this.traducir(table,tree,"",0);
+        L3=tree.operalist.pop();
+        L2=tree.operalist.pop();
+        L1=tree.operalist.pop();
+        tree.traduccion.push(L1+":\n");
         do {
             newtable = new Table(table);
+            table.hijos.push(newtable);
             result = this.condition.execute(table, tree);
             if (result instanceof Error) {
               return result;
@@ -60,7 +89,12 @@ export class DoWhile extends Node {
                   }
                 }
             }
+            traducidas++;
+            if(traducidas==1){
+              tree.traduccion.push("goto "+L3+";\n");
+            }
         } while (result);
+        tree.traduccion.push(L2+":\n");
         return null;
     }
 }

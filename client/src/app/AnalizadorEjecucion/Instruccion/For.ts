@@ -42,6 +42,7 @@ export class For extends Node {
     }
     execute(table: Table, tree: Tree):any {
         const newtable = new Table(table);
+        table.hijos.push(newtable);
         let crearvar:Node=new Declaracion(null,this.declaracion,this.expresiondecla,this.line,this.column,true);
         let variable:Node
         variable= crearvar.execute(newtable,tree);
@@ -60,6 +61,7 @@ export class For extends Node {
         let newtable2;
         while(this.condition.execute(newtable, tree)){
           newtable2= new Table(newtable);
+          newtable.hijos.push(newtable2);
           if (result instanceof Error) {
             return result;
          }

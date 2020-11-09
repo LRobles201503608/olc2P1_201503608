@@ -41,6 +41,7 @@ export class ForOf extends Node {
     }
     execute(table: Table, tree: Tree):any {
       let newtable=new Table(table);
+      table.hijos.push(newtable);
       let simbol;
           simbol = new Simbol(new Type(types.NUMERIC), this.declaracion, null, true,null,null);
 
@@ -61,6 +62,7 @@ export class ForOf extends Node {
           for(simval of varval){
             simbol.value=simval;
             newtable2=new Table(newtable);
+            newtable.hijos.push(newtable2);
             for (let i = 0; i < this.List.length; i++) {
               if (String(this.List[i]) == ";") {
 

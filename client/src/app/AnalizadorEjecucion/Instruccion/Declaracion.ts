@@ -14,7 +14,7 @@ import { Primitivos } from "../Expresiones/Primitivos";
  */
 export class Declaracion extends Node {
     type: Type;
-    identifier: String;
+    public identifier: String;
     value: Node;
     edit:Boolean;
     /**
@@ -98,7 +98,7 @@ export class Declaracion extends Node {
           }
         }
         let simbol;
-          simbol = new Simbol(this.type, this.identifier, result, this.edit,null,null);
+          simbol = new Simbol(this.type, this.identifier, result, this.edit,null,null,this.linea,this.columna);
           let global=tree.globalofensive;
           if(table==global){
             simbol.entorno=0;
@@ -111,6 +111,7 @@ export class Declaracion extends Node {
               tree.errores.push(error);
               tree.console.push(error.toString());
           }
+          this.traducir(table,tree,"",0);
           return null;
     }
 }

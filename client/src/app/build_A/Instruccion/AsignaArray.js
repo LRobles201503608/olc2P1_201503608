@@ -27,7 +27,7 @@ class AsignaArrays extends Node_1.Node {
         //console.log(this.value);
         let variable;
         variable = table.getVariable(this.identifier);
-        debugger;
+        //debugger;
         if (variable == null) {
             const error = new Errors_1.Error('Semantico', 'No se ha encontrado la variable ' + this.identifier, this.linea, this.columna);
             tree.errores.push(error);

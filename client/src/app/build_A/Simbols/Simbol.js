@@ -14,7 +14,7 @@ class Simbol {
      * @param instrucFunc arreglo que tiene las instrucciones de las funciones
      * @param parameters arreglo que tiene los parametros
      */
-    constructor(type, identifier, value, editable, instrucFunc, parameters) {
+    constructor(type, identifier, value, editable, instrucFunc, parameters, fila, columna) {
         this.type = type;
         this.identifier = identifier;
         this.value = value;
@@ -24,6 +24,8 @@ class Simbol {
         this.posh = 0;
         this.poss = 0;
         this.entorno = 0;
+        this.fila = fila;
+        this.columna = columna;
     }
 }
 exports.Simbol = Simbol;

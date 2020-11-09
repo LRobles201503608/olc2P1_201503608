@@ -28,6 +28,7 @@ class Switch extends Node_1.Node {
     }
     execute(table, tree) {
         let newtable = new Table_1.Table(table);
+        table.hijos.push(newtable);
         let valcondi = this.condition.execute(newtable, tree);
         let conteoEncuentra = 0;
         for (let a = 0; a < this.List.length; a++) {

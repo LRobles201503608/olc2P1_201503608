@@ -17,6 +17,7 @@ class Funciones extends Node_1.Node {
     execute(table, tree) {
         let simbol;
         const newtable = new Table_1.Table(table);
+        table.hijos.push(newtable);
         simbol = new Simbol_1.Simbol(this.type, this.identifier, null, true, this.instructions, this.parameters);
         const res = table.setVariable(simbol);
         if (res != null) {

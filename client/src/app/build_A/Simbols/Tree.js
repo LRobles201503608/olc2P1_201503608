@@ -14,6 +14,7 @@ class Tree {
         this.traduccion = new Array();
         this.tmpsop = new Array();
         this.operatemp = new Array();
+        this.operalist = new Array();
         this.tmplis = new Array();
         this.registroTemporales = new Array();
         this.codigo3D = "";
@@ -88,7 +89,12 @@ class Tree {
         return destino;
     }
     generarIFC3D(condicion, gotosi, gotono) {
-        let res = "if(" + condicion + ") goto " + gotosi + ";\n goto" + gotono + ";";
+        let res = "if(" + condicion + ") goto " + gotosi + ";\n\tgoto " + gotono + ";\n";
+        this.traduccion.push(res);
+        return res;
+    }
+    generarWhileC3D(condicion, gotosi, gotono) {
+        let res = "if(" + condicion + ") goto " + gotosi + ";\n\tgoto " + gotono + ";\n";
         this.traduccion.push(res);
         return res;
     }

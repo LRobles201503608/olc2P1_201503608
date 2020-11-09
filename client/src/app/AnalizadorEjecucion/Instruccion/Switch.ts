@@ -41,6 +41,7 @@ export class Switch extends Node {
     }
     execute(table: Table, tree: Tree):any {
       let newtable=new Table(table);
+      table.hijos.push(newtable);
       let valcondi=this.condition.execute(newtable,tree);
       let conteoEncuentra=0;
       for (let a = 0; a < this.List.length; a++) {

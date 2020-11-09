@@ -7,6 +7,7 @@ const Errors_1 = require("../util/Errors");
 const Types_1 = require("../util/Types");
 const Continue_1 = require("../Expresiones/Continue");
 const Break_1 = require("../Expresiones/Break");
+const Primitivos_1 = require("../Expresiones/Primitivos");
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
  */
@@ -26,12 +27,42 @@ class DoWhile extends Node_1.Node {
         this.line = line;
     }
     traducir(tabla, tree, cadena, contTemp) {
+        let L1 = "L" + tree.etiqueta;
+        tree.etiqueta++;
+        let L2 = "L" + tree.etiqueta;
+        tree.etiqueta++;
+        let L3 = "L" + tree.etiqueta;
+        tree.etiqueta++;
+        tree.operalist.push(L1);
+        tree.operalist.push(L2);
+        tree.operalist.push(L3);
+        tree.traduccion.push("goto " + L1 + ";\n");
+        tree.traduccion.push(L3 + ":\n");
+        let condicion;
+        let a = this.condition.traducir(tabla, tree, cadena, contTemp);
+        if (this.condition instanceof Primitivos_1.Primitivos) {
+            condicion = a;
+        }
+        else {
+            condicion = "(int)" + tree.tmpsop.pop();
+        }
+        let gen = tree.generarWhileC3D(condicion.toString(), L1.toString(), L2.toString());
     }
     execute(table, tree) {
         let newtable;
         let result;
+        let L1;
+        let L2;
+        let L3;
+        let traducidas = 0;
+        this.traducir(table, tree, "", 0);
+        L3 = tree.operalist.pop();
+        L2 = tree.operalist.pop();
+        L1 = tree.operalist.pop();
+        tree.traduccion.push(L1 + ":\n");
         do {
             newtable = new Table_1.Table(table);
+            table.hijos.push(newtable);
             result = this.condition.execute(table, tree);
             if (result instanceof Errors_1.Error) {
                 return result;
@@ -56,7 +87,12 @@ class DoWhile extends Node_1.Node {
                     }
                 }
             }
+            traducidas++;
+            if (traducidas == 1) {
+                tree.traduccion.push("goto " + L3 + ";\n");
+            }
         } while (result);
+        tree.traduccion.push(L2 + ":\n");
         return null;
     }
 }

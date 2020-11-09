@@ -36,7 +36,7 @@ export class AsignaArrays extends Node {
       //console.log(this.value);
       let variable: Simbol;
         variable = table.getVariable(this.identifier);
-        debugger;
+        //debugger;
         if (variable == null) {
             const error = new Error('Semantico', 'No se ha encontrado la variable ' + this.identifier,this.linea, this.columna);
             tree.errores.push(error);

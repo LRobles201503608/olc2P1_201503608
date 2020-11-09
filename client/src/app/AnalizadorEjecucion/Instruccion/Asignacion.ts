@@ -6,6 +6,7 @@ import { types, Type } from "../util/Types";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 import { Simbol } from "../Simbols/Simbol";
+import { Primitivos } from "../Expresiones/Primitivos";
 
 /**
  * @class Reasigna el valor de una variable existente
@@ -35,22 +36,40 @@ export class Asignacion extends Node {
       }
       console.log(tree);
       if(simbol.entorno==0){
-        tree.generar_3d("",simbol.posh.toString(),"","t"+tree.temp);
-        tree.tmpsop.push("t"+tree.temp);
-        tree.temp++;
-        //debugger;
-        let posi:String=tree.tmpsop.pop();
-        let stackk= tree.modificar_heap("(int)"+posi.toString(),tree.tmpsop.pop().toString());
-        tree.temp++;
-
+        if(this.value instanceof Primitivos){
+          tree.generar_3d("",simbol.posh.toString(),"","t"+tree.temp);
+          tree.tmpsop.push("t"+tree.temp);
+          tree.temp++;
+          //debugger;
+          let posi:String=tree.tmpsop.pop();
+          let stackk= tree.modificar_heap("(int)"+posi.toString(),a.toString());
+        }else{
+          tree.generar_3d("",simbol.posh.toString(),"","t"+tree.temp);
+          tree.tmpsop.push("t"+tree.temp);
+          tree.temp++;
+          //debugger;
+          let posi:String=tree.tmpsop.pop();
+          let stackk= tree.modificar_heap("(int)"+posi.toString(),tree.tmpsop.pop().toString());
+          tree.temp++;
+        }
       }else{
-        tree.generar_3d("",simbol.poss.toString(),"","t"+tree.temp);
-        tree.tmpsop.push("t"+tree.temp);
-        tree.temp++;
-        //debugger;
-        let posi:String=tree.tmpsop.pop();
-        let stackk= tree.modificar_stack("(int)"+posi.toString(),tree.tmpsop.pop().toString());
-        tree.temp++;
+        if(this.value instanceof Primitivos){
+          tree.generar_3d("",simbol.posh.toString(),"","t"+tree.temp);
+          tree.tmpsop.push("t"+tree.temp);
+          tree.temp++;
+          //debugger;
+          let posi:String=tree.tmpsop.pop();
+          let stackk= tree.modificar_stack("(int)"+posi.toString(),a.toString());
+          tree.temp++;
+        }else{
+          tree.generar_3d("",simbol.poss.toString(),"","t"+tree.temp);
+          tree.tmpsop.push("t"+tree.temp);
+          tree.temp++;
+          //debugger;
+          let posi:String=tree.tmpsop.pop();
+          let stackk= tree.modificar_stack("(int)"+posi.toString(),tree.tmpsop.pop().toString());
+          tree.temp++;
+        }
       }
       return;
     }
@@ -91,6 +110,7 @@ export class Asignacion extends Node {
           }
         }
         variable.value = result;
+        this.traducir(table,tree,"",0);
         return null;
     }
 }

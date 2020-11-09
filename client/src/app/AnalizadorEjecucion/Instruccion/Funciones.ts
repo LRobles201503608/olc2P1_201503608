@@ -24,6 +24,7 @@ instructions:Array<Node>;
   execute(table: Table, tree: Tree) {
     let simbol;
     const newtable=new Table(table);
+    table.hijos.push(newtable);
     simbol = new Simbol(this.type, this.identifier, null, true,this.instructions,this.parameters);
     const res = table.setVariable(simbol);
 

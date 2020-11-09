@@ -33,7 +33,7 @@ instructions:Array<Node>;
       return null;
     });*/
     let simbol;
-    simbol = new Simbol(this.type, this.identifier, null, true,null,null);
+    simbol = new Simbol(this.type, this.identifier, null, true,null,null,this.linea,this.columna);
     const res = table.setVariable(simbol);
     if (res != null) {
         const error = new Error('Semantico', res, this.linea, this.columna);

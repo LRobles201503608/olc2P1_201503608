@@ -33,7 +33,7 @@ class Decremento extends Node_1.Node {
             let a = tree.generar_3d("-", value.toString(), "1", "t" + tree.temp);
             tree.tmpsop.push("t" + tree.temp);
             let b = tree.tmpsop.pop();
-            tree.modificar_stack(variable.posh.toString(), b.toString());
+            tree.modificar_heap(variable.posh.toString(), b.toString());
             tree.temp++;
             return a;
         }
@@ -74,6 +74,7 @@ class Decremento extends Node_1.Node {
             return error;
         }
         variable.value = Number(variable.value) - 1;
+        this.traducir(table, tree, "", 0);
         return variable.value;
     }
 }

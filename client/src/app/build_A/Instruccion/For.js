@@ -35,6 +35,7 @@ class For extends Node_1.Node {
     }
     execute(table, tree) {
         const newtable = new Table_1.Table(table);
+        table.hijos.push(newtable);
         let crearvar = new Declaracion_1.Declaracion(null, this.declaracion, this.expresiondecla, this.line, this.column, true);
         let variable;
         variable = crearvar.execute(newtable, tree);
@@ -53,6 +54,7 @@ class For extends Node_1.Node {
         let newtable2;
         while (this.condition.execute(newtable, tree)) {
             newtable2 = new Table_1.Table(newtable);
+            newtable.hijos.push(newtable2);
             if (result instanceof Errors_1.Error) {
                 return result;
             }

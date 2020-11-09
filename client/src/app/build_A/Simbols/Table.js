@@ -10,6 +10,7 @@ class Table {
     constructor(Previous) {
         this.Previous = Previous;
         this.Variables = new Map();
+        this.hijos = new Array();
     }
     /**
      *

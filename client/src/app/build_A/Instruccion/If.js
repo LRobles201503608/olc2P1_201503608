@@ -8,6 +8,7 @@ const Break_1 = require("../Expresiones/Break");
 const Errors_1 = require("../util/Errors");
 const Types_1 = require("../util/Types");
 const Returns_1 = require("../Expresiones/Returns");
+const Primitivos_1 = require("../Expresiones/Primitivos");
 /**
  * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
  */
@@ -29,9 +30,83 @@ class If extends Node_1.Node {
         this.columna = column;
     }
     traducir(tabla, tree, cadena, contTemp) {
+        let condicion;
         let a = this.condition.traducir(tabla, tree, cadena, contTemp);
+        if (this.condition instanceof Primitivos_1.Primitivos) {
+            condicion = a;
+        }
+        else {
+            condicion = "(int)" + tree.tmpsop.pop();
+        }
+        let L1 = "L" + tree.etiqueta;
+        tree.etiqueta++;
+        let L2 = "L" + tree.etiqueta;
+        tree.etiqueta++;
+        tree.operalist.push(L1);
+        tree.operalist.push(L2);
+        let gen = tree.generarIFC3D(condicion.toString(), L1.toString(), L2.toString());
+        /*tree.traduccion.push(L1+":\n");
+        let tabla2;
+        for (let a = 0; a < this.IfList.length; a++) {
+          const element = this.IfList[a];
+          //debugger;
+          try{
+            if(element instanceof Declaracion || element instanceof Asignacion){
+              let identi=element.identifier;
+              let array = tabla.hijos;
+              let encontrada:number=0;
+              for (let a = 0; a < array.length; a++) {
+                let elements = array[a];
+                let datos=elements.Variables;
+                datos.forEach(element => {
+                  if(element.identifier==identi && encontrada ==0){
+                    tabla2=elements;
+                    encontrada=1;
+                  }
+                });
+              }
+            }
+            let b =element.traducir(tabla2,tree,cadena,contTemp);
+  
+          }catch(ex){
+  
+          }
+  
+        }
+        tree.traduccion.push(L2+":\n");
+        let tabla3;
+        for (let a = 0; a < this.ElseList.length; a++) {
+          const element = this.ElseList[a];
+          debugger;
+          try{
+            if(element instanceof Declaracion || element instanceof Asignacion){
+              let identi=element.identifier;
+              let array = tabla.hijos;
+              let encontrada:number=0;
+  
+              for (let a = 0; a < array.length; a++) {
+                debugger;
+                let elements = array[a];
+                let datos=elements.Variables;
+                datos.forEach(element => {
+                  if(element.identifier==identi && encontrada ==0){
+                    tabla3=elements;
+                    encontrada=1;
+                  }
+                });
+              }
+            }
+            let b =element.traducir(tabla3,tree,cadena,contTemp);
+  
+          }catch(ex){
+  
+          }
+  
+        }*/
     }
     execute(table, tree) {
+        let L1;
+        let L2;
         let newtable = new Table_1.Table(table);
         let result;
         result = this.condition.execute(table, tree);
@@ -45,15 +120,21 @@ class If extends Node_1.Node {
             tree.console.push(error.toString());
             return error;
         }
+        this.traducir(table, tree, "", 0);
         //debugger;
         if (result) {
             let newtable = new Table_1.Table(table);
+            table.hijos.push(newtable);
             let contadorreturn = 0;
             let resultado;
+            L2 = tree.operalist.pop();
+            L1 = tree.operalist.pop();
+            tree.traduccion.push(L1 + ":\n");
             for (let i = 0; i < this.IfList.length; i++) {
                 if (String(this.IfList[i]) == ";") {
                 }
                 else {
+                    //al arreglo de traduccion le hago push L1:
                     const res = this.IfList[i].execute(newtable, tree);
                     if (res instanceof Continue_1.Continue || res instanceof Break_1.Break || res instanceof Returns_1.Returns) {
                         //debugger;
@@ -63,33 +144,50 @@ class If extends Node_1.Node {
                       debugger;
                       contadorreturn++;
                       console.log(resultado);
+                                              if condicion goto L1
+                                              goto L2
+                                              L1:
+                                              instrucciones
+                                              L2:
                       break;
                     }*/
                 }
             }
+            tree.traduccion.push(L2 + ":\n");
+            // hacer push de L2:
             if (contadorreturn == 1) {
                 return resultado;
             }
         }
         else {
+            table.hijos.push(newtable);
+            L2 = tree.operalist.pop();
+            L1 = tree.operalist.pop();
+            tree.traduccion.push(L1 + ":\n");
+            tree.traduccion.push(L2 + ":\n");
             let contadorreturn = 0;
             let resultado;
+            // hacer push de L1: en la traduccion
             for (let i = 0; i < this.ElseList.length; i++) {
                 if (String(this.IfList[i]) == ";") {
                 }
                 else {
+                    // L2=tree.arregloL.pop();
+                    // L1=tree.arregloL.pop();
+                    //al arreglo de traduccion le hago push L2:
                     const res = this.ElseList[i].execute(newtable, tree);
                     if (res instanceof Continue_1.Continue || res instanceof Break_1.Break || res instanceof Returns_1.Returns) {
                         return res;
-                    } /*if(this.ElseList[i] instanceof Returns){
-                      resultado = this.ElseList[i].execute(newtable,tree);
-                      //debugger;
-                      contadorreturn++;
-                      console.log(resultado);
-                      return resultado;
-                    }*/
+                    }
                 }
             }
+            /*
+                if condicion goto L1
+                goto L2
+                L1:
+                L2:
+                instrucciones
+            */
         }
         return null;
     }

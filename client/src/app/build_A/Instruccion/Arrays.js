@@ -30,7 +30,7 @@ class Arrays extends Node_1.Node {
     execute(table, tree) {
         this.llenadoArreglo(table, tree, this.value);
         let simbol;
-        simbol = new Simbol_1.Simbol(this.type, this.identifier, this.guardaditoHiperChingon, this.edit, null, null);
+        simbol = new Simbol_1.Simbol(this.type, this.identifier, this.guardaditoHiperChingon, this.edit, null, null, this.linea, this.columna);
         const res = table.setVariable(simbol);
         if (res != null) {
             const error = new Errors_1.Error('Semantico', res, this.linea, this.columna);

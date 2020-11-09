@@ -21,6 +21,7 @@ class LlamadaFuncion extends Node_1.Node {
         //console.log(entorno);
         //debugger;
         const newtable = new Table_1.Table(tree.globalofensive);
+        tree.globalofensive.hijos.push(newtable);
         //debugger;
         if (this.parameters == null || entorno.parameters == null) {
         }
@@ -41,10 +42,10 @@ class LlamadaFuncion extends Node_1.Node {
                     }
                     let simbol;
                     if (entorno.parameters[a].type != null) {
-                        simbol = new Simbol_1.Simbol(entorno.parameters[a].type, entorno.parameters[a].identifier, result, true, null, null);
+                        simbol = new Simbol_1.Simbol(entorno.parameters[a].type, entorno.parameters[a].identifier, result, true, null, null, this.linea, this.columna);
                     }
                     else {
-                        simbol = new Simbol_1.Simbol(null, entorno.parameters[a].identifier, result, true, null, null);
+                        simbol = new Simbol_1.Simbol(null, entorno.parameters[a].identifier, result, true, null, null, this.linea, this.columna);
                     }
                     const res = newtable.setVariable(simbol);
                     if (res != null) {

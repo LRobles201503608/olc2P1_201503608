@@ -33,6 +33,7 @@ class ForOf extends Node_1.Node {
     }
     execute(table, tree) {
         let newtable = new Table_1.Table(table);
+        table.hijos.push(newtable);
         let simbol;
         simbol = new Simbol_1.Simbol(new Types_1.Type(Types_1.types.NUMERIC), this.declaracion, null, true, null, null);
         const res = newtable.setVariable(simbol);
@@ -50,6 +51,7 @@ class ForOf extends Node_1.Node {
         for (simval of varval) {
             simbol.value = simval;
             newtable2 = new Table_1.Table(newtable);
+            newtable.hijos.push(newtable2);
             for (let i = 0; i < this.List.length; i++) {
                 if (String(this.List[i]) == ";") {
                 }

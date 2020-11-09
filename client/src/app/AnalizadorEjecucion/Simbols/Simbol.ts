@@ -15,6 +15,8 @@ export class Simbol {
     posh:number;
     poss:number;
     entorno:number;
+    fila:number;
+    columna:number;
     /**
      * @constructor Para crear un nuevo simbolo a utilizar en una tabla de simbolos o funciones
      * @param type Tipo de la varible o funcion
@@ -24,7 +26,7 @@ export class Simbol {
      * @param instrucFunc arreglo que tiene las instrucciones de las funciones
      * @param parameters arreglo que tiene los parametros
      */
-    constructor(type: Type, identifier: String, value: Object,editable:Boolean,instrucFunc:Array<Node>,parameters:Array<Node>) {
+    constructor(type: Type, identifier: String, value: Object,editable:Boolean,instrucFunc:Array<Node>,parameters:Array<Node>,fila:number,columna:number) {
         this.type = type;
         this.identifier = identifier;
         this.value = value;
@@ -34,5 +36,7 @@ export class Simbol {
         this.posh=0;
         this.poss=0;
         this.entorno=0;
+        this.fila=fila;
+        this.columna=columna;
     }
 }

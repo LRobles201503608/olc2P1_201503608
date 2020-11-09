@@ -1,0 +1,9 @@
+let a =2;
+a=3;
+if((5<3)||(true)){
+  let a=222;
+  a=33;
+  if(true){
+    let c=44;
+  }
+}

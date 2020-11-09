@@ -37,7 +37,7 @@ export class Arrays extends Node {
     execute(table: Table, tree: Tree) {
       this.llenadoArreglo(table,tree,this.value);
       let simbol;
-          simbol = new Simbol(this.type, this.identifier, this.guardaditoHiperChingon, this.edit,null,null);
+          simbol = new Simbol(this.type, this.identifier, this.guardaditoHiperChingon, this.edit,null,null,this.linea,this.columna);
           const res = table.setVariable(simbol);
           if (res != null) {
               const error = new Error('Semantico', res, this.linea, this.columna);

@@ -13,6 +13,7 @@ export class Table{
     constructor(Previous: Table){
         this.Previous = Previous;
         this.Variables = new Map<String, Simbol>();
+        this.hijos= new Array<Table>();
     }
 
     /**
@@ -54,5 +55,4 @@ export class Table{
         }
         return null;
     }
-
 }

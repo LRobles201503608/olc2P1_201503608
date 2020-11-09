@@ -161,7 +161,7 @@ export class PrincipalComponent implements OnInit {
       if(m instanceof Funciones){
       }else{
         m.execute(tabla, tree);
-        m.traducir(tabla,tree,cadenaTraducida,numTempo);
+        //m.traducir(tabla,tree,cadenaTraducida,numTempo);
       }
     });
   }
@@ -192,6 +192,47 @@ export class PrincipalComponent implements OnInit {
    * para posteriormente ser empleado por la librería chart para mostrarlo
    * este une instrucciones y expresiones
    */
+  tabs(){
+    let tabla=this.tree.globalofensive;
+    let filas_e = "";
+    let dato=tabla.Variables;
+    let tbl2 = document.getElementById("variables");
+    dato.forEach(element => {
+      if(element.type!=null){
+        if(element.type.type==0){
+          filas_e += "<tr ><td>Numeric</td>";
+        }else if(element.type.type==1){
+          filas_e += "<tr ><td>String</td>";
+        }else if(element.type.type==2){
+          filas_e += "<tr ><td>Boolean</td>";
+        }else if(element.type.type==3){
+          filas_e += "<tr ><td>Void</td>";
+        }
+        filas_e += "<td>"+element.identifier+"</td>"+"<td>"+element.value+"</td>"+"<td>"+element.fila+"</td>"+"<td>"+element.columna+"</td>"+"</tr>";
+      }
+    });
+    let array = tabla.hijos;
+    for (let a = 0; a < array.length; a++) {
+      let elements = array[a];
+      let datos=elements.Variables;
+      datos.forEach(element => {
+        if(element.type!=null){
+          if(element.type.type==0){
+            filas_e += "<tr ><td>Numeric</td>";
+          }else if(element.type.type==1){
+            filas_e += "<tr ><td>String</td>";
+          }else if(element.type.type==2){
+            filas_e += "<tr ><td>Boolean</td>";
+          }else if(element.type.type==3){
+            filas_e += "<tr ><td>Void</td>";
+          }
+          filas_e += "<td>"+element.identifier+"</td>"+"<td>"+element.value+"</td>"+"<td>"+element.fila+"</td>"+"<td>"+element.columna+"</td>"+"</tr>";
+        }
+      });
+    }
+    tbl2.innerHTML = filas_e;
+    alert("Tabla de simbolos lista!")
+  }
   reporteast(linstrucciones:any){
     if (document.getElementById("grafo")) {
       document.getElementById("grafo").remove();

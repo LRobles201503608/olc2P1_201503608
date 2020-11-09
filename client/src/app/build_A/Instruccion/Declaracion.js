@@ -98,7 +98,7 @@ class Declaracion extends Node_1.Node {
             }
         }
         let simbol;
-        simbol = new Simbol_1.Simbol(this.type, this.identifier, result, this.edit, null, null);
+        simbol = new Simbol_1.Simbol(this.type, this.identifier, result, this.edit, null, null, this.linea, this.columna);
         let global = tree.globalofensive;
         if (table == global) {
             simbol.entorno = 0;
@@ -112,6 +112,7 @@ class Declaracion extends Node_1.Node {
             tree.errores.push(error);
             tree.console.push(error.toString());
         }
+        this.traducir(table, tree, "", 0);
         return null;
     }
 }

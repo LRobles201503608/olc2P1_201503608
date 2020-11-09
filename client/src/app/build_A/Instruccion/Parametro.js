@@ -25,7 +25,7 @@ class Parametro extends Node_1.Node {
           return null;
         });*/
         let simbol;
-        simbol = new Simbol_1.Simbol(this.type, this.identifier, null, true, null, null);
+        simbol = new Simbol_1.Simbol(this.type, this.identifier, null, true, null, null, this.linea, this.columna);
         const res = table.setVariable(simbol);
         if (res != null) {
             const error = new Errors_1.Error('Semantico', res, this.linea, this.columna);
