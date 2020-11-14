@@ -26,6 +26,8 @@ class Simbol {
         this.entorno = 0;
         this.fila = fila;
         this.columna = columna;
+        this.iniciostring = 0;
+        this.finstring = 0;
     }
 }
 exports.Simbol = Simbol;

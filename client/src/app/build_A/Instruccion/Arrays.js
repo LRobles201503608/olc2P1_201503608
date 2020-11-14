@@ -21,17 +21,103 @@ class Arrays extends Node_1.Node {
     constructor(type, identifier, value, line, column, editable) {
         super(type, line, column, editable);
         this.guardaditoHiperChingon = [];
+        this.cantidadDimensionesMamalona = 0;
         this.identifier = identifier;
         this.value = value;
         this.edit = editable;
     }
     traducir(tabla, tree, cadena, contTemp) {
+        let variable;
+        variable = tabla.getVariable(this.identifier);
+        if (variable == null) {
+            const error = new Errors_1.Error('Semantico', 'No se ha encontrado la variable ' + this.identifier, this.linea, this.columna);
+            tree.errores.push(error);
+            tree.console.push(error.toString());
+            return error;
+        }
+        let repos = 0;
+        let newdimen = 0;
+        if (this.cantidadDimensionesMamalona == 1) {
+            let tam = variable.value.length;
+            let inicio = tree.posh;
+            let fin = inicio;
+            for (let a = 0; a < tam; a++) {
+                let act = variable.value[a];
+                if (act.toString() == "true") {
+                    act = 1;
+                }
+                else if (act.toString() == "false") {
+                    act = 0;
+                }
+                tree.modificar_heap(fin + "", act + "");
+                fin++;
+            }
+            variable.iniciostring = inicio;
+            variable.finstring = (fin - 1);
+            tree.posh = fin + 25;
+        }
+        else if (this.cantidadDimensionesMamalona == 2) {
+            let tam = variable.value.length;
+            let inicio = tree.posh;
+            let fin = inicio;
+            for (let a = 0; a < tam; a++) {
+                let tam2 = variable.value[a].length;
+                newdimen = tam * tam2;
+                fin = newdimen;
+                for (let b = 0; b < tam2; b++) {
+                    let act = variable.value[a][b];
+                    if (act.toString() == "true") {
+                        act = 1;
+                    }
+                    else if (act.toString() == "false") {
+                        act = 0;
+                    }
+                    repos = ((a - 0) * tam2) + b;
+                    tree.modificar_heap(repos + "", act + "");
+                }
+            }
+            variable.iniciostring = inicio;
+            variable.finstring = (fin - 1);
+            tree.posh = fin + 25;
+        }
+        else if (this.cantidadDimensionesMamalona == 3) {
+            let tam = variable.value.length;
+            let inicio = tree.posh;
+            let fin = inicio;
+            for (let a = 0; a < tam; a++) {
+                let tam2 = variable.value[a].length;
+                newdimen = tam * tam2;
+                fin = newdimen;
+                for (let b = 0; b < tam2; b++) {
+                    let tam3 = variable.value[a][b].length;
+                    newdimen = tam * tam2 * tam3;
+                    fin = newdimen;
+                    for (let c = 0; c < tam3; c++) {
+                        debugger;
+                        let act = variable.value[a][b][c];
+                        if (act.toString() == "true") {
+                            act = 1;
+                        }
+                        else if (act.toString() == "false") {
+                            act = 0;
+                        }
+                        repos = ((((a - 0) * tam2) + b) * tam3) + c;
+                        tree.modificar_heap(repos + "", act + "");
+                    }
+                }
+            }
+            variable.iniciostring = inicio;
+            variable.finstring = (fin - 1);
+            tree.posh = fin + 25;
+        }
     }
     execute(table, tree) {
         this.llenadoArreglo(table, tree, this.value);
+        debugger;
         let simbol;
         simbol = new Simbol_1.Simbol(this.type, this.identifier, this.guardaditoHiperChingon, this.edit, null, null, this.linea, this.columna);
         const res = table.setVariable(simbol);
+        this.traducir(table, tree, "", 0);
         if (res != null) {
             const error = new Errors_1.Error('Semantico', res, this.linea, this.columna);
             tree.errores.push(error);
@@ -45,6 +131,7 @@ class Arrays extends Node_1.Node {
                 let val = element.execute(table, tree);
                 this.guardaditoHiperChingon.push(val);
                 //console.log(this.guardaditoHiperChingon);
+                this.cantidadDimensionesMamalona = 1;
             }
             else {
                 let arre = [];
@@ -52,6 +139,7 @@ class Arrays extends Node_1.Node {
                     const element2 = element[b];
                     if (element2 instanceof Primitivos_1.Primitivos || element2 instanceof Identifier_1.Identifier) {
                         arre.push(element2.execute(table, tree));
+                        this.cantidadDimensionesMamalona = 2;
                         //console.log(arre);
                     }
                     else {
@@ -60,6 +148,7 @@ class Arrays extends Node_1.Node {
                             const element3 = element2[c];
                             if (element3 instanceof Primitivos_1.Primitivos || element3 instanceof Identifier_1.Identifier) {
                                 arre2.push(element3.execute(table, tree));
+                                this.cantidadDimensionesMamalona = 3;
                                 //console.log(arre2);
                             }
                             else {
@@ -68,6 +157,7 @@ class Arrays extends Node_1.Node {
                                     const element4 = element3[d];
                                     if (element4 instanceof Primitivos_1.Primitivos || element4 instanceof Identifier_1.Identifier) {
                                         arre3.push(element4.execute(table, tree));
+                                        this.cantidadDimensionesMamalona = 4;
                                         //console.log(arre3);
                                     }
                                     else {

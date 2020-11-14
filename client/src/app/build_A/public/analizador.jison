@@ -47,8 +47,11 @@
 "in"              return 'RIN';
 "Push"            return 'PUSH'
 "Pop"             return 'POP'
-"length"          return 'LENGTH'
-
+"length"          return 'LENGTH';
+"toLowerCase"     return 'TOLOWER';
+"toUpperCase"     return 'TOUPPER';
+"charAt"          return 'CHARAT';
+"concat"          return 'CONCAT';
 
 ":"					return 'DOSP';
 ";"					return 'PYCOMA';
@@ -137,7 +140,10 @@
     const {Switch} = require('../Instruccion/Switch');
     const {Cases} = require('../Instruccion/Cases');
     const {Default} = require('../Instruccion/Default');
-
+    const {LowerCase} = require('../Instruccion/StringToLower');
+    const {UpperCase} = require('../Instruccion/StringToUpper');
+    const {CharAt} = require('../Instruccion/CharAt');
+    const {Concat} = require('../Instruccion/Concat');
 %}
 
 %right INTERROGACION
@@ -184,7 +190,7 @@ ins
   | sentencias {$$=$1;}
   | RETURN retorno final_linea {$$=new Returns($2,@1.first_line,@1.first_column);}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column)}
-  | nativas_arreglos {$$=$1;}
+  //| nativas_arreglos {$$=$1;}
   | llamado_funcion {$$=$1;}
 ;
 l_ins2
@@ -205,7 +211,7 @@ ins2
   | sentencias {$$=$1;}
   | RETURN retorno final_linea {$$=new Returns($2,@1.first_line,@1.first_column);}
   | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
-  | nativas_arreglos {$$=$1;}
+  //| nativas_arreglos {$$=$1;}
   | llamado_funcion {$$=$1;}
 ;
 
@@ -442,7 +448,7 @@ instru_f
     | CONTINUE final_linea {$$ = new Continue(@1.first_line, @1.first_column);}
     | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
     | funciones_nativas PYCOMA{$$=$1;}
-    | nativas_arreglos {$$=$1;}
+    //| nativas_arreglos {$$=$1;}
     | ERROR {$$=$1;}
 ;
 
@@ -467,7 +473,7 @@ instru_f2
     | imprimir final_linea{$$=$1;}
     | RGRAFICA PYCOMA{$$= new GraficarTS(@1.first_line,@1.first_column);}
     | llamado_funcion {$$=$1;}
-    | nativas_arreglos {$$=$1;}
+    //| nativas_arreglos {$$=$1;}
     | ERROR {$$=$1;}
 ;
 
@@ -519,7 +525,8 @@ expresion
     | arreglo_mat2 {$$=$1;}
     | op_terna {$$=$1;}
     | RNULL {}
-    | nativas_arreglos {$$=$1;}
+    //| nativas_arreglos {$$=$1;}
+    | nativas_strings {$$=$1;}
     | acceso {}
     | ERROR {$$=$1;}
 ;
@@ -527,6 +534,15 @@ expresion
 dimensionales_access
   : IDENTIFICADOR dimensional2{$2.splice(0,1); $$= new AccesoArrays($1,$2,@1.first_line,@1.first_column,true);}
 ;
+
+  nativas_strings
+  : IDENTIFICADOR PUNTO LENGTH {$$=new Lengths($1,@1.first_line,@1.first_column,true);}
+  | IDENTIFICADOR PUNTO TOLOWER PARENTA PARENTC {$$=new LowerCase($1,@1.first_line,@1.first_column,true);}
+  | IDENTIFICADOR PUNTO TOUPPER PARENTA PARENTC {$$=new UpperCase($1,@1.first_line,@1.first_column,true);}
+  | IDENTIFICADOR PUNTO CHARAT PARENTA expresion PARENTC {$$=new CharAt($1,$5,@1.first_line,@1.first_column,true);}
+  | IDENTIFICADOR PUNTO CONCAT PARENTA expresion PARENTC {$$=new Concat($1,$5,@1.first_line,@1.first_column,true);}
+  | ERROR {$$=$1}
+  ;
 
 nativas_arreglos
   : IDENTIFICADOR PUNTO POP PARENTA PARENTC {$$=new Pops($1,@1.first_line,@1.first_column,true);}

@@ -80,18 +80,20 @@ class DoWhile extends Node_1.Node {
                 else {
                     const res = this.List[i].execute(newtable, tree);
                     if (res instanceof Continue_1.Continue) {
+                        tree.traduccion.push(L2 + ":\n");
                         break;
                     }
                     else if (res instanceof Break_1.Break) {
+                        tree.traduccion.push(L2 + ":\n");
                         return;
                     }
                 }
             }
             traducidas++;
             if (traducidas == 1) {
-                tree.traduccion.push("goto " + L3 + ";\n");
             }
         } while (result);
+        tree.traduccion.push("goto " + L3 + ";\n");
         tree.traduccion.push(L2 + ":\n");
         return null;
     }

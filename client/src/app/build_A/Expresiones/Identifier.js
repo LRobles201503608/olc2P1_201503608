@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Identifier = void 0;
 const Errors_1 = require("../util/Errors");
 const Node_1 = require("../Abstract/Node");
+const Types_1 = require("../util/Types");
 class Identifier extends Node_1.Node {
     constructor(iden, linea, columna, editable) {
         super(null, linea, columna, editable); // no se le agrega un tipo porque aun no lo tiene
@@ -16,6 +17,9 @@ class Identifier extends Node_1.Node {
             tree.errores.push(error);
             tree.console.push(error.toString());
             return error;
+        }
+        if (variable.type.type == Types_1.types.STRING) {
+            return variable;
         }
         if (variable.entorno == 0) {
             let value = tree.obtener_Heap(variable.posh.toString(), "t" + tree.temp);

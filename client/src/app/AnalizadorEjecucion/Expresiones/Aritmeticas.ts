@@ -9,6 +9,7 @@ import { LlamadaFuncion } from '../Instruccion/LlamadaFuncion';
 import { Lengths } from '../Instruccion/Length';
 import { Primitivos } from './Primitivos';
 import { Identifier } from './Identifier';
+import { Strings } from './Strings';
 
 /**
  * Esta @clase creara un nodo de tipo @ARITMETICA
@@ -37,8 +38,16 @@ export class Aritmetica extends Node{
   traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
     //debugger;
     if(this.derecha!=null){
+      let fin1=0;
+      let inicio1=0;
+      let inicio2=0;
+      let fin2=0;
       let izq=this.izquierda.traducir(tabla,tree,cadena,contTemp);
+      inicio1=tree.inicioStringHeap;
+      fin1=tree.finStringHeap;
       let der=this.derecha.traducir(tabla,tree,cadena,contTemp);
+      inicio2=tree.inicioStringHeap;
+      fin2=tree.finStringHeap;
       if(izq instanceof Error ){
         return izq;
       }
@@ -46,29 +55,173 @@ export class Aritmetica extends Node{
         return der;
       }
       if(this.Operador=="+"){
+        debugger;
           if (this.izquierda instanceof Primitivos || this.izquierda instanceof Identifier){
             if(this.derecha instanceof Primitivos || this.derecha instanceof Identifier){
               tree.generar_3d("+",izq,der,"t"+tree.temp);
               tree.tmpsop.push("t"+tree.temp);
               tree.temp++;
+            }else if(this.derecha instanceof Strings){
+              let valor=this.izquierda.execute(tabla,tree);
+                let pos =inicio2;
+                let posh= tree.posh;
+                let val2=valor.toString();
+                let va=0;
+                for(let a=0;a<val2.length;a++){
+                  va=val2.charCodeAt(a);
+                  tree.modificar_heap(pos.toString(),va.toString());
+                  pos++;
+                  tree.inicioStringHeap=pos;
+                }
+                tree.posh=tree.inicioStringHeap;
+                this.derecha.traducir(tabla,tree,"",0);
+                tree.posh=posh;
+                tree.inicioStringHeap=inicio2;
+                tree.generar_3d("",inicio1.toString(),"","t"+tree.temp);
+                tree.tmpsop.push("t"+tree.temp);
+                tree.temp++;
             }else{
               let temp=tree.tmpsop.pop();
               tree.generar_3d("+",izq,temp.toString(),"t"+tree.temp);
               tree.tmpsop.push("t"+tree.temp);
               tree.temp++;
             }
-          }else if(this.derecha instanceof Primitivos || this.derecha instanceof Identifier){
+          }else if(this.izquierda instanceof Strings){
+            if(this.derecha instanceof Primitivos){
+                let valor=this.derecha.execute(tabla,tree);
+                let pos =fin1+1;
+                let val2=valor.toString();
+                let va=0;
+                for(let a=0;a<val2.length;a++){
+                  va=val2.charCodeAt(a);
+                  tree.modificar_heap(pos.toString(),va.toString());
+                  pos++;
+                  tree.finStringHeap=pos;
+                }
+                tree.generar_3d("",inicio1.toString(),"","t"+tree.temp);
+                tree.tmpsop.push("t"+tree.temp);
+                tree.temp++;
+            }else if(this.derecha instanceof Strings){
+              let posh=tree.posh;
+              let valor=this.derecha.execute(tabla,tree);
+                let pos =fin1+1;
+                let val2=valor.toString();
+                let va=0;
+                for(let a=0;a<val2.length;a++){
+                  va=val2.charCodeAt(a);
+                  tree.modificar_heap(pos.toString(),va.toString());
+                  pos++;
+                  tree.finStringHeap=pos;
+                }
+                tree.inicioStringHeap=inicio1;
+                tree.posh=tree.finStringHeap+350;
+                tree.generar_3d("",inicio1.toString(),"","t"+tree.temp);
+                tree.tmpsop.push("t"+tree.temp);
+                tree.temp++;
+            }else if(this.derecha instanceof Identifier){
+
+            }
+          }else if(this.derecha instanceof Strings){
+            if(this.izquierda instanceof Primitivos){
+              let valor=this.derecha.execute(tabla,tree);
+                let pos =inicio2;
+                let val2=valor.toString();
+                let va=0;
+                for(let a=0;a<val2.length;a++){
+                  va=val2.charCodeAt(a);
+                  tree.modificar_heap(pos.toString(),va.toString());
+                  pos++;
+                  tree.inicioStringHeap=pos;
+                }
+
+                this.derecha.traducir(tabla,tree,"",0);
+                tree.inicioStringHeap=inicio2;
+                tree.generar_3d("",inicio1.toString(),"","t"+tree.temp);
+                tree.tmpsop.push("t"+tree.temp);
+                tree.temp++;
+            }
+            else if(this.izquierda instanceof Identifier){
+
+            }else{
+              let valor=this.izquierda.execute(tabla,tree);
+              let pos =inicio2;
+              let val2=valor.toString();
+              let va=0;
+              for(let a=0;a<val2.length;a++){
+                va=val2.charCodeAt(a);
+                tree.modificar_heap(pos.toString(),va.toString());
+                pos++;
+                tree.inicioStringHeap=pos;
+              }
+              debugger;
+              let posh=tree.posh;
+              tree.posh=pos;
+              this.derecha.traducir(tabla,tree,"",0);
+              tree.inicioStringHeap=inicio2;
+              tree.posh=posh;
+              tree.generar_3d("",inicio1.toString(),"","t"+tree.temp);
+              tree.tmpsop.push("t"+tree.temp);
+              tree.temp++;
+            }
+          }
+          else if(this.derecha instanceof Primitivos || this.derecha instanceof Identifier){
             if (this.izquierda instanceof Primitivos || this.izquierda instanceof Identifier){
               tree.generar_3d("+",izq,der,"t"+tree.temp);
               tree.tmpsop.push("t"+tree.temp);
               tree.temp++;
             }else{
+              if(this.izquierda instanceof Aritmetica){
+                let i=this.izquierda;
+                console.log(i);
+                if(i.izquierda instanceof Strings || i.derecha instanceof Strings){
+                  let posh=tree.posh;
+                  let valor=this.derecha.execute(tabla,tree);
+                  debugger;
+                    let pos =fin1+1;
+                    let val2=valor.toString();
+                    let va=0;
+                    for(let a=0;a<val2.length;a++){
+                      va=val2.charCodeAt(a);
+                      tree.modificar_heap(pos.toString(),va.toString());
+                      pos++;
+                      tree.finStringHeap=pos;
+                    }
+                    tree.inicioStringHeap=inicio1;
+                    tree.posh=tree.finStringHeap+350;
+                    tree.generar_3d("",inicio1.toString(),"","t"+tree.temp);
+                    tree.tmpsop.push("t"+tree.temp);
+                    tree.temp++;
+                }
+              }
               let temp=tree.tmpsop.pop();
               tree.generar_3d("+",temp.toString(),der,"t"+tree.temp);
               tree.tmpsop.push("t"+tree.temp);
               tree.temp++;
             }
           }else{
+            if(this.izquierda instanceof Aritmetica){
+              let i=this.izquierda;
+              console.log(i);
+              if(i.izquierda instanceof Strings || i.derecha instanceof Strings){
+                let posh=tree.posh;
+                let valor=this.derecha.execute(tabla,tree);
+                debugger;
+                  let pos =fin1+1;
+                  let val2=valor.toString();
+                  let va=0;
+                  for(let a=0;a<val2.length;a++){
+                    va=val2.charCodeAt(a);
+                    tree.modificar_heap(pos.toString(),va.toString());
+                    pos++;
+                    tree.finStringHeap=pos;
+                  }
+                  tree.inicioStringHeap=inicio1;
+                  tree.posh=tree.finStringHeap+350;
+                  tree.generar_3d("",inicio1.toString(),"","t"+tree.temp);
+                  tree.tmpsop.push("t"+tree.temp);
+                  tree.temp++;
+              }
+            }
               let temp1=tree.tmpsop.pop();
               let temp2=tree.tmpsop.pop();
               tree.generar_3d("+",temp2.toString(),temp1.toString(),"t"+tree.temp);
@@ -208,7 +361,14 @@ export class Aritmetica extends Node{
     }
     else{
       if(this.Operador=='-'){
-
+        debugger;
+        let izq=this.izquierda.traducir(tabla,tree,cadena,contTemp);
+        if(izq instanceof Error ){
+          return izq;
+        }
+            tree.generar_3d("-","0",izq,"t"+tree.temp);
+            tree.tmpsop.push("t"+tree.temp);
+            tree.temp++;
       }else if(this.Operador=='--'){
         let izq=this.izquierda.traducir(tabla,tree,cadena,contTemp);
         if(izq instanceof Error ){

@@ -22,6 +22,9 @@ export class Identifier extends Node{
       tree.console.push(error.toString());
       return error;
     }
+    if(variable.type.type == types.STRING){
+      return variable;
+    }
     if(variable.entorno==0){
       let value=tree.obtener_Heap(variable.posh.toString(),"t"+tree.temp);
       tree.temp++;

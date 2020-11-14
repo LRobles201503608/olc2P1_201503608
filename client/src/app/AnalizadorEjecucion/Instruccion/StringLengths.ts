@@ -38,13 +38,11 @@ export class Lengths extends Node {
             let tam= vari.length;
             tree.generar_3d("",tam.toString(),"","t"+tree.temp);
             tree.temp++;
-            return "t"+(tree.temp-1);
           }else{
-            let vari=variable.value+"";
-            let tam= vari.length;
-            tree.generar_3d("",tam.toString(),"","t"+tree.temp);
-            tree.temp++;
-            return "t"+(tree.temp-1);
+            const error = new Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier,this.linea, this.columna);
+            tree.errores.push(error);
+            tree.console.push(error.toString());
+            return error;
           }
         }catch(ex){
            const error = new Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier,this.linea, this.columna);
@@ -63,9 +61,17 @@ export class Lengths extends Node {
             return error;
         }
         try{
-          return variable.value.length;
+          if(variable.type.type == types.STRING){
+            let vari=variable.value+"";
+            return vari.length;
+          }else{
+            const error = new Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier,this.linea, this.columna);
+            tree.errores.push(error);
+            tree.console.push(error.toString());
+            return error;
+          }
         }catch(ex){
-          const error = new Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier,this.linea, this.columna);
+           const error = new Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier,this.linea, this.columna);
             tree.errores.push(error);
             tree.console.push(error.toString());
             return error;

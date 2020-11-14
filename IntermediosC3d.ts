@@ -1,39 +1,15 @@
 let array[] = [32, 21, 7, 89, 56, 909, 109, 2];
-let indice = "indice ["+array[][0]+"]";// no tengo la cadena que permite ejecutar algo dentro de ella
-console.log("***********************************************************************");
-console.log("***********                TERNARIO                    ****************");
-console.log("***********************************************************************");
-console.log(indice == ("indice [32]") ? 'TERNARIO BIEN' : 'TERNARIO MALO'); // le tengo que agregar un parentesis a la condicion del ternario
-console.log('\n');
-console.log("***********************************************************************");
-console.log("***********                 IF                         ****************");
-console.log("***********************************************************************");
-if (array[][4] > 50) {
+let indice = array[][0];// Solo puedo hacerlo con numeros
+let xd= (indice == (32)) ? 100 : 0; //ternario solo con numeros
+console.log(xd); // le tengo que agregar un parentesis a la condicion del ternario
+let b= array[][4];//separo el arreglo en una variable para verificar
+if ( b> 50) {
     console.log("IF CORRECTO");
-} else if (array[][4] == 56) {
+} else if (b == 56) {
     console.log("IF INCORRECTO");
 } else {
     console.log("IF INCORRECTO");
 }
-console.log('\n');
-console.log("***********************************************************************");
-console.log("***********                 SWITCH                     ****************");
-console.log("***********************************************************************");
-// lo que va dentro de la expresion del switch hubo necesidad de cambiarlo porque sino no lo reconocia, solo se separó en variables
-let aaa=array.length;
-aaa=aaa-1;
-let bbbb=array[aaa];
-switch (bbbb) {
-    case "1":
-        console.log("SWITCH MALO");
-    case "2":
-        console.log("SWITCH BIEN");
-    case "3":
-        console.log("SWITCH BIEN");
-    default:
-        console.log("SWITCH BIEN");
-}
-console.log('\n');
 console.log("***********************************************************************");
 console.log("***********                 WHILE                      ****************");
 console.log("***********************************************************************");
@@ -49,7 +25,7 @@ while (index >= 0) {
 
     console.log(index+"\n");
 }
-console.log('\n');
+
 console.log("***********************************************************************");
 console.log("***********                 doWHILE                    ****************");
 console.log("***********************************************************************");
@@ -58,20 +34,24 @@ do {
     index = index + 1;
     if (index == 0 || index == 1 || index == 11 || index == 12) {
         console.log('*********************************************************************************************************');
+      	console.log(" "+" \n");
     }else if (index == 2) {
         console.log('**********  ***************  ******                 ******                 ******              **********');
+      console.log(" "+" \n");
     }else if (index >= 3 && index <= 5) {
         console.log('**********  ***************  ******  *********************  *************  ******  **********************');
+      console.log(" "+" \n");
     }else if (index == 6) {
         console.log('**********  ***************  ******                 ******                 ******  **********************');
+      console.log(" "+" \n");
     } else if (index >= 7 && index <= 9) {
         console.log('**********  ***************  ********************   ******  *************  ******  **********************');
+      console.log(" "+" \n");
     } else if (index == 10) {
         console.log('**********                   ******                 ******  *************  ******              **********');
+      console.log(" "+" \n");
     }
 } while (index != 12);
-
-console.log('\n');
 console.log("***********************************************************************");
 console.log("***********                 FOR LOOP                   ****************");
 console.log("***********************************************************************");
@@ -85,23 +65,22 @@ for (let i = 0; i < 10; i++) {
     }
     console.log(output);
 }
-
 console.log('\n');
 console.log("***********************************************************************");
 console.log("***********                 FOR OF                     ****************");
-console.log("***********************************************************************");
+console.log("***********************************************************************\n ");
 let arr[] = [1,2,3,4,5,6];
 let arr2[] =[1,2,3,4,5,6]; // se saco el arreglo que estaba a la derecha de in porque no valide eso entonces puse un arreglo con lo mismo afuera
 for(let i in arr2){
   let aa=arr[][i];
   // se concatenaron cadenas porque sino operaba booleanos y solo retornaba la suma de 0s y 1s
-  console.log((aa == 1)+""+ (aa== 2)+""+ (aa == 3)+""+ (aa == 4)+""+ (aa == 5)+""+ (aa == 6)+""); 
+  console.log((aa == 1)+" "+ (aa== 2)+" "+ (aa == 3)+" "+ (aa == 4)+" "+ (aa == 5)+" "+ (aa == 6)+" "); 
   //console.log(aa);
 }
 console.log('\n');
 console.log("***********************************************************************");
 console.log("***********                 FOR IN                     ****************");
-console.log("***********************************************************************");
+console.log("***********************************************************************\n ");
 // se saco el arreglo que estaba a la derecha de of porque no valide eso entonces puse un arreglo con lo mismo afuera
 for(let e of arr2){
   let aa=arr.length;
@@ -109,4 +88,30 @@ for(let e of arr2){
     if(aa > e){
       	console.log((e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu)+" "+(e*mu));
     }
+}
+console.log('\n');
+console.log("***********************************************************************");
+console.log("***********                 SWITCH                     ****************");
+console.log("***********************************************************************\n ");
+let ccccc=2;
+switch (ccccc) {
+    case 1:
+        console.log("SWITCH MALO");
+    case 2:
+        console.log("SWITCH BIEN");
+    case 3:
+        console.log("SWITCH BIEN");
+    default:
+        console.log("SWITCH BIEN");
+}
+let aaaaaa="2";
+switch (aaaaaa) {
+    case "1":
+        console.log("SWITCH MALO");
+    case "2":
+        console.log("SWITCH BIEN");
+    case "3":
+        console.log("SWITCH BIEN");
+    default:
+        console.log("SWITCH BIEN");
 }

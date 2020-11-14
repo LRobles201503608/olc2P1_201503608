@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Lengths = void 0;
+exports.Concat = void 0;
 const Node_1 = require("../Abstract/Node");
 const Errors_1 = require("../util/Errors");
-const Types_1 = require("../util/Types");
 /**
  * @class Reasigna el valor de una variable existente
  */
-class Lengths extends Node_1.Node {
+class Concat extends Node_1.Node {
     /**
      * @constructor Crea el nodo instruccion para la sentencia Asignacion
      * @param identifier nombre de la variable
@@ -15,9 +14,10 @@ class Lengths extends Node_1.Node {
      * @param line Linea de la sentencia if
      * @param column Columna de la sentencia if
      */
-    constructor(identifier, line, column, editable) {
+    constructor(identifier, expresion, line, column, editable) {
         super(null, line, column, editable);
         this.identifier = identifier;
+        this.expresion = expresion;
     }
     traducir(tabla, tree, cadena, contTemp) {
         let variable;
@@ -29,26 +29,34 @@ class Lengths extends Node_1.Node {
             return error;
         }
         try {
-            if (variable.type.type == Types_1.types.STRING) {
-                let vari = variable.value + "";
-                let tam = vari.length;
-                tree.generar_3d("", tam.toString(), "", "t" + tree.temp);
-                tree.temp++;
-                return "t" + (tree.temp - 1);
+            let inicio = 0;
+            let fin = 0;
+            inicio = variable.iniciostring;
+            fin = variable.finstring;
+            let val = this.expresion.execute(tabla, tree) + "";
+            for (let a = 0; a < val.length; a++) {
+                let act = val.charCodeAt(a);
+                let sigval = val.charCodeAt(a + 1);
+                if (act == 92) {
+                    if (sigval == 110) {
+                        act = 10;
+                        a++;
+                    }
+                    else if (sigval == 116) {
+                        act = 9;
+                        a++;
+                    }
+                    else if (sigval == 114) {
+                        act = 13;
+                        a++;
+                    }
+                }
+                tree.modificar_heap(fin.toString(), act.toString());
+                fin++;
             }
-            else {
-                let vari = variable.value + "";
-                let tam = vari.length;
-                tree.generar_3d("", tam.toString(), "", "t" + tree.temp);
-                tree.temp++;
-                return "t" + (tree.temp - 1);
-            }
+            variable.finstring = fin;
         }
         catch (ex) {
-            const error = new Errors_1.Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier, this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
         }
     }
     execute(table, tree) {
@@ -61,7 +69,10 @@ class Lengths extends Node_1.Node {
             return error;
         }
         try {
-            return variable.value.length;
+            let vari = variable.value.toString();
+            let val = this.expresion.execute(table, tree);
+            let res = vari + val;
+            return res;
         }
         catch (ex) {
             const error = new Errors_1.Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier, this.linea, this.columna);
@@ -71,4 +82,4 @@ class Lengths extends Node_1.Node {
         }
     }
 }
-exports.Lengths = Lengths;
+exports.Concat = Concat;

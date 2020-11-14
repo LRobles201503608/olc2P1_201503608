@@ -9,6 +9,14 @@ const Aritmeticas_1 = require("../Expresiones/Aritmeticas");
 const Relacional_1 = require("../Expresiones/Relacional");
 const Logicas_1 = require("../Expresiones/Logicas");
 const Primitivos_1 = require("../Expresiones/Primitivos");
+const Ternario_1 = require("./Ternario");
+const Strings_1 = require("../Expresiones/Strings");
+const StringToLower_1 = require("./StringToLower");
+const StringToUpper_1 = require("./StringToUpper");
+const CharAt_1 = require("./CharAt");
+const Length_1 = require("./Length");
+const Concat_1 = require("./Concat");
+const AccessoDimensiones_1 = require("./AccessoDimensiones");
 /**
  * @class Inserta una nueva variable en la tabla de simbolos
  */
@@ -29,12 +37,9 @@ class Declaracion extends Node_1.Node {
     }
     traducir(tabla, tree, cadena, contTemp) {
         //debugger;
-        let a = this.value.traducir(tabla, tree, cadena, contTemp);
         let simbol = tabla.getVariable(this.identifier);
-        if (a instanceof Errors_1.Error) {
-            return a;
-        }
-        if (this.value instanceof Aritmeticas_1.Aritmetica || this.value instanceof Relacional_1.Relacional || this.value instanceof Logicas_1.Logica) {
+        //debugger;
+        if (this.value instanceof Ternario_1.Ternario) {
             if (simbol.entorno == 0) {
                 let posh = tree.posh;
                 let destino = tree.tmpsop.pop();
@@ -50,20 +55,125 @@ class Declaracion extends Node_1.Node {
                 tree.poss += 250;
             }
         }
-        else if (this.value instanceof Primitivos_1.Primitivos) {
+        else if (this.value instanceof AccessoDimensiones_1.AccesoArrays) {
+            debugger;
             if (simbol.entorno == 0) {
                 let posh = tree.posh;
-                let destino = this.value.traducir(tabla, tree, cadena, contTemp);
+                let destino = tree.tmpsop.pop();
                 tree.modificar_heap(posh.toString(), destino.toString());
                 simbol.posh = posh;
-                tree.posh += 250;
+                tree.posh += 25;
+                simbol.type = new Types_1.Type(Types_1.types.NUMERIC);
+                return;
             }
             else {
                 let poss = tree.poss;
-                let destino = this.value.traducir(tabla, tree, cadena, contTemp);
+                let destino = tree.tmpsop.pop();
                 tree.modificar_stack(poss.toString(), destino.toString());
                 simbol.poss = poss;
-                tree.poss += 250;
+                tree.poss += 25;
+                simbol.type = new Types_1.Type(Types_1.types.NUMERIC);
+                return;
+            }
+        }
+        else {
+            let a = this.value.traducir(tabla, tree, cadena, contTemp);
+            if (a instanceof Errors_1.Error) {
+                return a;
+            }
+            if (this.value instanceof Aritmeticas_1.Aritmetica || this.value instanceof Relacional_1.Relacional || this.value instanceof Logicas_1.Logica) {
+                if (simbol.entorno == 0) {
+                    let posh = tree.posh;
+                    let destino = tree.tmpsop.pop();
+                    tree.modificar_heap(posh.toString(), destino.toString());
+                    simbol.posh = posh;
+                    simbol.iniciostring = tree.inicioStringHeap;
+                    simbol.finstring = tree.finStringHeap - 1;
+                    tree.posh += 250;
+                }
+                else {
+                    let poss = tree.poss;
+                    let destino = tree.tmpsop.pop();
+                    tree.modificar_stack(poss.toString(), destino.toString());
+                    simbol.poss = poss;
+                    tree.poss += 250;
+                }
+            }
+            else if (this.value instanceof Primitivos_1.Primitivos) {
+                if (simbol.entorno == 0) {
+                    debugger;
+                    let posh = tree.posh;
+                    let destino = this.value.traducir(tabla, tree, cadena, contTemp);
+                    tree.modificar_heap(posh.toString(), destino.toString());
+                    simbol.posh = posh;
+                    tree.posh += 250;
+                }
+                else {
+                    let poss = tree.poss;
+                    let destino = this.value.traducir(tabla, tree, cadena, contTemp);
+                    tree.modificar_stack(poss.toString(), destino.toString());
+                    simbol.poss = poss;
+                    tree.poss += 250;
+                }
+            }
+            else if (this.value instanceof Strings_1.Strings || this.value instanceof StringToLower_1.LowerCase || this.value instanceof StringToUpper_1.UpperCase || this.value instanceof CharAt_1.CharAt || this.value instanceof Concat_1.Concat) {
+                if (this.value instanceof Concat_1.Concat) {
+                    let val = this.value.execute(tabla, tree) + "";
+                    let inicio = tree.inicioStringHeap;
+                    let fin = inicio;
+                    for (let a = 0; a < val.length; a++) {
+                        let act = val.charCodeAt(a);
+                        let sigval = val.charCodeAt(a + 1);
+                        if (act == 92) {
+                            if (sigval == 110) {
+                                act = 10;
+                                a++;
+                            }
+                            else if (sigval == 116) {
+                                act = 9;
+                                a++;
+                            }
+                            else if (sigval == 114) {
+                                act = 13;
+                                a++;
+                            }
+                        }
+                        tree.modificar_heap(fin.toString(), act.toString());
+                        fin++;
+                    }
+                    tree.finStringHeap = fin;
+                }
+                else if (this.value instanceof CharAt_1.CharAt) {
+                    let val = this.value.execute(tabla, tree) + "";
+                    let val2 = val.charCodeAt(0);
+                    tree.generar_3d("", val2.toString(), "", "t" + tree.temp);
+                    tree.modificar_heap(tree.posh + "", "t" + tree.temp);
+                    simbol.iniciostring = tree.posh;
+                    simbol.finstring = tree.posh;
+                    tree.posh += 200;
+                    tree.temp++;
+                    return;
+                }
+                simbol.iniciostring = tree.inicioStringHeap;
+                simbol.finstring = tree.finStringHeap;
+                simbol.type = new Types_1.Type(Types_1.types.STRING);
+            }
+            else if (this.value instanceof Length_1.Lengths) {
+                debugger;
+                if (simbol.entorno == 0) {
+                    let posh = tree.posh;
+                    let destino = this.value.traducir(tabla, tree, cadena, contTemp);
+                    tree.modificar_heap(posh.toString(), destino.toString());
+                    simbol.posh = posh;
+                    tree.posh += 250;
+                }
+                else {
+                    let poss = tree.poss;
+                    let destino = this.value.traducir(tabla, tree, cadena, contTemp);
+                    tree.modificar_stack(poss.toString(), destino.toString());
+                    simbol.poss = poss;
+                    tree.poss += 250;
+                }
             }
         }
         return;
@@ -85,7 +195,12 @@ class Declaracion extends Node_1.Node {
                     this.type = new Types_1.Type(this.value.type.type);
                 }
                 else {
-                    this.type = new Types_1.Type(Types_1.types.NUMERIC);
+                    if (this.value instanceof Strings_1.Strings || this.value instanceof StringToLower_1.LowerCase || this.value instanceof StringToUpper_1.UpperCase || this.value instanceof CharAt_1.CharAt) {
+                        this.type = new Types_1.Type(Types_1.types.STRING);
+                    }
+                    else {
+                        this.type = new Types_1.Type(Types_1.types.NUMERIC);
+                    }
                 }
             }
             if (this.value.type != null) {

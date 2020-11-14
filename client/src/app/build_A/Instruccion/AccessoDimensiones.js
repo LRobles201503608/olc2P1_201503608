@@ -16,10 +16,33 @@ class AccesoArrays extends Node_1.Node {
      */
     constructor(identifier, value, line, column, editable) {
         super(null, line, column, editable);
+        this.dimenMamalona = 0;
         this.identifier = identifier;
         this.value = value;
     }
     traducir(tabla, tree, cadena, contTemp) {
+        let variable;
+        variable = tabla.getVariable(this.identifier);
+        let repos = 0;
+        let newdimen = 0;
+        if (this.dimenMamalona == 1) {
+            let val = variable.value[this.value[0].execute(tabla, tree)];
+            tree.generar_3d("", val, "", "t" + tree.temp);
+            tree.tmpsop.push("t" + tree.temp + "");
+            tree.temp++;
+        }
+        else if (this.dimenMamalona == 2) {
+            let val = variable.value[this.value[0].execute(tabla, tree)][this.value[1].execute(tabla, tree)];
+            tree.generar_3d("", val, "", "t" + tree.temp);
+            tree.tmpsop.push("t" + tree.temp + "");
+            tree.temp++;
+        }
+        else if (this.dimenMamalona == 3) {
+            let val = variable.value[this.value[0].execute(tabla, tree)][this.value[1].execute(tabla, tree)][this.value[2].execute(tabla, tree)];
+            tree.generar_3d("", val, "", "t" + tree.temp);
+            tree.tmpsop.push("t" + tree.temp + "");
+            tree.temp++;
+        }
     }
     execute(table, tree) {
         //console.log(this.value);
@@ -34,13 +57,18 @@ class AccesoArrays extends Node_1.Node {
         }
         let tam = this.value.length;
         if (tam == 1) {
-            console.log(this.value[0].execute(table, tree));
+            this.dimenMamalona = 1;
+            this.traducir(table, tree, "", 0);
             return variable.value[this.value[0].execute(table, tree)];
         }
         else if (tam == 2) {
+            this.dimenMamalona = 2;
+            this.traducir(table, tree, "", 0);
             return variable.value[this.value[0].execute(table, tree)][this.value[1].execute(table, tree)];
         }
         else if (tam == 3) {
+            this.dimenMamalona = 3;
+            this.traducir(table, tree, "", 0);
             return variable.value[this.value[0].execute(table, tree)][this.value[1].execute(table, tree)][this.value[2].execute(table, tree)];
         }
         else if (tam == 4) {

@@ -17,6 +17,9 @@ export class Simbol {
     entorno:number;
     fila:number;
     columna:number;
+
+    iniciostring:number;
+    finstring:number;
     /**
      * @constructor Para crear un nuevo simbolo a utilizar en una tabla de simbolos o funciones
      * @param type Tipo de la varible o funcion
@@ -38,5 +41,7 @@ export class Simbol {
         this.entorno=0;
         this.fila=fila;
         this.columna=columna;
+        this.iniciostring=0;
+        this.finstring=0;
     }
 }

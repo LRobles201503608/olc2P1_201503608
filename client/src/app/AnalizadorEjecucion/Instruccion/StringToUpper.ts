@@ -10,7 +10,7 @@ import { Simbol } from "../Simbols/Simbol";
 /**
  * @class Reasigna el valor de una variable existente
  */
-export class Lengths extends Node {
+export class UpperCase extends Node {
     identifier: String;
     /**
      * @constructor Crea el nodo instruccion para la sentencia Asignacion
@@ -32,25 +32,54 @@ export class Lengths extends Node {
             tree.console.push(error.toString());
             return error;
         }
-        try{
-          if(variable.type.type == types.STRING){
-            let vari=variable.value+"";
-            let tam= vari.length;
-            tree.generar_3d("",tam.toString(),"","t"+tree.temp);
-            tree.temp++;
-            return "t"+(tree.temp-1);
+        let inicio=0;
+        let final=0;
+        debugger;
+        let valu=variable.value.toString().toUpperCase();
+        for(let a=0;a<valu.length;a++){
+          if(a==0){
+            tree.inicioStringHeap=tree.posh;
+            inicio=tree.inicioStringHeap;
+            let val= valu.charCodeAt(a);
+            let sigval=valu.charCodeAt(a+1);
+            if(val==92){
+              if(sigval==110){
+                val=10;
+                a++;
+              }else if(sigval==116){
+                val=9;
+                a++;
+              }else if(sigval==114){
+                val=13;
+                a++;
+              }
+            }
+            tree.modificar_heap(inicio.toString(),val.toString());
+            tree.posh++;
+          }else if(a==valu.toString().length-1){
+            tree.finStringHeap=tree.posh;
+            final=tree.finStringHeap;
+            let val= valu.toString().charCodeAt(a);
+            tree.modificar_heap(final.toString(),val.toString());
+            tree.posh+=350;
           }else{
-            let vari=variable.value+"";
-            let tam= vari.length;
-            tree.generar_3d("",tam.toString(),"","t"+tree.temp);
-            tree.temp++;
-            return "t"+(tree.temp-1);
+            let val= valu.toString().charCodeAt(a);
+            let sigval=valu.toString().charCodeAt(a+1);
+            if(val==92){
+              if(sigval==110){
+                val=10;
+                a++;
+              }else if(sigval==116){
+                val=9;
+                a++;
+              }else if(sigval==114){
+                val=13;
+                a++;
+              }
+            }
+            tree.modificar_heap(tree.posh.toString(),val.toString());
+            tree.posh++;
           }
-        }catch(ex){
-           const error = new Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier,this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
         }
     }
     execute(table: Table, tree: Tree) {
@@ -62,14 +91,6 @@ export class Lengths extends Node {
             tree.console.push(error.toString());
             return error;
         }
-        try{
-          return variable.value.length;
-        }catch(ex){
-          const error = new Error('Semantico', 'Operacion no valida con el tipo de variable ' + this.identifier,this.linea, this.columna);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
-        }
-
+        return variable.value.toString().toUpperCase();
     }
 }

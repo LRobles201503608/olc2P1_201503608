@@ -7,6 +7,14 @@ import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 import { Simbol } from "../Simbols/Simbol";
 import { Primitivos } from "../Expresiones/Primitivos";
+import { Strings } from "../Expresiones/Strings";
+import { LowerCase } from "./StringToLower";
+import { UpperCase } from "./StringToUpper";
+import { CharAt } from "./CharAt";
+import { Concat } from "./Concat";
+import { Lengths } from "./Length";
+import { Ternario } from "./Ternario";
+import { AccesoArrays } from "./AccessoDimensiones";
 
 /**
  * @class Reasigna el valor de una variable existente
@@ -34,16 +42,101 @@ export class Asignacion extends Node {
       if(a instanceof Error){
         return a;
       }
-      console.log(tree);
+      if(this.value instanceof Ternario){
+        debugger;
+        if(simbol.entorno==0){
+          let posh=simbol.posh;
+          let destino=tree.tmpsop.pop();
+          tree.modificar_heap(posh.toString(),destino.toString());
+          simbol.posh=posh;
+          return;
+        }else{
+          let poss=simbol.poss;
+          let destino=tree.tmpsop.pop();
+          tree.modificar_stack(poss.toString(),destino.toString());
+          simbol.poss=poss;
+          return;
+        }
+      }else if(this.value instanceof AccesoArrays){
+        debugger;
+        if(simbol.entorno==0){
+          let posh=simbol.posh;
+          let destino=tree.tmpsop.pop();
+          tree.modificar_heap(posh.toString(),destino.toString());
+          simbol.posh=posh;
+          simbol.type=new Type(types.NUMERIC);
+          return;
+        }
+      }
+
       if(simbol.entorno==0){
-        if(this.value instanceof Primitivos){
+        if(this.value instanceof Ternario){
+          if(simbol.entorno==0){
+
+            let posh=simbol.posh;
+            let destino=tree.tmpsop.pop();
+            tree.modificar_heap(posh.toString(),destino.toString());
+            simbol.posh=posh;
+          }else{
+            let poss=simbol.poss;
+            let destino=tree.tmpsop.pop();
+            tree.modificar_stack(poss.toString(),destino.toString());
+            simbol.poss=poss;
+          }
+        }
+        else if(this.value instanceof Primitivos){
           tree.generar_3d("",simbol.posh.toString(),"","t"+tree.temp);
           tree.tmpsop.push("t"+tree.temp);
           tree.temp++;
           //debugger;
           let posi:String=tree.tmpsop.pop();
           let stackk= tree.modificar_heap("(int)"+posi.toString(),a.toString());
+        }else if(this.value instanceof Strings|| this.value instanceof LowerCase|| this.value instanceof UpperCase|| this.value instanceof CharAt|| this.value instanceof Concat){
+          let fin=simbol.finstring;
+          if(this.value instanceof Concat){
+            let val=this.value.execute(tabla,tree)+"";
+            let inicio=simbol.iniciostring;
+            fin=inicio;
+            for(let a=0;a<val.length;a++){
+              let act=val.charCodeAt(a);
+              let sigval=val.charCodeAt(a+1);
+              if(act==92){
+                if(sigval==110){
+                  act=10;
+                  a++;
+                }else if(sigval==116){
+                  act=9;
+                  a++;
+                }else if(sigval==114){
+                  act=13;
+                  a++;
+                }
+              }
+              tree.modificar_heap(fin.toString(),act.toString());
+              fin++;
+            }
+            simbol.finstring=fin;
+            simbol.type=new Type(types.STRING);
+          }else if(this.value instanceof CharAt){
+            let val=this.value.execute(tabla,tree)+"";
+            let val2=val.charCodeAt(0);
+            tree.generar_3d("",val2.toString(),"","t"+tree.temp);
+            tree.modificar_heap(tree.posh+"","t"+tree.temp);
+            tree.temp++;
+            return;
+          }
+        }
+        else if(this.value instanceof Lengths){
+          debugger;
+          if(simbol.entorno==0){
+            let posh=simbol.posh;
+            let destino=this.value.traducir(tabla,tree,cadena,contTemp);
+            tree.modificar_heap(posh.toString(),destino+"");
+            simbol.posh=posh;
+          }
         }else{
+          simbol.iniciostring=tree.inicioStringHeap;
+          simbol.finstring=tree.finStringHeap;
           tree.generar_3d("",simbol.posh.toString(),"","t"+tree.temp);
           tree.tmpsop.push("t"+tree.temp);
           tree.temp++;
@@ -53,7 +146,19 @@ export class Asignacion extends Node {
           tree.temp++;
         }
       }else{
-        if(this.value instanceof Primitivos){
+        if(this.value instanceof Ternario){
+          if(simbol.entorno==0){
+            let posh=simbol.posh;
+            let destino=tree.tmpsop.pop();
+            tree.modificar_heap(posh.toString(),destino.toString());
+            simbol.posh=posh;
+          }else{
+            let poss=simbol.poss;
+            let destino=tree.tmpsop.pop();
+            tree.modificar_stack(poss.toString(),destino.toString());
+            simbol.poss=poss;
+          }
+        }else if(this.value instanceof Primitivos){
           tree.generar_3d("",simbol.posh.toString(),"","t"+tree.temp);
           tree.tmpsop.push("t"+tree.temp);
           tree.temp++;
@@ -61,7 +166,53 @@ export class Asignacion extends Node {
           let posi:String=tree.tmpsop.pop();
           let stackk= tree.modificar_stack("(int)"+posi.toString(),a.toString());
           tree.temp++;
-        }else{
+        }else if(this.value instanceof Strings|| this.value instanceof LowerCase|| this.value instanceof UpperCase|| this.value instanceof CharAt|| this.value instanceof Concat){
+          let fin=simbol.finstring;
+          if(this.value instanceof Concat){
+            let val=this.value.execute(tabla,tree)+"";
+            let inicio=simbol.iniciostring;
+            fin=inicio;
+            for(let a=0;a<val.length;a++){
+              let act=val.charCodeAt(a);
+              let sigval=val.charCodeAt(a+1);
+              if(act==92){
+                if(sigval==110){
+                  act=10;
+                  a++;
+                }else if(sigval==116){
+                  act=9;
+                  a++;
+                }else if(sigval==114){
+                  act=13;
+                  a++;
+                }
+              }
+              tree.modificar_heap(fin.toString(),act.toString());
+              fin++;
+            }
+            simbol.finstring=fin;
+            simbol.type=new Type(types.STRING);
+          }else if(this.value instanceof CharAt){
+            let val=this.value.execute(tabla,tree)+"";
+            let val2=val.charCodeAt(0);
+            tree.generar_3d("",val2.toString(),"","t"+tree.temp);
+            tree.modificar_heap(tree.posh+"","t"+tree.temp);
+            tree.temp++;
+            return;
+          }
+        }
+        else if(this.value instanceof Lengths){
+          debugger;
+          if(simbol.entorno==0){
+            let posh=simbol.posh;
+            let destino=this.value.traducir(tabla,tree,cadena,contTemp);
+            tree.modificar_heap(posh.toString(),destino+"");
+            simbol.posh=posh;
+          }
+        }
+        else{
+          simbol.iniciostring=tree.inicioStringHeap;
+          simbol.finstring=tree.finStringHeap;
           tree.generar_3d("",simbol.poss.toString(),"","t"+tree.temp);
           tree.tmpsop.push("t"+tree.temp);
           tree.temp++;

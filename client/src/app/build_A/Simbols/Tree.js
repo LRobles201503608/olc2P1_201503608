@@ -6,6 +6,8 @@ exports.Tree = void 0;
  * */
 class Tree {
     constructor(instructions) {
+        this.inicioStringHeap = 0;
+        this.finStringHeap = 0;
         this.instructions = instructions;
         this.console = new Array();
         this.errores = new Array();

@@ -51,35 +51,6 @@ export class While extends Node {
       let gen= tree.generarWhileC3D(condicion.toString(),L1.toString(),L2.toString());
     }
     execute(table: Table, tree: Tree):any {
-
-        /*while(this.condition.execute(table, tree)){
-          if (result instanceof Error) {
-            return result;
-         }
-        this.condition.type = new Type(types.BOOLEAN);
-        if (this.condition.type.type !== types.BOOLEAN) {
-            const error = new Error('Semantico', 'Se esperaba una expresion booleana para la condicion', this.line, this.column);
-            tree.errores.push(error);
-            tree.console.push(error.toString());
-            return error;
-        }
-        if (result) {
-            for (let i = 0; i < this.List.length; i++) {
-                if (String(this.List[i]) == ";") {
-
-                }else{
-                  const res = this.List[i].execute(newtable, tree);
-                  if (res instanceof Continue) {
-                      break;
-                  }
-                  else if (res instanceof Break) {
-                      return;
-                  }
-                }
-            }
-        }
-      }*/
-
       let result: Node;
       let L1;
       let L2;
@@ -113,19 +84,21 @@ export class While extends Node {
                   }
                     const res = this.List[i].execute(newtable, tree);
                     if (res instanceof Continue) {
-                        break;
+                      tree.traduccion.push(L2+":\n");
+                      break;
                     } else if (res instanceof Break) {
-                        return;
+                      tree.traduccion.push(L2+":\n");
+                      return;
                     }
                 }
                 traducidas++;
             }
             if(traducidas==1){
-              tree.traduccion.push("goto "+L3+";\n");
+
             }
 
         } while (result);
-
+        tree.traduccion.push("goto "+L3+";\n");
         tree.traduccion.push(L2+":\n");
         return null;
     }

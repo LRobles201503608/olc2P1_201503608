@@ -33,6 +33,9 @@ export class Tree{
     poss:number;
     operalist:Array<String>;
 
+    inicioStringHeap:number=0;
+    finStringHeap:number=0;
+
     constructor(instructions:Array<Node>){
       this.instructions=instructions;
       this.console=new Array<String>();

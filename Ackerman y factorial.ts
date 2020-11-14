@@ -11,7 +11,6 @@ function ackermann( m:number,  n:number):number {
   }
 
 }
-}
 function factorial(n: number): number {
 if (n==0) {
     return 1;

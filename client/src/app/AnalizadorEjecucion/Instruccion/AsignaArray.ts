@@ -14,6 +14,7 @@ export class AsignaArrays extends Node {
     identifier: String;
     value: Array<Node>;
     expre:Node;
+    dimenLaMamalona=0;
 
     /**
      * @constructor Crea el nodo instruccion para la sentencia Asignacion
@@ -29,7 +30,26 @@ export class AsignaArrays extends Node {
         this.expre=expre;
     }
     traducir(tabla:Table,tree: Tree,cadena:string,contTemp:number) {
+      let variable: Simbol;
+        variable = tabla.getVariable(this.identifier);
+        if (variable == null) {
+            const error = new Error('Semantico', 'No se ha encontrado la variable ' + this.identifier,this.linea, this.columna);
+            tree.errores.push(error);
+            tree.console.push(error.toString());
+            return error;
+        }
+        let repos=0;
+        let newdimen=0;
+        if(this.dimenLaMamalona==1){
+          let posi=variable.iniciostring;
+          let pos=posi+this.value[0].execute(tabla,tree);
+          let val=this.expre.execute(tabla,tree);
+          tree.modificar_heap(pos,val);
+        }else if(this.dimenLaMamalona==2){
 
+        }else if(this.dimenLaMamalona==3){
+
+        }
     }
     execute(table: Table, tree: Tree) {
       //console.log(this.expre);
@@ -46,12 +66,18 @@ export class AsignaArrays extends Node {
         let tam= this.value.length;
         let valor=variable.value;
         if(tam==1){
+          this.dimenLaMamalona=1;
+          this.traducir(table,tree,"",0);
           valor[this.value[0].execute(table,tree)]=this.expre.execute(table,tree);
         }
         if(tam==2){
+          this.dimenLaMamalona=2;
+          this.traducir(table,tree,"",0);
           valor[this.value[0].execute(table,tree)][this.value[1].execute(table,tree)]=this.expre.execute(table,tree);
         }
         if(tam==3){
+          this.dimenLaMamalona=3;
+          this.traducir(table,tree,"",0);
           valor[this.value[0].execute(table,tree)][this.value[1].execute(table,tree)][this.value[2].execute(table,tree)]=this.expre.execute(table,tree);
         }
         if(tam==4){
