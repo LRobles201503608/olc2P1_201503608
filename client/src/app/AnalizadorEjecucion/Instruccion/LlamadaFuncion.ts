@@ -49,8 +49,10 @@ parameters:Array<Node>;
           let simbol;
           if(entorno.parameters[a].type!=null){
             simbol = new Simbol(entorno.parameters[a].type, entorno.parameters[a].identifier, result, true,null,null,this.linea,this.columna);
+            simbol.entorno=1;
           }else{
             simbol = new Simbol(null, entorno.parameters[a].identifier, result, true,null,null,this.linea,this.columna);
+            simbol.entorno=1;
           }
           const res = newtable.setVariable(simbol);
           if (res != null) {

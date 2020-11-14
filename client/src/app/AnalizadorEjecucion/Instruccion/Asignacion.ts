@@ -43,7 +43,7 @@ export class Asignacion extends Node {
         return a;
       }
       if(this.value instanceof Ternario){
-        debugger;
+        //debugger;
         if(simbol.entorno==0){
           let posh=simbol.posh;
           let destino=tree.tmpsop.pop();
@@ -58,7 +58,7 @@ export class Asignacion extends Node {
           return;
         }
       }else if(this.value instanceof AccesoArrays){
-        debugger;
+        //debugger;
         if(simbol.entorno==0){
           let posh=simbol.posh;
           let destino=tree.tmpsop.pop();
@@ -127,7 +127,7 @@ export class Asignacion extends Node {
           }
         }
         else if(this.value instanceof Lengths){
-          debugger;
+          //debugger;
           if(simbol.entorno==0){
             let posh=simbol.posh;
             let destino=this.value.traducir(tabla,tree,cadena,contTemp);
@@ -202,7 +202,7 @@ export class Asignacion extends Node {
           }
         }
         else if(this.value instanceof Lengths){
-          debugger;
+          //debugger;
           if(simbol.entorno==0){
             let posh=simbol.posh;
             let destino=this.value.traducir(tabla,tree,cadena,contTemp);

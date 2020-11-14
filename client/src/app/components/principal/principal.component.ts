@@ -197,7 +197,9 @@ export class PrincipalComponent implements OnInit {
     let filas_e = "";
     let dato=tabla.Variables;
     let tbl2 = document.getElementById("variables");
+    filas_e+="<tr ><td>GLOBAL</td></tr>"
     dato.forEach(element => {
+      console.log(element);
       if(element.type!=null){
         if(element.type.type==0){
           filas_e += "<tr ><td>Numeric</td>";
@@ -210,12 +212,27 @@ export class PrincipalComponent implements OnInit {
         }
         filas_e += "<td>"+element.identifier+"</td>"+"<td>"+element.value+"</td>"+"<td>"+element.fila+"</td>"+"<td>"+element.columna+"</td>"+"</tr>";
       }
-    });
+    }
+
+    );
+    //filas_e+=this.tabs2(tabla.hijos);
     let array = tabla.hijos;
+    debugger;
     for (let a = 0; a < array.length; a++) {
       let elements = array[a];
-      let datos=elements.Variables;
-      datos.forEach(element => {
+      filas_e+=this.tabs2(elements);
+    }
+    tbl2.innerHTML = filas_e;
+    alert("Tabla de simbolos lista!")
+  }
+  tabs2(tabla:Table){
+    let h = tabla;
+    let array=h.Variables
+    let filas_e="";
+    if(array.length!=0){
+      filas_e+="<tr ><td>LOCAL</td></tr>"
+      array.forEach(element => {
+        console.log(element);
         if(element.type!=null){
           if(element.type.type==0){
             filas_e += "<tr ><td>Numeric</td>";
@@ -228,10 +245,16 @@ export class PrincipalComponent implements OnInit {
           }
           filas_e += "<td>"+element.identifier+"</td>"+"<td>"+element.value+"</td>"+"<td>"+element.fila+"</td>"+"<td>"+element.columna+"</td>"+"</tr>";
         }
-      });
+      }
+
+      );
+      let s = tabla.hijos;
+      for (let a = 0; a < s.length; a++) {
+        let elements = s[a];
+        filas_e+=this.tabs2(elements);
+      }
     }
-    tbl2.innerHTML = filas_e;
-    alert("Tabla de simbolos lista!")
+    return filas_e
   }
   reporteast(linstrucciones:any){
     if (document.getElementById("grafo")) {

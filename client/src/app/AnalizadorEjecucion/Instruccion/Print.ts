@@ -27,7 +27,7 @@ expresion:Node;
 
     if(this.expresion instanceof Aritmetica || this.expresion instanceof Logica || this.expresion instanceof Relacional){
       let value2=this.expresion.execute(tabla,tree)+"";
-      debugger;
+      //debugger;
       let val=value2.toString();
       let inicio=0;
       let final=0;
@@ -81,11 +81,11 @@ expresion:Node;
         }
       }
     }else if(this.expresion instanceof Identifier){
-      debugger;
+      //debugger;
       let variable:Simbol;
       variable = tabla.getVariable(this.expresion.iden);
       if(variable.type==null){
-        debugger;
+        //debugger;
         tree.traduccion.push("printf(\"%f\",(float)"+variable.value+");\n");
         tree.traduccion.push("printf(\"%c\",(char)10);\n");
         return;

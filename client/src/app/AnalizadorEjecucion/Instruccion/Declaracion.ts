@@ -57,7 +57,7 @@ export class Declaracion extends Node {
           tree.poss+=250;
         }
       }else if(this.value instanceof AccesoArrays){
-        debugger;
+        //debugger;
         if(simbol.entorno==0){
           let posh=tree.posh;
           let destino=tree.tmpsop.pop();
@@ -101,7 +101,7 @@ export class Declaracion extends Node {
         }
       }else if(this.value instanceof Primitivos){
         if(simbol.entorno==0){
-          debugger;
+          //debugger;
 
           let posh=tree.posh;
           let destino=this.value.traducir(tabla,tree,cadena,contTemp);
@@ -156,7 +156,7 @@ export class Declaracion extends Node {
         simbol.type=new Type(types.STRING);
 
       }else if(this.value instanceof Lengths){
-        debugger;
+        //debugger;
         if(simbol.entorno==0){
           let posh=tree.posh;
           let destino=this.value.traducir(tabla,tree,cadena,contTemp);

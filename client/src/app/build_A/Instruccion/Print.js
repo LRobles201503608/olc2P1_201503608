@@ -22,7 +22,7 @@ class print extends Node_1.Node {
     traducir(tabla, tree, cadena, contTemp) {
         if (this.expresion instanceof Aritmeticas_1.Aritmetica || this.expresion instanceof Logicas_1.Logica || this.expresion instanceof Relacional_1.Relacional) {
             let value2 = this.expresion.execute(tabla, tree) + "";
-            debugger;
+            //debugger;
             let val = value2.toString();
             let inicio = 0;
             let final = 0;
@@ -83,11 +83,11 @@ class print extends Node_1.Node {
             }
         }
         else if (this.expresion instanceof Identifier_1.Identifier) {
-            debugger;
+            //debugger;
             let variable;
             variable = tabla.getVariable(this.expresion.iden);
             if (variable.type == null) {
-                debugger;
+                //debugger;
                 tree.traduccion.push("printf(\"%f\",(float)" + variable.value + ");\n");
                 tree.traduccion.push("printf(\"%c\",(char)10);\n");
                 return;

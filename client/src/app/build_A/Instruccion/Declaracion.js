@@ -56,7 +56,7 @@ class Declaracion extends Node_1.Node {
             }
         }
         else if (this.value instanceof AccessoDimensiones_1.AccesoArrays) {
-            debugger;
+            //debugger;
             if (simbol.entorno == 0) {
                 let posh = tree.posh;
                 let destino = tree.tmpsop.pop();
@@ -101,7 +101,7 @@ class Declaracion extends Node_1.Node {
             }
             else if (this.value instanceof Primitivos_1.Primitivos) {
                 if (simbol.entorno == 0) {
-                    debugger;
+                    //debugger;
                     let posh = tree.posh;
                     let destino = this.value.traducir(tabla, tree, cadena, contTemp);
                     tree.modificar_heap(posh.toString(), destino.toString());
@@ -159,7 +159,7 @@ class Declaracion extends Node_1.Node {
                 simbol.type = new Types_1.Type(Types_1.types.STRING);
             }
             else if (this.value instanceof Length_1.Lengths) {
-                debugger;
+                //debugger;
                 if (simbol.entorno == 0) {
                     let posh = tree.posh;
                     let destino = this.value.traducir(tabla, tree, cadena, contTemp);

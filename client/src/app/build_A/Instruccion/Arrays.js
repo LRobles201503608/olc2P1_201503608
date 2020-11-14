@@ -93,7 +93,7 @@ class Arrays extends Node_1.Node {
                     newdimen = tam * tam2 * tam3;
                     fin = newdimen;
                     for (let c = 0; c < tam3; c++) {
-                        debugger;
+                        //debugger;
                         let act = variable.value[a][b][c];
                         if (act.toString() == "true") {
                             act = 1;
@@ -113,7 +113,7 @@ class Arrays extends Node_1.Node {
     }
     execute(table, tree) {
         this.llenadoArreglo(table, tree, this.value);
-        debugger;
+        //debugger;
         let simbol;
         simbol = new Simbol_1.Simbol(this.type, this.identifier, this.guardaditoHiperChingon, this.edit, null, null, this.linea, this.columna);
         const res = table.setVariable(simbol);

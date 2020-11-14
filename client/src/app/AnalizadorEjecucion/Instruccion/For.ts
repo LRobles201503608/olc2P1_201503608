@@ -50,7 +50,7 @@ export class For extends Node {
       tree.operalist.push(L3);
       tree.traduccion.push(L3+":\n");
       let condicion;
-      debugger;
+      //debugger;
       let a=this.condition.traducir(tabla,tree,cadena,contTemp);
       if(this.condition instanceof Primitivos){
         condicion = a;

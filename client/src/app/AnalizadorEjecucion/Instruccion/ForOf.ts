@@ -49,7 +49,7 @@ export class ForOf extends Node {
       let valdec=tabla.getVariable(this.declaracion);
       let valarray=tabla.getVariable(this.condition);
       let tamarray=valarray.value.length;
-      debugger;
+      //debugger;
       let tmp1;
       if(valdec.entorno==0){
         tmp1=valdec.posh;

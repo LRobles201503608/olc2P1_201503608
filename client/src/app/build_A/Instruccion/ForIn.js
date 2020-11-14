@@ -42,7 +42,7 @@ class ForIn extends Node_1.Node {
         let valdec = tabla.getVariable(this.declaracion);
         let valarray = tabla.getVariable(this.condition);
         let tamarray = valarray.value.length;
-        debugger;
+        //debugger;
         let tmp1;
         if (valdec.entorno == 0) {
             tmp1 = valdec.posh;
@@ -85,7 +85,7 @@ class ForIn extends Node_1.Node {
         variable = newtable.getVariable(this.condition);
         let simval = simbol.value;
         let varval = variable.value;
-        debugger;
+        //debugger;
         let newtable2;
         let L1;
         let L2;

@@ -95,7 +95,7 @@ export class Arrays extends Node {
               newdimen=tam*tam2*tam3;
               fin=newdimen;
               for(let c=0;c<tam3;c++){
-                debugger;
+                //debugger;
                 let act=variable.value[a][b][c];
                 if(act.toString()=="true"){
                   act=1;
@@ -115,7 +115,7 @@ export class Arrays extends Node {
     }
     execute(table: Table, tree: Tree) {
       this.llenadoArreglo(table,tree,this.value);
-      debugger;
+      //debugger;
       let simbol;
           simbol = new Simbol(this.type, this.identifier, this.guardaditoHiperChingon, this.edit,null,null,this.linea,this.columna);
           const res = table.setVariable(simbol);

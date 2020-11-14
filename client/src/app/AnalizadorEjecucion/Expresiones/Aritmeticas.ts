@@ -55,7 +55,7 @@ export class Aritmetica extends Node{
         return der;
       }
       if(this.Operador=="+"){
-        debugger;
+        //debugger;
           if (this.izquierda instanceof Primitivos || this.izquierda instanceof Identifier){
             if(this.derecha instanceof Primitivos || this.derecha instanceof Identifier){
               tree.generar_3d("+",izq,der,"t"+tree.temp);
@@ -153,7 +153,7 @@ export class Aritmetica extends Node{
                 pos++;
                 tree.inicioStringHeap=pos;
               }
-              debugger;
+              //debugger;
               let posh=tree.posh;
               tree.posh=pos;
               this.derecha.traducir(tabla,tree,"",0);
@@ -176,7 +176,7 @@ export class Aritmetica extends Node{
                 if(i.izquierda instanceof Strings || i.derecha instanceof Strings){
                   let posh=tree.posh;
                   let valor=this.derecha.execute(tabla,tree);
-                  debugger;
+                  //debugger;
                     let pos =fin1+1;
                     let val2=valor.toString();
                     let va=0;
@@ -205,7 +205,7 @@ export class Aritmetica extends Node{
               if(i.izquierda instanceof Strings || i.derecha instanceof Strings){
                 let posh=tree.posh;
                 let valor=this.derecha.execute(tabla,tree);
-                debugger;
+                //debugger;
                   let pos =fin1+1;
                   let val2=valor.toString();
                   let va=0;
@@ -361,7 +361,7 @@ export class Aritmetica extends Node{
     }
     else{
       if(this.Operador=='-'){
-        debugger;
+        //debugger;
         let izq=this.izquierda.traducir(tabla,tree,cadena,contTemp);
         if(izq instanceof Error ){
           return izq;

@@ -66,7 +66,7 @@ export class Ternario extends Node {
             tree.console.push(error.toString());
             return error;
         }
-        debugger;
+        //debugger;
         this.traducir(table,tree,"",0);
         if (result) {
           L2=tree.operalist.pop();

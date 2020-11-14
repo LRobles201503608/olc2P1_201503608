@@ -43,9 +43,11 @@ class LlamadaFuncion extends Node_1.Node {
                     let simbol;
                     if (entorno.parameters[a].type != null) {
                         simbol = new Simbol_1.Simbol(entorno.parameters[a].type, entorno.parameters[a].identifier, result, true, null, null, this.linea, this.columna);
+                        simbol.entorno = 1;
                     }
                     else {
                         simbol = new Simbol_1.Simbol(null, entorno.parameters[a].identifier, result, true, null, null, this.linea, this.columna);
+                        simbol.entorno = 1;
                     }
                     const res = newtable.setVariable(simbol);
                     if (res != null) {

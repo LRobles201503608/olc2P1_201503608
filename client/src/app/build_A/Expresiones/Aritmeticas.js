@@ -49,7 +49,7 @@ class Aritmetica extends Node_1.Node {
                 return der;
             }
             if (this.Operador == "+") {
-                debugger;
+                //debugger;
                 if (this.izquierda instanceof Primitivos_1.Primitivos || this.izquierda instanceof Identifier_1.Identifier) {
                     if (this.derecha instanceof Primitivos_1.Primitivos || this.derecha instanceof Identifier_1.Identifier) {
                         tree.generar_3d("+", izq, der, "t" + tree.temp);
@@ -151,7 +151,7 @@ class Aritmetica extends Node_1.Node {
                             pos++;
                             tree.inicioStringHeap = pos;
                         }
-                        debugger;
+                        //debugger;
                         let posh = tree.posh;
                         tree.posh = pos;
                         this.derecha.traducir(tabla, tree, "", 0);
@@ -175,7 +175,7 @@ class Aritmetica extends Node_1.Node {
                             if (i.izquierda instanceof Strings_1.Strings || i.derecha instanceof Strings_1.Strings) {
                                 let posh = tree.posh;
                                 let valor = this.derecha.execute(tabla, tree);
-                                debugger;
+                                //debugger;
                                 let pos = fin1 + 1;
                                 let val2 = valor.toString();
                                 let va = 0;
@@ -205,7 +205,7 @@ class Aritmetica extends Node_1.Node {
                         if (i.izquierda instanceof Strings_1.Strings || i.derecha instanceof Strings_1.Strings) {
                             let posh = tree.posh;
                             let valor = this.derecha.execute(tabla, tree);
-                            debugger;
+                            //debugger;
                             let pos = fin1 + 1;
                             let val2 = valor.toString();
                             let va = 0;
@@ -379,7 +379,7 @@ class Aritmetica extends Node_1.Node {
         }
         else {
             if (this.Operador == '-') {
-                debugger;
+                //debugger;
                 let izq = this.izquierda.traducir(tabla, tree, cadena, contTemp);
                 if (izq instanceof Errors_1.Error) {
                     return izq;

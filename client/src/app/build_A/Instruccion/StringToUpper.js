@@ -29,7 +29,7 @@ class UpperCase extends Node_1.Node {
         }
         let inicio = 0;
         let final = 0;
-        debugger;
+        //debugger;
         let valu = variable.value.toString().toUpperCase();
         for (let a = 0; a < valu.length; a++) {
             if (a == 0) {

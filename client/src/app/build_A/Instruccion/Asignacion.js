@@ -37,7 +37,7 @@ class Asignacion extends Node_1.Node {
             return a;
         }
         if (this.value instanceof Ternario_1.Ternario) {
-            debugger;
+            //debugger;
             if (simbol.entorno == 0) {
                 let posh = simbol.posh;
                 let destino = tree.tmpsop.pop();
@@ -54,7 +54,7 @@ class Asignacion extends Node_1.Node {
             }
         }
         else if (this.value instanceof AccessoDimensiones_1.AccesoArrays) {
-            debugger;
+            //debugger;
             if (simbol.entorno == 0) {
                 let posh = simbol.posh;
                 let destino = tree.tmpsop.pop();
@@ -126,7 +126,7 @@ class Asignacion extends Node_1.Node {
                 }
             }
             else if (this.value instanceof Length_1.Lengths) {
-                debugger;
+                //debugger;
                 if (simbol.entorno == 0) {
                     let posh = simbol.posh;
                     let destino = this.value.traducir(tabla, tree, cadena, contTemp);
@@ -209,7 +209,7 @@ class Asignacion extends Node_1.Node {
                 }
             }
             else if (this.value instanceof Length_1.Lengths) {
-                debugger;
+                //debugger;
                 if (simbol.entorno == 0) {
                     let posh = simbol.posh;
                     let destino = this.value.traducir(tabla, tree, cadena, contTemp);

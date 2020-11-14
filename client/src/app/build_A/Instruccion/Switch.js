@@ -45,7 +45,7 @@ class Switch extends Node_1.Node {
                 let valcondicion = "t" + tree.temp;
                 let lsi = "L" + tree.etiqueta;
                 let lno = "L" + (tree.etiqueta + 1);
-                debugger;
+                //debugger;
                 tree.generarIFC3D(valcondicion, "L" + tree.etiqueta, "L" + (tree.etiqueta + 1));
                 tree.etiqueta = tree.etiqueta + 2;
                 tree.traduccion.push(lsi + ":\n");
